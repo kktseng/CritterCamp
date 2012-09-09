@@ -1,13 +1,10 @@
-
-/**
- * Module dependencies.
- */
-
-var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+var express = require('express'),
+    routes = require('./routes'),
+    user = require('./routes/user'),
+    http = require('http'),
+    ws = require('websocket').server,
+    wsHandler = require('./lib/wsHandler'),
+    path = require('path');
 
 var app = express();
 
@@ -30,6 +27,14 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log("Express server listening on port " + app.get('port'));
+var server = http.createServer(app).listen(app.get('port'), function(){
+  console.log("Server listening on port " + app.get('port'));
 });
+
+// set up websockets
+wsServer = new WebSocketServer({
+  httpServer: server,
+  autoAcceptConnections: false 
+});
+
+wsServer.on('request', wsHandler.request);
