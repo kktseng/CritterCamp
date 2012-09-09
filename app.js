@@ -2,6 +2,7 @@ var express = require('express'),
     routes = require('./routes'),
     user = require('./routes/user'),
     http = require('http'),
+    logger = require('./lib/logger'),
     ws = require('websocket').server,
     wsHandler = require('./lib/wsHandler'),
     path = require('path');
@@ -28,7 +29,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log("Server listening on port " + app.get('port'));
+  logger.info("Server listening on port " + app.get('port'));
 });
 
 // set up websockets
