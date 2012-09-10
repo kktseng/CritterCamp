@@ -1,12 +1,16 @@
 {
-  "name": "application-name",
+  "name": "pig-server",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node app"
   },
   "dependencies": {
+    "async": "0.1.22",
+    "config": "0.4.16",
     "express": "3.0.0rc4",
-    "jade": "*"
+    "jade": "*",
+    "redis": "0.7.2",
+    "websocket": "1.0.7"
   }
 }
