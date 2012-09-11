@@ -5,6 +5,7 @@ var express = require('express'),
     logger = require('./lib/logger'),
     ws = require('websocket').server,
     wsHandler = require('./lib/wsHandler'),
+    pubsub = require('./lib/pubsub'),
     path = require('path');
 
 var app = express();
