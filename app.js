@@ -2,6 +2,7 @@ var express = require('express'),
     routes = require('./routes'),
     user = require('./routes/user'),
     http = require('http'),
+    helpers = require('./lib/helpers'),
     logger = require('./lib/logger'),
     ws = require('websocket').server,
     wsHandler = require('./lib/wsHandler'),
@@ -10,7 +11,7 @@ var express = require('express'),
 
 var app = express();
 
-app.configure(function(){
+app.configure(function() {
   app.set('port', process.env.PORT || 8080);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
@@ -22,14 +23,20 @@ app.configure(function(){
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function(){
+app.configure('development', function() {
   app.use(express.errorHandler());
 });
+
+app.configure('production', function() {
+
+});
+
+helpers.initModels();
 
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-var server = http.createServer(app).listen(app.get('port'), function(){
+var server = http.createServer(app).listen(app.get('port'), function() {
   logger.info("Server listening on port " + app.get('port'));
 });
 

@@ -92,6 +92,9 @@
         }
       }
     },
+    "moment": {
+      "version": "1.7.0"
+    },
     "mongoose": {
       "version": "3.1.2",
       "dependencies": {
@@ -121,6 +124,29 @@
     },
     "websocket": {
       "version": "1.0.7"
+    },
+    "winston": {
+      "version": "0.6.2",
+      "dependencies": {
+        "colors": {
+          "version": "0.6.0-1"
+        },
+        "cycle": {
+          "version": "1.0.0"
+        },
+        "eyes": {
+          "version": "0.1.8"
+        },
+        "pkginfo": {
+          "version": "0.2.3"
+        },
+        "request": {
+          "version": "2.9.203"
+        },
+        "stack-trace": {
+          "version": "0.0.6"
+        }
+      }
     }
   }
 }
