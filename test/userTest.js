@@ -14,6 +14,22 @@ describe('User', function() {
     });
   });
 
+  it('can find username from id', function(done) {
+    helpers.m.User.getUsername(user._id, function(err, username) {
+      if(err) { return done(err); }
+      username.should.eql(user.username);
+      done();
+    });
+  });
+
+  it('can find id from username', function(done) {
+    helpers.m.User.getId(user.username, function(err, id) {
+      if(err) { return done(err); }
+      id.should.eql(user._id);
+      done();
+    });
+  })
+
   describe('Friends', function() {
 
     beforeEach(function(done) {
@@ -28,12 +44,55 @@ describe('User', function() {
       async.forEachSeries(['friend1', 'friend2', 'friend3'], addFriend, function(err) {
         if(err) { return done(err); }
         done();
-      })
+      });
     });
 
     it('can find usernames of friends', function(done) {
       user.getFriendNames(function(err, names) {
         names.should.eql(['friend1', 'friend2', 'friend3']);
+        done();
+      });
+    });
+
+    it('can add a new friend', function(done) {
+      factory.user('friend4', function(err, friend) {
+        if(err) { return done(err); }
+        user.addFriend('friend4', function(err) {
+          if(err) { return done(err); }
+          user.friends.should.include(friend._id);
+          done();
+        });
+      });
+    });
+
+    it('should not add a friend if already on friend list', function(done) {
+      user.addFriend('friend3', function(err) {
+        should.exist(err);
+        user.friends.length.should.equal(3);
+        done();
+      });
+    });
+
+    it('should not add a friend who does not exist', function(done) {
+      user.addFriend('does_not_exist', function(err) {
+        should.exist(err);
+        user.friends.length.should.equal(3);
+        done();
+      });
+    });
+
+    it('can remove an existing friend', function(done) {
+      user.removeFriend('friend1', function(err) {
+        if(err) { return done(err); }
+        user.friends.length.should.equal(2);
+        done();
+      });
+    });
+
+    it('should throw an error when removing a friend who doesn\'t exist', function(done) {
+      user.removeFriend('does_not_exist', function(err) {
+        should.exist(err);
+        user.friends.length.should.equal(3);
         done();
       });
     });

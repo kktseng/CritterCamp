@@ -24,7 +24,7 @@ User.methods.addFriend = function(username, callback) {
     if(!id) {
       return callback(new Error('No id found for username ' + username));
     } else if(self.friends.indexOf(id) > -1) {
-      return callback();
+      return callback(new Error('User ' + username + ' already in friends list'));
     }
     self.friends.push(id);
     self.save(callback);
@@ -32,15 +32,16 @@ User.methods.addFriend = function(username, callback) {
 };
 
 User.methods.removeFriend = function(username, callback) {
+  var self = this;
   helpers.m.User.getId(username, function(err, id) {
     if(err) { return callback(err); }
     if(!id) {
       return callback(new Error('No id found for username ' + username));
-    } else if(this.friends.indexOf(id) < 0) {
+    } else if(self.friends.indexOf(id) < 0) {
       return callback(new Error('User ' + username + 'not on friends list'));
     }
-    this.friends.splice(this.friends.indexOf(id), 1);
-    this.save(callback);
+    self.friends.splice(self.friends.indexOf(id), 1);
+    self.save(callback);
   });
 };
 
