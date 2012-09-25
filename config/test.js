@@ -1,7 +1,8 @@
 module.exports = {
     Redis: {
       host: "localhost",
-      port: 6379
+      port: 6379,
+      db: 1
     },
 
     Mongo: {
