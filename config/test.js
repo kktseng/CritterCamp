@@ -6,7 +6,7 @@ module.exports = {
 
     Mongo: {
       auto_reconnect: true,
-      db: "pig_dev",
+      db: "pig_test",
       host: "localhost",
       port: 27017
     },

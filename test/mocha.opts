@@ -1,0 +1,5 @@
+--require test/mocha
+--require should
+
+-R spec
+--ui bdd

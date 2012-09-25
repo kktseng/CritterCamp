@@ -1,4 +1,6 @@
-var mongoose = require('mongoose'),
+var async = require('async'),
+    helpers = require('../lib/helpers'),
+    mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
@@ -11,8 +13,59 @@ var User = new Schema({
   loginCount: { type: Number, default: 0 },
   moneySpent: { type: Number, default: 0 },
   totalGames: { type: Number, default: 0 },
-  friends: [ { type: ObjectId, ref: 'User' } ]
+  friends: [ { type: ObjectId, ref: 'User' } ],
   gold: { type: Number, default: 0 }
 });
+
+User.methods.addFriend = function(username, callback) {
+  var self = this;
+  helpers.m.User.getId(username, function(err, id) {
+    if(err) { return callback(err); }
+    if(!id) {
+      return callback(new Error('No id found for username ' + username));
+    } else if(self.friends.indexOf(id) > -1) {
+      return callback();
+    }
+    self.friends.push(id);
+    self.save(callback);
+  });
+};
+
+User.methods.removeFriend = function(username, callback) {
+  helpers.m.User.getId(username, function(err, id) {
+    if(err) { return callback(err); }
+    if(!id) {
+      return callback(new Error('No id found for username ' + username));
+    } else if(this.friends.indexOf(id) < 0) {
+      return callback(new Error('User ' + username + 'not on friends list'));
+    }
+    this.friends.splice(this.friends.indexOf(id), 1);
+    this.save(callback);
+  });
+};
+
+User.methods.getFriendNames = function(callback) {
+  async.map(this.friends, helpers.m.User.getUsername, callback);
+};
+
+User.statics.getUsername = function(id, cb) {
+  helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
+    if(results) {
+      return cb(err, results.username);
+    } else {
+      return cb(err, null);
+    }
+  });
+}
+
+User.statics.getId = function(username, cb) {
+  helpers.m.User.findOne({ username: username }, { _id: true }, function(err, results) {
+    if(results) {
+      return cb(err, results._id);
+    } else {
+      return cb(err, null);
+    }
+  });
+}
 
 module.exports = mongoose.model('User', User);

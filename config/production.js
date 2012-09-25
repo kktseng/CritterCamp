@@ -1,7 +1,7 @@
 module.exports = {
   Redis: {
-      host: "pigbaby.cloudapp.net",
-      port: 6379
+    host: "pigbaby.cloudapp.net",
+    port: 6379
   },
 
   Mongo: {
@@ -13,5 +13,4 @@ module.exports = {
     username: process.env.MONGO_USERNAME,
     password: process.env.MONGO_PASSWORD,
   }
-
 };
