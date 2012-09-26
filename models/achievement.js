@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
     ObjectId = Schema.ObjectId;
 
 var Achievement = new Schema({
-  game: { type: String, required: true },
+  game: { type: ObjectId, ref: 'Game', required: true },
   name: { type: String, required: true }
   // TODO: lookup hashtables in mongoose
 });

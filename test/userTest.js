@@ -31,12 +31,14 @@ describe('User', function() {
   })
 
   describe('Friends', function() {
+    var friend_map = {};
 
     beforeEach(function(done) {
       function addFriend(username, cb) {
         factory.user(username, function(err, friend) {
           if(err) { return cb(err); }
           user.friends.push(friend._id);
+          friend_map[username] = friend._id;
           cb();
         });
       }
@@ -84,7 +86,9 @@ describe('User', function() {
     it('can remove an existing friend', function(done) {
       user.removeFriend('friend1', function(err) {
         if(err) { return done(err); }
-        user.friends.length.should.equal(2);
+        user.friends.should.not.include(friend_map['friend1']);
+        user.friends.should.include(friend_map['friend2']);
+        user.friends.should.include(friend_map['friend3']);
         done();
       });
     });

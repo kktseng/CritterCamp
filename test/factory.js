@@ -11,9 +11,9 @@ exports.user = function(username, callback) {
 };
 
 exports.game = function(parameters, callback) {
-  helpers.m.Game.findOne({ game: 'test_game' }, function(err, game) {
+  helpers.m.Game.findOne({ name: 'test_game' }, function(err, game) {
     if(err) { return callback(err); }
-    game = game || new helpers.m.Game({ game: 'test_game' });
+    game = game || new helpers.m.Game({ name: 'test_game' });
     Object.keys(parameters).forEach(function(key) {
       game[key] = parameters[key];
     });

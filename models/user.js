@@ -14,6 +14,7 @@ var User = new Schema({
   moneySpent: { type: Number, default: 0 },
   totalGames: { type: Number, default: 0 },
   friends: [ { type: ObjectId, ref: 'User' } ],
+  achievements: [ { type: ObjectId, ref: 'Achievement' } ],
   gold: { type: Number, default: 0 }
 });
 
