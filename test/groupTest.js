@@ -36,8 +36,9 @@ describe('Groups', function() {
       async.apply(redis.hset.bind(redis), 'user_test_user1', 'group', '1')
     ], function(err) {
       if(err) { return done(err); }
-      group.removeFromGroup('test_user1', function(err) {
+      group.removeFromGroup('test_user1', function(err, group_id) {
         if(err) { return done(err); }
+        group_id.should.eql('1');
         getRedisInfo(1, 'test_user1', function(err, results) {
           if(err) { return done(err); }
           results[0].should.eql(['test_user2']);
@@ -168,7 +169,7 @@ describe('Groups', function() {
       });
     });
 
-    it('throws an error if party size > maxPartySize', function(done) {
+    it('should throw an error if party size > maxPartySize', function(done) {
       group.findGroup(['test_user1', 'test_user2', 'test_user3', 'test_user4', 'test_user5'], 'test_game', function(err, group_id) {
         should.exist(err);
         err.toString().should.eql('Error: Party is too large for game');
