@@ -25,34 +25,41 @@ var Game = new Schema({
 
 Game.index({ name: 1 });
 
+function scoreSort(a, b) {
+  return a.score <= b.score;
+}
+
 /**
 * checks score with current highscores
 * callback(err, weekly_ranking, monthly_ranking, alltime_ranking)
 **/
-Game.methods.checkScore = function(score, callback) {
+Game.methods.checkScore = function(user, score, callback) {
+  var self = this;
+  score = { user: user, score: score};
   var scoreCheck = function(scores, cb) {
+    scores = scores.slice();
     if(scores.length === 0) {
       return cb(null, [ score ]);
-    } else if(score.length < MAX_SCORE_LENGTH) {
+    } else if(scores.length < MAX_SCORE_LENGTH) {
       scores.push(score);
-      scores.sort();
-    } else if(scores[scores.length - 1] < score) {
-      scores[scores.length - 1] = score;
-      scores.sort();
+      scores.sort(scoreSort);
+    } else if(scores[0].score < score.score) {
+      scores[0] = score;
+      scores.sort(scoreSort);
     }
     cb(null, scores);
   };
   async.parallel([
-    async.apply(this.weeklyScore, scoreCheck),
-    async.apply(this.monthlyScore, scoreCheck),
-    async.apply(this.allTimeScore, scoreCheck)
+    async.apply(scoreCheck, this.weeklyScore),
+    async.apply(scoreCheck, this.monthlyScore),
+    async.apply(scoreCheck, this.allTimeScore)
   ], function(err, results) {
     if(err) { return callback(err); }
-    this.weeklyScore = results[0];
-    this.monthlyScore = results[1];
-    this.allTimeScore = results[2];
-    this.save(function(err) {
-      callback(err, results[0].indexOf(score), results[1].indexOf(score), results[2].indexOf(score));
+    self.weeklyScore = results[0];
+    self.monthlyScore = results[1];
+    self.allTimeScore = results[2];
+    self.save(function(err) {
+      callback(err, results[0].indexOf(score) + 1, results[1].indexOf(score) + 1, results[2].indexOf(score) + 1);
     });
   });
 };
