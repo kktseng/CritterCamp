@@ -58,7 +58,7 @@ User.statics.getUsername = function(id, cb) {
       return cb(err, null);
     }
   });
-}
+};
 
 User.statics.getId = function(username, cb) {
   helpers.m.User.findOne({ username: username }, { _id: true }, function(err, results) {
@@ -68,6 +68,6 @@ User.statics.getId = function(username, cb) {
       return cb(err, null);
     }
   });
-}
+};
 
 module.exports = mongoose.model('User', User);

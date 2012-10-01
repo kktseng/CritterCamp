@@ -1,6 +1,5 @@
 var async = require('async'),
     factory = require('./factory'),
-    helpers = require('../lib/helpers'),
     should = require('should');
 
 describe('Game', function() {
@@ -20,7 +19,7 @@ describe('Game', function() {
           if(err) { return cb(err); }
           user = new_user;
           cb();
-        })
+        });
       }
     ], done);
   });

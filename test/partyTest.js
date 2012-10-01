@@ -22,7 +22,6 @@ function getRedisInfo(party, users, callback) {
 // join existing party
 
 describe('Parties', function() {
-  var game;
 
   beforeEach(function(done) {
     redis.flushdb(done);
@@ -75,7 +74,7 @@ describe('Parties', function() {
           results[0].should.eql(['test_user1', 'test_user2']);
           results[1].should.eql('2');
           done();
-        })
+        });
       });
     });
   });

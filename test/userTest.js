@@ -28,7 +28,7 @@ describe('User', function() {
       id.should.eql(user._id);
       done();
     });
-  })
+  });
 
   describe('Friends', function() {
     var friend_map = {};
@@ -86,9 +86,9 @@ describe('User', function() {
     it('can remove an existing friend', function(done) {
       user.removeFriend('friend1', function(err) {
         if(err) { return done(err); }
-        user.friends.should.not.include(friend_map['friend1']);
-        user.friends.should.include(friend_map['friend2']);
-        user.friends.should.include(friend_map['friend3']);
+        user.friends.should.not.include(friend_map.friend1);
+        user.friends.should.include(friend_map.friend2);
+        user.friends.should.include(friend_map.friend3);
         done();
       });
     });

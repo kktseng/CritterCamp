@@ -18,5 +18,5 @@ exports.game = function(parameters, callback) {
       game[key] = parameters[key];
     });
     game.save(callback);
-  })
+  });
 };

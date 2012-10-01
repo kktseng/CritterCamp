@@ -52,7 +52,7 @@ describe('Groups', function() {
   describe('Single User', function() {
 
     it('can create a new group if no groups are available', function(done) {
-      group.findGroup(['test_user1'], 'test_game', function(err, group_id) {
+      group.findGroup(['test_user1'], game, function(err, group_id) {
         if(err) { return done(err); }
         group_id.should.eql('1');
         getRedisInfo(1, 'test_user1', function(err, results) {
@@ -71,7 +71,7 @@ describe('Groups', function() {
         async.apply(redis.sadd.bind(redis), 'queue_test_game', '2')
       ], function(err) {
         if(err) { return done(err); }
-        group.findGroup(['test_user2'], 'test_game', function(err, group_id) {
+        group.findGroup(['test_user2'], game, function(err, group_id) {
           if(err) { return done(err); }
           group_id.should.eql('2');
           getRedisInfo(2, 'test_user2', function(err, results) {
@@ -91,7 +91,7 @@ describe('Groups', function() {
         async.apply(redis.sadd.bind(redis), 'queue_test_game', '2')
       ], function(err) {
         if(err) { return done(err); }
-        group.findGroup(['test_user4'], 'test_game', function(err, group_id) {
+        group.findGroup(['test_user4'], game, function(err, group_id) {
           if(err) { return done(err); }
           group_id.should.eql('2');
           getRedisInfo(2, 'test_user4', function(err, results) {
@@ -115,7 +115,7 @@ describe('Groups', function() {
         async.apply(redis.sadd.bind(redis), 'queue_test_game', '2')
       ], function(err) {
         if(err) { return done(err); }
-        group.findGroup(['test_user2', 'test_user3'], 'test_game', function(err, group_id) {
+        group.findGroup(['test_user2', 'test_user3'], game, function(err, group_id) {
           if(err) { return done(err); }
           group_id.should.eql('2');
           getRedisInfo(2, ['test_user2', 'test_user3'], function(err, results) {
@@ -136,7 +136,7 @@ describe('Groups', function() {
         async.apply(redis.sadd.bind(redis), 'queue_test_game', '2')
       ], function(err) {
         if(err) { return done(err); }
-        group.findGroup(['test_user2', 'test_user3', 'test_user4'], 'test_game', function(err, group_id) {
+        group.findGroup(['test_user2', 'test_user3', 'test_user4'], game, function(err, group_id) {
           if(err) { return done(err); }
           group_id.should.eql('2');
           getRedisInfo(2, ['test_user2', 'test_user3', 'test_user4'], function(err, results) {
@@ -153,7 +153,7 @@ describe('Groups', function() {
     });
 
     it('can create a finished group if party size == maxPartySize', function(done) {
-      group.findGroup(['test_user1', 'test_user2', 'test_user3', 'test_user4'], 'test_game', function(err, group_id) {
+      group.findGroup(['test_user1', 'test_user2', 'test_user3', 'test_user4'], game, function(err, group_id) {
         if(err) { return done(err); }
         group_id.should.eql('1');
         getRedisInfo(1, ['test_user1', 'test_user2', 'test_user3', 'test_user4'], function(err, results) {
@@ -170,7 +170,7 @@ describe('Groups', function() {
     });
 
     it('should throw an error if party size > maxPartySize', function(done) {
-      group.findGroup(['test_user1', 'test_user2', 'test_user3', 'test_user4', 'test_user5'], 'test_game', function(err, group_id) {
+      group.findGroup(['test_user1', 'test_user2', 'test_user3', 'test_user4', 'test_user5'], game, function(err) {
         should.exist(err);
         err.toString().should.eql('Error: Party is too large for game');
         done();
