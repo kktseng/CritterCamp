@@ -1,4 +1,5 @@
 var async = require('async'),
+    bcrypt = require('bcrypt'),
     factory = require('./factory'),
     helpers = require('../lib/helpers'),
     should = require('should');
@@ -7,11 +8,16 @@ describe('User', function() {
   var user;
 
   beforeEach(function(done) {
-    factory.user('user', function(err, new_user) {
+    factory.user({ username: 'user', password: 'password' }, function(err, new_user) {
       if(err) { return done(err); }
       user = new_user;
       done();
     });
+  });
+
+  it('generated a password correctly with bcrypt', function(done) {
+    bcrypt.compareSync('password', user.password).should.be.true;
+    done();
   });
 
   it('can find username from id', function(done) {
@@ -35,7 +41,7 @@ describe('User', function() {
 
     beforeEach(function(done) {
       function addFriend(username, cb) {
-        factory.user(username, function(err, friend) {
+        factory.user({ username: username }, function(err, friend) {
           if(err) { return cb(err); }
           user.friends.push(friend._id);
           friend_map[username] = friend._id;
@@ -57,7 +63,7 @@ describe('User', function() {
     });
 
     it('can add a new friend', function(done) {
-      factory.user('friend4', function(err, friend) {
+      factory.user({ username: 'friend4' }, function(err, friend) {
         if(err) { return done(err); }
         user.addFriend('friend4', function(err) {
           if(err) { return done(err); }

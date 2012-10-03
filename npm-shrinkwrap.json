@@ -5,6 +5,14 @@
     "async": {
       "version": "0.1.22"
     },
+    "bcrypt": {
+      "version": "0.7.2",
+      "dependencies": {
+        "bindings": {
+          "version": "1.0.0"
+        }
+      }
+    },
     "config": {
       "version": "0.4.16",
       "dependencies": {

@@ -31,6 +31,7 @@ function scoreSort(a, b) {
 
 /**
 * checks score with current highscores
+*
 * callback(err, weekly_ranking, monthly_ranking, alltime_ranking)
 **/
 Game.methods.checkScore = function(user, score, callback) {

@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "async": "0.1.22",
+    "bcrypt": "0.7.2",
     "config": "0.4.16",
     "express": "3.0.0rc4",
     "jade": "*",

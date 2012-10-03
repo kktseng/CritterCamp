@@ -16,6 +16,8 @@ DailyStat.index({ date: 1, game: 1 });
 
 /**
 * aggregates all the stats for a given day
+*
+* callback(err, stats)
 **/
 DailyStat.statics.aggregateDate = function(date, callback) {
   var stats = {};
@@ -39,6 +41,8 @@ DailyStat.statics.aggregateDate = function(date, callback) {
 
 /**
 * aggregates all the stats for a given game
+*
+* callback(err, stats)
 **/
 DailyStat.statics.aggregateGame = function(game, callback) {
   var stats = {};

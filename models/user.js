@@ -1,4 +1,5 @@
 var async = require('async'),
+    bcrypt = require('bcrypt'),
     helpers = require('../lib/helpers'),
     mongoose = require('mongoose'),
     Schema = mongoose.Schema,
@@ -7,7 +8,6 @@ var async = require('async'),
 var User = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
-  salt: { type: String },
   dateCreated: { type: Date, default: Date.now },
   lastLogin: { type: Date },
   loginCount: { type: Number, default: 0 },
@@ -18,6 +18,27 @@ var User = new Schema({
   gold: { type: Number, default: 0 }
 });
 
+/**
+* hashes a password and stores it in the user model
+*
+* callback(err)
+**/
+User.methods.hashPassword = function(password, callback) {
+  var self = this;
+  async.waterfall([
+    async.apply(bcrypt.hash, password, 10),
+    function store(encrypted, cb) {
+      self.password = encrypted;
+      self.save(cb);
+    }
+  ], callback);
+};
+
+/**
+* adds a friend to user's friends list
+*
+* callback(err)
+**/
 User.methods.addFriend = function(username, callback) {
   var self = this;
   helpers.m.User.getId(username, function(err, id) {
@@ -32,6 +53,11 @@ User.methods.addFriend = function(username, callback) {
   });
 };
 
+/**
+* removes a friend from user's friends list
+*
+* callback(err)
+**/
 User.methods.removeFriend = function(username, callback) {
   var self = this;
   helpers.m.User.getId(username, function(err, id) {
@@ -46,10 +72,20 @@ User.methods.removeFriend = function(username, callback) {
   });
 };
 
+/**
+* gets a list of all the user's friends
+*
+* callback(err, list)
+**/
 User.methods.getFriendNames = function(callback) {
   async.map(this.friends, helpers.m.User.getUsername, callback);
 };
 
+/**
+* gets a username based off an id
+*
+* callback(err, username)
+**/
 User.statics.getUsername = function(id, cb) {
   helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
     if(results) {
@@ -60,6 +96,11 @@ User.statics.getUsername = function(id, cb) {
   });
 };
 
+/**
+* gets an id based off a username
+*
+* callback(err, id)
+**/
 User.statics.getId = function(username, cb) {
   helpers.m.User.findOne({ username: username }, { _id: true }, function(err, results) {
     if(results) {

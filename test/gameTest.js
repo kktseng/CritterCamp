@@ -15,7 +15,7 @@ describe('Game', function() {
         });
       },
       function createUser(cb) {
-        factory.user('test_user', function(err, new_user) {
+        factory.user({}, function(err, new_user) {
           if(err) { return cb(err); }
           user = new_user;
           cb();
