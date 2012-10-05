@@ -1,7 +1,9 @@
-var express = require('express'),
+var crypto = require('crypto'),
+    express = require('express'),
+    fs = require('fs'),
     routes = require('./routes'),
     user = require('./routes/user'),
-    http = require('http'),
+    https = require('https'),
     helpers = require('./lib/helpers'),
     logger = require('./lib/logger'),
     ws = require('websocket').server,
@@ -10,6 +12,14 @@ var express = require('express'),
     path = require('path');
 
 var app = express();
+
+var privateKey = fs.readFileSync('privatekey.pem').toString();
+var certificate = fs.readFileSync('certificate.pem').toString();
+
+var options = {
+  key: fs.readFileSync('privatekey.pem'),
+  cert: fs.readFileSync('certificate.pem')
+};
 
 app.configure(function() {
   app.set('port', process.env.PORT || 8080);
@@ -36,7 +46,7 @@ helpers.initModels();
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-var server = http.createServer(app).listen(app.get('port'), function() {
+var server = https.createServer(options, app).listen(app.get('port'), function() {
   logger.info("Server listening on port " + app.get('port'));
 });
 

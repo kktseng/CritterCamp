@@ -8,7 +8,7 @@ describe('User', function() {
   var user;
 
   beforeEach(function(done) {
-    factory.user({ username: 'user', password: 'password' }, function(err, new_user) {
+    factory.user('user', function(err, new_user) {
       if(err) { return done(err); }
       user = new_user;
       done();
@@ -19,6 +19,8 @@ describe('User', function() {
     bcrypt.compareSync('password', user.password).should.be.true;
     done();
   });
+
+
 
   it('can find username from id', function(done) {
     helpers.m.User.getUsername(user._id, function(err, username) {
@@ -41,7 +43,7 @@ describe('User', function() {
 
     beforeEach(function(done) {
       function addFriend(username, cb) {
-        factory.user({ username: username }, function(err, friend) {
+        factory.user(username, function(err, friend) {
           if(err) { return cb(err); }
           user.friends.push(friend._id);
           friend_map[username] = friend._id;
@@ -63,7 +65,7 @@ describe('User', function() {
     });
 
     it('can add a new friend', function(done) {
-      factory.user({ username: 'friend4' }, function(err, friend) {
+      factory.user('friend4', function(err, friend) {
         if(err) { return done(err); }
         user.addFriend('friend4', function(err) {
           if(err) { return done(err); }

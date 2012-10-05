@@ -8,14 +8,14 @@ describe('Game', function() {
   beforeEach(function(done) {
     async.parallel([
       function createGame(cb) {
-        factory.game({}, function(err, new_game) {
+        factory.game(function(err, new_game) {
           if(err) { return cb(err); }
           game = new_game;
           cb();
         });
       },
       function createUser(cb) {
-        factory.user({}, function(err, new_user) {
+        factory.user(function(err, new_user) {
           if(err) { return cb(err); }
           user = new_user;
           cb();

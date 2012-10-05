@@ -8,15 +8,21 @@ var async = require('async'),
 var User = new Schema({
   username: { type: String, required: true },
   password: { type: String, required: true },
+  email: { type: String, required: true },
+
+  friends: [ { type: ObjectId, ref: 'User' } ],
+  achievements: [ { type: ObjectId, ref: 'Achievement' } ],
+  gold: { type: Number, default: 0 },
+
+  // metrics
   dateCreated: { type: Date, default: Date.now },
   lastLogin: { type: Date },
   loginCount: { type: Number, default: 0 },
   moneySpent: { type: Number, default: 0 },
-  totalGames: { type: Number, default: 0 },
-  friends: [ { type: ObjectId, ref: 'User' } ],
-  achievements: [ { type: ObjectId, ref: 'Achievement' } ],
-  gold: { type: Number, default: 0 }
+  totalGames: { type: Number, default: 0 }
 });
+
+var EMAIL_REGEX = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 /**
 * hashes a password and stores it in the user model
@@ -24,14 +30,9 @@ var User = new Schema({
 * callback(err)
 **/
 User.methods.hashPassword = function(password, callback) {
-  var self = this;
-  async.waterfall([
-    async.apply(bcrypt.hash, password, 10),
-    function store(encrypted, cb) {
-      self.password = encrypted;
-      self.save(cb);
-    }
-  ], callback);
+  var encrypted = hashPassword(password);
+  this.password = encrypted;
+  this.save(callback);
 };
 
 /**
@@ -79,6 +80,34 @@ User.methods.removeFriend = function(username, callback) {
 **/
 User.methods.getFriendNames = function(callback) {
   async.map(this.friends, helpers.m.User.getUsername, callback);
+};
+
+/**
+* authenticates the username/email password combination
+*
+* callback(err, user)
+**/
+User.statics.authenticate = function(username, password, callback) {
+  var criteria = {};
+  if(username.indexOf('@') >= 0) {
+    criteria.email = username;
+  } else {
+    criteria.username = username;
+  }
+  helpers.m.Users.findOne(criteria, function(err, user) {
+    if(err) { return callback(err); }
+    if(!user) {
+      return callback(new Error('User ' + username + ' not found'));
+    }
+    if(bcrypt.compareSync(password, user.password)) {
+      return callback(null, user);
+    }
+    callback(new Error('Invalid password'));
+  });
+};
+
+var hashPassword = User.statics.hashPassword = function(password) {
+  return bcrypt.hashSync(password, 12);
 };
 
 /**
