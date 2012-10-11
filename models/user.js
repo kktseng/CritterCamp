@@ -89,8 +89,8 @@ User.methods.getFriendNames = function(callback) {
 **/
 User.statics.createUser = function(username, email, password, callback) {
   async.parallel([
-    async.apply(helpers.m.User.findOne, { username: username }),
-    async.apply(helpers.m.User.findOne, { email: email })
+    async.apply(helpers.m.User.findOne.bind(helpers.m.User), { username: username }),
+    async.apply(helpers.m.User.findOne.bind(helpers.m.User), { email: email })
   ], function(err, results) {
     if(err) { return callback(err); }
     if(results[0]) {
