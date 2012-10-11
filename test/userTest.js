@@ -15,14 +15,6 @@ describe('User', function() {
     });
   });
 
-  it('can authenticate regular user', function(done) {
-    helpers.m.User.authenticate(user.username, 'password', function(err, auth_user) {
-      if(err) {return done(err); }
-      auth_user.username.should.eql(user.username);
-      done();
-    });
-  });
-
   it('can find username from id', function(done) {
     helpers.m.User.getUsername(user._id, function(err, username) {
       if(err) { return done(err); }
@@ -41,14 +33,29 @@ describe('User', function() {
 
   describe('Authentication', function() {
 
-    it('can authenticate regular user', function(done) {
+    it('can authenticate user with correct username/password', function(done) {
       helpers.m.User.authenticate(user.username, 'password', function(err, auth_user) {
         if(err) {return done(err); }
         auth_user.username.should.eql(user.username);
         done();
       });
     });
-    
+
+    it('should not authenticate user with incorrect username/password', function(done) {
+      helpers.m.User.authenticate(user.username, 'incorrect_password', function(err) {
+        err.should.eql(new Error('Invalid password'));
+        done();
+      });
+    });
+
+    it('should not authenticate user whose username does not exist', function(done) {
+      helpers.m.User.authenticate('nonexistent_user', 'password', function(err) {
+        err.should.eql(new Error('User nonexistent_user not found'));
+        done();
+      });
+    });
+
+
   });
 
   describe('Friends', function() {
