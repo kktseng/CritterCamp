@@ -11,12 +11,12 @@ exports.user = function(parameters, callback) {
   }
   helpers.m.User.findOne({ username: parameters.username }, function(err, user) {
     if(err) { return callback(err); }
-    user = user || new helpers.m.User({ username: parameters.username, password: 'temp', email: 'leungxa@gmail.com' });
-    user.email = parameters.email || 'leungxa@gmail.com';
+    user = user || new helpers.m.User({ username: parameters.username, password: encrypted_password, email: 'leungxa@gmail.com' });
+    Object.keys(parameters).forEach(function(key) {
+      user[key] = parameters[key];
+    });
     if(parameters.password) {
       user.password = helpers.m.User.hashPassword(parameters.password);
-    } else {
-      user.password = encrypted_password;
     }
     user.save(callback);
   });
