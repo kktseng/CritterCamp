@@ -1,6 +1,6 @@
 
 exports.UserStat = require('./userStat');
-exports.dailyStat = require('./dailyStat');
+exports.DailyStat = require('./dailyStat');
 
 exports.Achievement = require('./achievement');
 

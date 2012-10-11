@@ -83,6 +83,29 @@ User.methods.getFriendNames = function(callback) {
 };
 
 /**
+* validates new user information and stores the new user in mongo
+*
+* callback(err, user)
+**/
+User.statics.createUser = function(username, email, password, callback) {
+  async.parallel([
+    async.apply(helpers.m.User.findOne, { username: username }),
+    async.apply(helpers.m.User.findOne, { email: email })
+  ], function(err, results) {
+    if(err) { return callback(err); }
+    if(results[0]) {
+      return callback(new Error('Username ' + username + ' already exists'));
+    } else if(results[1]) {
+      return callback(new Error('Email ' + email + ' already in use'));
+    } else {
+      var encrypted = helpers.m.User.hashPassword(password);
+      var user = new helpers.m.User({ username: username, email: email, password: encrypted });
+      user.save(callback);
+    }
+  });
+};
+
+/**
 * authenticates the username/email password combination
 *
 * callback(err, user)
@@ -94,7 +117,7 @@ User.statics.authenticate = function(username, password, callback) {
   } else {
     criteria.username = username;
   }
-  helpers.m.Users.findOne(criteria, function(err, user) {
+  helpers.m.User.findOne(criteria, function(err, user) {
     if(err) { return callback(err); }
     if(!user) {
       return callback(new Error('User ' + username + ' not found'));

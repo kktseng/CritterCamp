@@ -2,14 +2,22 @@ var helpers = require('../lib/helpers');
 
 helpers.initModels();
 
-exports.user = function(username, callback) {
-  if(typeof(username) == 'function') {
-    callback = username;
-    username = 'test_user';
+var encrypted_password = helpers.m.User.hashPassword('password');
+
+exports.user = function(parameters, callback) {
+  if(typeof(parameters) == 'function') {
+    callback = parameters;
+    parameters = { username: 'test_user' };
   }
-  helpers.m.User.findOne({ username: username }, function(err, user) {
+  helpers.m.User.findOne({ username: parameters.username }, function(err, user) {
     if(err) { return callback(err); }
-    user = user || new helpers.m.User({ username: username, password: 'password', email: 'leungxa@gmail.com' });
+    user = user || new helpers.m.User({ username: parameters.username, password: 'temp', email: 'leungxa@gmail.com' });
+    user.email = parameters.email || 'leungxa@gmail.com';
+    if(parameters.password) {
+      user.password = helpers.m.User.hashPassword(parameters.password);
+    } else {
+      user.password = encrypted_password;
+    }
     user.save(callback);
   });
 };
