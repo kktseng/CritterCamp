@@ -119,6 +119,8 @@ User.statics.authenticate = function(username, password, callback) {
   }
   helpers.m.User.findOne(criteria, function(err, user) {
     if(err) { return callback(err); }
+    console.log(user.password);
+    console.log(password);
     if(!user) {
       return callback(new Error('User ' + username + ' not found'));
     }

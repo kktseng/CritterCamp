@@ -15,12 +15,13 @@ describe('User', function() {
     });
   });
 
-  it('generated a password correctly with bcrypt', function(done) {
-    bcrypt.compareSync('password', user.password).should.be.true;
-    done();
+  it('can authenticate regular user', function(done) {
+    helpers.m.User.authenticate(user.username, 'password', function(err, auth_user) {
+      if(err) {return done(err); }
+      auth_user.username.should.eql(user.username);
+      done();
+    });
   });
-
-
 
   it('can find username from id', function(done) {
     helpers.m.User.getUsername(user._id, function(err, username) {
@@ -36,6 +37,18 @@ describe('User', function() {
       id.should.eql(user._id);
       done();
     });
+  });
+
+  describe('Authentication', function() {
+
+    it('can authenticate regular user', function(done) {
+      helpers.m.User.authenticate(user.username, 'password', function(err, auth_user) {
+        if(err) {return done(err); }
+        auth_user.username.should.eql(user.username);
+        done();
+      });
+    });
+    
   });
 
   describe('Friends', function() {
