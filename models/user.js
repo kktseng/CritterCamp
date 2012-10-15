@@ -23,6 +23,7 @@ var User = new Schema({
 });
 
 var EMAIL_REGEX = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+var MAX_USERNAME_LENGTH = 15;
 
 /**
 * hashes a password and stores it in the user model
@@ -88,6 +89,11 @@ User.methods.getFriendNames = function(callback) {
 * callback(err, user)
 **/
 User.statics.createUser = function(username, email, password, callback) {
+  if(username.search(/[^A-Za-z0-9]/) !== -1) {
+    return callback(new Error('Usernames may only contain letters and numbers: ' + username));
+  } else if (username.length > MAX_USERNAME_LENGTH) {
+    return callback(new Error('Usernames may only be up to 15 characters long: ' + username));
+  }
   async.parallel([
     async.apply(helpers.m.User.findOne.bind(helpers.m.User), { username: username }),
     async.apply(helpers.m.User.findOne.bind(helpers.m.User), { email: email })
