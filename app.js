@@ -3,6 +3,7 @@ var crypto = require('crypto'),
     fs = require('fs'),
     routes = require('./routes'),
     user = require('./routes/user'),
+    http = require('http'),
     https = require('https'),
     helpers = require('./lib/helpers'),
     logger = require('./lib/logger'),
@@ -47,7 +48,12 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 
 var server = https.createServer(options, app).listen(app.get('port'), function() {
-  logger.info("Server listening on port " + app.get('port'));
+  logger.info('Server listening on port ' + app.get('port'));
+});
+
+// temporary non https server
+var server2 = http.createServer(app).listen(8000, function() {
+  logger.info('Server2 listening on port 8000');
 });
 
 // set up websockets
@@ -57,3 +63,11 @@ wsServer = new ws({
 });
 
 wsServer.on('request', wsHandler.request);
+
+// temporary non wss server
+wsServer2 = new ws({
+  httpServer: server2,
+  autoAcceptConnections: false
+});
+
+wsServer2.on('request', wsHandler.request);
