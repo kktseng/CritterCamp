@@ -7,12 +7,13 @@ var crypto = require('crypto'),
     https = require('https'),
     helpers = require('./lib/helpers'),
     logger = require('./lib/logger'),
+    net = require('net'),
     ws = require('websocket').server,
-    wsHandler = require('./lib/wsHandler'),
+    connection = require('./lib/connection'),
     pubsub = require('./lib/pubsub'),
     path = require('path');
 
-var app = express();
+/*var app = express();
 
 var privateKey = fs.readFileSync('privatekey.pem').toString();
 var certificate = fs.readFileSync('certificate.pem').toString();
@@ -62,7 +63,7 @@ wsServer = new ws({
   autoAcceptConnections: false 
 });
 
-wsServer.on('request', wsHandler.request);
+wsServer.on('request', connection.request);
 
 // temporary non wss server
 wsServer2 = new ws({
@@ -70,4 +71,9 @@ wsServer2 = new ws({
   autoAcceptConnections: false
 });
 
-wsServer2.on('request', wsHandler.request);
+wsServer2.on('request', connection.request);
+*/
+helpers.initModels();
+net.createServer(connection.request).listen(8000, function() {
+  logger.info('Server listening.');
+});
