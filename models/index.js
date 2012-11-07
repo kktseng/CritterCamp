@@ -1,4 +1,3 @@
-
 exports.UserStat = require('./userStat');
 exports.DailyStat = require('./dailyStat');
 

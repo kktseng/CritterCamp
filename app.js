@@ -75,5 +75,5 @@ wsServer2.on('request', connection.request);
 */
 helpers.initModels();
 net.createServer(connection.request).listen(8000, function() {
-  logger.info('Server listening.');
+  logger.info('Server listening on port 8000.');
 });
