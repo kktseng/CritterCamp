@@ -55,9 +55,9 @@ describe('User', function() {
       });
     });
 
-    it('can create new User', function(done) {
+    it('can create new user account', function(done) {
       helpers.m.User.remove( { username: 'byasukawa'} , function(err) {
-        helpers.m.User.createUser('byasukawa', 'byasukawa@hotmail.com', 'password', function(err, created_user) {
+        helpers.m.User.createUserAccount('byasukawa', 'byasukawa@hotmail.com', 'password', function(err, created_user) {
           if(err) { return done(err); }
           created_user.username.should.eql('byasukawa');
           done();
@@ -65,15 +65,15 @@ describe('User', function() {
       });
     });
 
-    it('should not create User with existing username', function(done) {
-      helpers.m.User.createUser('test_user', 'test@gmail.com', 'password', function(err) { 
+    it('should not create user account with existing username', function(done) {
+      helpers.m.User.createUserAccount('test_user', 'test@gmail.com', 'password', function(err) { 
         err.should.eql(new Error('User test_user already exists'));
         done();
       });
     });
 
-    it('should not create User with existing email', function(done) {
-      helpers.m.User.createUser('new_user', 'leungxa@gmail.com', 'password', function(err) {
+    it('should not create user account with existing email', function(done) {
+      helpers.m.User.createUserAccount('new_user', 'leungxa@gmail.com', 'password', function(err) {
         err.should.eql(new Error('Email leungxa@gmail.com already in use'));
         done();
       });

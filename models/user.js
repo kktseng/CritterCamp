@@ -7,8 +7,8 @@ var async = require('async'),
 
 var User = new Schema({
   username: { type: String, required: true },
-  password: { type: String, required: true },
-  email: { type: String, required: true },
+  password: { type: String },
+  email: { type: String },
 
   friends: [ { type: ObjectId, ref: 'User' } ],
   achievements: [ { type: ObjectId, ref: 'Achievement' } ],
@@ -24,6 +24,18 @@ var User = new Schema({
 
 var EMAIL_REGEX = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 var MAX_USERNAME_LENGTH = 15;
+
+/**
+* checks if username matches set criteria
+* does NOT check for existing users
+**/
+function invalidUsername(username) {
+  if(username.search(/[^A-Za-z0-9]/) !== -1) {
+    return new Error('Usernames may only contain letters and numbers: ' + username);
+  } else if (username.length > MAX_USERNAME_LENGTH) {
+    return new Error('Usernames may only be up to ' + MAX_USERNAME_LENGTH + ' characters long: ' + username);
+  } else return null;
+}
 
 /**
 * hashes a password and stores it in the user model
@@ -84,15 +96,33 @@ User.methods.getFriendNames = function(callback) {
 };
 
 /**
+* creates a user without a password
+*
+* callback(err, user)
+**/
+User.statics.createUser = function(username, callback) {
+  if(invalidUsername(username)) {
+    return callback(invalidUsername(username));
+  }
+  helpers.m.User.findOne({ username: username }, function(err, results) {
+    if(err) { return callback(err); }
+    if(results) {
+      return callback(new Error('Username ' + username + ' already exists'));
+    } else {
+      var user = new helpers.m.User({ username: username });
+      user.save(callback);
+    }
+  });
+};
+
+/**
 * validates new user information and stores the new user in mongo
 *
 * callback(err, user)
 **/
-User.statics.createUser = function(username, email, password, callback) {
-  if(username.search(/[^A-Za-z0-9]/) !== -1) {
-    return callback(new Error('Usernames may only contain letters and numbers: ' + username));
-  } else if (username.length > MAX_USERNAME_LENGTH) {
-    return callback(new Error('Usernames may only be up to 15 characters long: ' + username));
+User.statics.createUserAccount = function(username, email, password, callback) {
+  if(invalidUsername(username)) {
+    return callback(invalidUsername(username));
   }
   async.parallel([
     async.apply(helpers.m.User.findOne.bind(helpers.m.User), { username: username }),
