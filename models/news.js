@@ -8,11 +8,14 @@ var News = new Schema({
   post: { type: String, required: true }
 });
 
-News.index({ date: 1 });
+News.index({ date: -1 });
 
-News.statics.findLatest = function(number_to_return, callback) {
-  number_to_return = number_to_return || 10;
-  helpers.m.News.find().sort({ date: 1 }).limit(number_to_return).exec(callback);
+News.statics.findLatest = function(num_return, callback) {
+  if(typeof(num_return) == 'function') {
+    callback = num_return;
+    num_return = 10;
+  }
+  helpers.m.News.find().sort({ date: -1 }).limit(num_return).exec(callback);
 };
 
 module.exports = mongoose.model('News', News);
