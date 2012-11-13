@@ -1,3 +1,5 @@
+exports.News = require('./news');
+
 exports.UserStat = require('./userStat');
 exports.DailyStat = require('./dailyStat');
 
