@@ -15,7 +15,7 @@ News.statics.findLatest = function(num_return, callback) {
     callback = num_return;
     num_return = 10;
   }
-  helpers.m.News.find().sort({ date: -1 }).limit(num_return).exec(callback);
+  helpers.m.News.find({}, { date: 1, post: 1 }).sort({ date: -1 }).limit(num_return).exec(callback);
 };
 
 module.exports = mongoose.model('News', News);
