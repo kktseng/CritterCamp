@@ -8,12 +8,11 @@ var crypto = require('crypto'),
     helpers = require('./lib/helpers'),
     logger = require('./lib/logger'),
     net = require('net'),
-    ws = require('websocket').server,
     connection = require('./lib/connection'),
     pubsub = require('./lib/pubsub'),
     path = require('path');
 
-/*var app = express();
+var app = express();
 
 var privateKey = fs.readFileSync('privatekey.pem').toString();
 var certificate = fs.readFileSync('certificate.pem').toString();
@@ -45,6 +44,8 @@ app.configure('production', function() {
 
 helpers.initModels();
 
+require('./routes/login')(app, '/login');
+
 app.get('/', routes.index);
 app.get('/users', user.list);
 
@@ -53,27 +54,7 @@ var server = https.createServer(options, app).listen(app.get('port'), function()
 });
 
 // temporary non https server
-var server2 = http.createServer(app).listen(8000, function() {
-  logger.info('Server2 listening on port 8000');
+var server2 = http.createServer(app).listen(8888, function() {
+  logger.info('Server2 listening on port 8888');
 });
 
-// set up websockets
-wsServer = new ws({
-  httpServer: server,
-  autoAcceptConnections: false 
-});
-
-wsServer.on('request', connection.request);
-
-// temporary non wss server
-wsServer2 = new ws({
-  httpServer: server2,
-  autoAcceptConnections: false
-});
-
-wsServer2.on('request', connection.request);
-*/
-helpers.initModels();
-net.createServer(connection.request).listen(8000, function() {
-  logger.info('Server listening on port 8000.');
-});
