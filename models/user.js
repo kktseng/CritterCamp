@@ -2,6 +2,7 @@ var async = require('async'),
     bcrypt = require('bcrypt'),
     helpers = require('../lib/helpers'),
     mongoose = require('mongoose'),
+    crypto = require('crypto').createHash('sha1'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
@@ -109,8 +110,13 @@ User.statics.createUser = function(username, callback) {
     if(results) {
       return callback(new Error('Username ' + username + ' already exists'));
     } else {
-      var user = new helpers.m.User({ username: username });
-      user.save(callback);
+      var current_time = (new Date()).toString();
+      var password = crypto.update(current_time).digest('hex');
+      var encrypted = helpers.m.User.hashPassword(password);
+      var user = new helpers.m.User({ username: username , password: encrypted });
+      user.save( function(err, user_object) { 
+        return callback(err, user_object, password); 
+      });
     }
   });
 };
