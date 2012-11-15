@@ -24,8 +24,6 @@ module.exports = function(app, basepath) {
 
   app.post(basepath + '/create', function(req, res) {
     var username = req.param('username');
-    var email = req.param('email');
-    var password = req.param('password');
 
     //create account
     helpers.m.User.createUser(username, function(err, created_user, created_user_password) {
