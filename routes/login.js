@@ -9,13 +9,9 @@ module.exports = function(app, basepath) {
 
     //verify username and password
     helpers.m.User.authenticate(username, password, function(err, auth_user) {
-      if(err) {
-        res.send({ status: 'failure', message: err.message }); 
-      }
-      else {
-        res.send({ status: 'success' });
-      }
-    })
+      if(err) { return res.send({ status: 'failure', message: err.message }) }; 
+      res.send({ status: 'success' });
+    });
   });
 
   app.get(basepath + '/create', function(req, res) {
@@ -27,12 +23,8 @@ module.exports = function(app, basepath) {
 
     //create account
     helpers.m.User.createUser(username, function(err, created_user, created_user_password) {
-      if(err) {
-        res.send({ status: 'failure', message: err.message });
-      }
-      else {
-        res.send({ status: 'success', password: created_user_password });
-      }
-    })
+      if(err) { return res.send({ status: 'failure', message: err.message }) };
+      res.send({ status: 'success', password: created_user_password });
+    });
   });
 };
