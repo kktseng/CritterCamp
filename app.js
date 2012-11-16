@@ -46,6 +46,11 @@ helpers.initModels();
 
 require('./routes/login')(app, '/login');
 
+// set up TCP server
+net.createServer(connection.request).listen(8000, function() {
+  logger.info('TCP server listening on port 8000.');
+});
+
 app.get('/', routes.index);
 app.get('/users', user.list);
 
@@ -57,4 +62,6 @@ var server = https.createServer(options, app).listen(app.get('port'), function()
 var server2 = http.createServer(app).listen(8888, function() {
   logger.info('Server2 listening on port 8888');
 });
+
+
 
