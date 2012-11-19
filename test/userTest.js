@@ -55,12 +55,25 @@ describe('User', function() {
       });
     });
 
-    it('can create new user account', function(done) {
+    it('can create new user account with username, email, password', function(done) {
       helpers.m.User.remove( { username: 'byasukawa'} , function(err) {
         helpers.m.User.createUserAccount('byasukawa', 'byasukawa@hotmail.com', 'password', function(err, created_user) {
           if(err) { return done(err); }
           created_user.username.should.eql('byasukawa');
           done();
+        });
+      });
+    });
+
+    it('can create new user account with only username and login with it', function(done) {
+      helpers.m.User.remove( { username: 'createusertest'} , function(err) {
+        helpers.m.User.createUser('createusertest', function(err, created_user, created_user_password) {
+          if(err) { return done(err); }
+          helpers.m.User.authenticate(created_user.username, created_user_password, function(auth_err, auth_user) {
+            if(auth_err) { return done(auth_err); }
+            auth_user.username.should.eql(created_user.username);
+            done();
+          });
         });
       });
     });
