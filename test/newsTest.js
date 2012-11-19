@@ -13,6 +13,7 @@ describe('News', function() {
 
   it('can grab latest news', function(done) {
     helpers.m.News.findLatest(2, function(err, results) {
+      console.log(JSON.stringify(results));
       results[0].post.should.eql('news: 2');
       results[1].post.should.eql('news: 1');
       done();

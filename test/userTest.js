@@ -78,7 +78,7 @@ describe('User', function() {
       });
     });
 
-    it('should not create user account with existing username', function(done) {
+    it('should not create user account with existing username when password provided', function(done) {
       helpers.m.User.createUserAccount('test_user', 'test@gmail.com', 'password', function(err) { 
         err.should.eql(new Error('User test_user already exists'));
         done();
@@ -91,6 +91,13 @@ describe('User', function() {
         done();
       });
     });
+
+    it('should not create user account with existing username when password not provided', function(done) {
+      helpers.m.User.createUser('createusertest', function(err) {
+        err.should.eql(new Error('User createusertest already exists'));
+        done();
+      });
+    })
 
   });
 
