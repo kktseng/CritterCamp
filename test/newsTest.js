@@ -5,18 +5,20 @@ var async = require('async'),
 describe('News', function() {
 
   // insert some dummy data into news
-  var news = [];
-  for(var i = 0; i < 3; i++) {
-    news.push(new helpers.m.News({ post: 'news: ' + i }));
-    news[i].save();
+  function insertNews(callback) {
+    async.forEachSeries([0, 1, 2], function(data, cb) {
+      var news = new helpers.m.News({ post: 'news: ' + data });
+      news.save(cb);
+    }, callback);
   }
 
   it('can grab latest news', function(done) {
-    helpers.m.News.findLatest(2, function(err, results) {
-      console.log(JSON.stringify(results));
-      results[0].post.should.eql('news: 2');
-      results[1].post.should.eql('news: 1');
-      done();
+    insertNews(function() {
+      helpers.m.News.findLatest(2, function(err, results) {
+        results[0].post.should.eql('news: 2');
+        results[1].post.should.eql('news: 1');
+        done();
+      });
     });
   });
 });
