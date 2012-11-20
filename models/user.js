@@ -12,6 +12,7 @@ var User = new Schema({
   email: { type: String },
 
   friends: [ { type: ObjectId, ref: 'User' } ],
+  friendRequests: [ { type: ObjectId, ref: 'User' } ],
   achievements: [ { type: ObjectId, ref: 'Achievement' } ],
   gold: { type: Number, default: 0 },
 
@@ -97,7 +98,16 @@ User.methods.getFriendNames = function(callback) {
 };
 
 /**
-* creates a user without a password
+* gets a list of all the user's friend requests
+*
+* callback(err, list)
+**/
+User.methods.getFriendRequests = function(callback) {
+  async.map(this.friendRequests, helpers.m.User.getUsername, callback);
+};
+
+/**
+* creates a user based on username and set password to hash of current time
 *
 * callback(err, user)
 **/
