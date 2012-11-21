@@ -10,6 +10,7 @@ var User = new Schema({
   username: { type: String, required: true },
   password: { type: String },
   email: { type: String },
+  profile: { type: String },
 
   friends: [ { type: ObjectId, ref: 'User' } ],
   friendRequests: [ { type: ObjectId, ref: 'User' } ],
@@ -98,12 +99,21 @@ User.methods.getFriendNames = function(callback) {
 };
 
 /**
-* gets a list of all the user's friend requests
+* gets a list of all the information of the user's friends
 *
 * callback(err, list)
 **/
-User.methods.getFriendRequests = function(callback) {
-  async.map(this.friendRequests, helpers.m.User.getUsername, callback);
+User.methods.getFriendInfo = function(callback) {
+  async.map(this.friends, helpers.m.User.getUserInfo, callback);
+};
+
+/**
+* gets a list of all the information of the user's friend requests
+*
+* callback(err, list)
+**/
+User.methods.getFriendRequestInfo = function(callback) {
+  async.map(this.friendRequests, helpers.m.User.getUserInfo, callback);
 };
 
 /**
@@ -194,6 +204,21 @@ User.statics.getUsername = function(id, cb) {
   helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
     if(results) {
       return cb(err, results.username);
+    } else {
+      return cb(err, null);
+    }
+  });
+};
+
+/**
+* gets a username and profile based off an id
+*
+* callback(err, {username:username, profile:profile_photo} )
+**/
+User.statics.getUserInfo = function(id, cb) {
+  helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
+    if(results) {
+      return cb(err, { username: results.username, profile: results.profile} );
     } else {
       return cb(err, null);
     }
