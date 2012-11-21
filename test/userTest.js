@@ -1,6 +1,7 @@
 var async = require('async'),
     bcrypt = require('bcrypt'),
     factory = require('./factory'),
+    friend = require('../lib/friend'),
     helpers = require('../lib/helpers'),
     should = require('should');
 
@@ -171,6 +172,14 @@ describe('User', function() {
         done();
       });
     });
+
+    it('can retrieve friends list', function(done) {
+      friend.getFriendList(user.username, function(err, result) {
+        if(err) { return done(err); }
+        result.friend_list.should.eql([ {username:'friend1', profile:'profpic'} , {username:'friend2', profile:'profpic'} , {username:'friend3', profile:'profpic'} ]);
+        done();
+      })
+    })
 
   });
 });

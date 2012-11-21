@@ -218,7 +218,7 @@ User.statics.getUsername = function(id, cb) {
 User.statics.getUserInfo = function(id, cb) {
   helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
     if(results) {
-      return cb(err, { username: results.username, profile: results.profile} );
+      return cb(err, { username: results.username, profile: results.profile } );
     } else {
       return cb(err, null);
     }
