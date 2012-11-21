@@ -216,7 +216,7 @@ User.statics.getUsername = function(id, cb) {
 * callback(err, {username:username, profile:profile_photo} )
 **/
 User.statics.getUserInfo = function(id, cb) {
-  helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
+  helpers.m.User.findOne({ _id: id }, { username: true, profile: true }, function(err, results) {
     if(results) {
       return cb(err, { username: results.username, profile: results.profile } );
     } else {
