@@ -117,14 +117,14 @@ describe('User', function() {
       user.friends = [];
       async.forEachSeries(['friend1', 'friend2', 'friend3'], addFriend, function(err) {
         if(err) { return done(err); }
-        done();
+        helpers.m.User.update({ _id: user._id }, { friends: user.friends }, done);
       });
     });
 
     it('can retrieve friends list', function(done) {
       friend.getFriendList(user.username, function(err, result) {
         if(err) { return done(err); }
-        result.friend_list.should.eql([ {username:'friend1', profile:'profpic'} , {username:'friend2', profile:'profpic'} , {username:'friend3', profile:'profpic'} ]);
+        result.friend_list.should.eql([{ username: 'friend1', profile: 'profpic' }, { username: 'friend2', profile: 'profpic' }, { username: 'friend3', profile: 'profpic' }]);
         done();
       })
     });
