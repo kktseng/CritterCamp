@@ -121,6 +121,14 @@ describe('User', function() {
       });
     });
 
+    it('can retrieve friends list', function(done) {
+      friend.getFriendList(user.username, function(err, result) {
+        if(err) { return done(err); }
+        result.friend_list.should.eql([ {username:'friend1', profile:'profpic'} , {username:'friend2', profile:'profpic'} , {username:'friend3', profile:'profpic'} ]);
+        done();
+      })
+    });
+
     it('can find usernames of friends', function(done) {
       user.getFriendNames(function(err, names) {
         names.should.eql(['friend1', 'friend2', 'friend3']);
@@ -172,14 +180,6 @@ describe('User', function() {
         done();
       });
     });
-
-    it('can retrieve friends list', function(done) {
-      friend.getFriendList(user.username, function(err, result) {
-        if(err) { return done(err); }
-        result.friend_list.should.eql([ {username:'friend1', profile:'profpic'} , {username:'friend2', profile:'profpic'} , {username:'friend3', profile:'profpic'} ]);
-        done();
-      })
-    })
 
   });
 });
