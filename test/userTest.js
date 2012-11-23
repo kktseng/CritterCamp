@@ -124,7 +124,11 @@ describe('User', function() {
     it('can retrieve friends list', function(done) {
       friend.getFriendList(user.username, function(err, result) {
         if(err) { return done(err); }
-        result.friend_list.should.eql([{ username: 'friend1', profile: 'profpic' }, { username: 'friend2', profile: 'profpic' }, { username: 'friend3', profile: 'profpic' }]);
+
+        //assertion based on values set using redis-cli
+        result.friend_list.should.eql([{ username: 'friend1', profile: 'profpic', status: 'in_party' }, 
+                                      { username: 'friend2', profile: 'profpic', status: 'in_group' }, 
+                                      { username: 'friend3', profile: 'profpic', status: 'offline' }]);
         done();
       })
     });
