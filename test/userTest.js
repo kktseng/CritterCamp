@@ -122,10 +122,14 @@ describe('User', function() {
     });
 
     it('can retrieve friends list', function(done) {
+      //set up some values for the test
+      helpers.redis.hset('user_friend1', 'party', '123');
+      helpers.redis.hset('user_friend2', 'group', '456');
+
       friend.getFriendList(user.username, function(err, result) {
         if(err) { return done(err); }
 
-        //assertion based on values set using redis-cli
+        //assertion based on values set above
         result.friend_list.should.eql([{ username: 'friend1', profile: 'profpic', status: 'in_party' }, 
                                       { username: 'friend2', profile: 'profpic', status: 'in_group' }, 
                                       { username: 'friend3', profile: 'profpic', status: 'offline' }]);
