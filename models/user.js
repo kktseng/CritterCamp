@@ -71,6 +71,25 @@ User.methods.addFriend = function(username, callback) {
 };
 
 /**
+* adds a friend request to user's friend request list
+*
+* callback(err)
+**/
+User.methods.addFriendRequest = function(username, callback) {
+  var self = this;
+  helpers.m.User.getId(username, function(err, id) {
+    if(err) { return callback(err); }
+    if(!id) {
+      return callback(new Error('No id found for username ' + username));
+    } else if(self.friendRequests.indexOf(id) > -1) {
+      return callback(new Error('User ' + username + ' already in friend requests list'));
+    }
+    self.friendRequests.push(id);
+    self.save(callback);
+  });
+}
+
+/**
 * removes a friend from user's friends list
 *
 * callback(err)
@@ -85,6 +104,25 @@ User.methods.removeFriend = function(username, callback) {
       return callback(new Error('User ' + username + 'not on friends list'));
     }
     self.friends.splice(self.friends.indexOf(id), 1);
+    self.save(callback);
+  });
+};
+
+/**
+* removes a friend request from user's friend request list
+*
+* callback(err)
+**/
+User.methods.removeFriendRequest = function(username, callback) {
+  var self = this;
+  helpers.m.User.getId(username, function(err, id) {
+    if(err) { return callback(err); }
+    if(!id) {
+      return callback(new Error('No id found for username ' + username));
+    } else if(self.friendRequests.indexOf(id) < 0) {
+      return callback(new Error('User ' + username + 'not on friend requests list'));
+    }
+    self.friendRequests.splice(self.friendRequests.indexOf(id), 1);
     self.save(callback);
   });
 };

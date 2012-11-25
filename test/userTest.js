@@ -115,7 +115,7 @@ describe('User', function() {
         });
       }
       user.friends = [];
-      async.forEachSeries(['friend1', 'friend2', 'friend3'], addFriend, function(err) {
+      async.forEachSeries(['friend1', 'friend2', 'friend3', 'friend4'], addFriend, function(err) {
         if(err) { return done(err); }
         helpers.m.User.update({ _id: user._id }, { friends: user.friends }, done);
       });
@@ -125,6 +125,7 @@ describe('User', function() {
       //set up some values for the test
       helpers.redis.hset('user_friend1', 'party', '123');
       helpers.redis.hset('user_friend2', 'group', '456');
+      helpers.redis.hset('user_friend3', 'conn', '789');
 
       friend.getFriendList(user.username, function(err, result) {
         if(err) { return done(err); }
@@ -132,22 +133,23 @@ describe('User', function() {
         //assertion based on values set above
         result.friend_list.should.eql([{ username: 'friend1', profile: 'profpic', status: 'in_party' }, 
                                       { username: 'friend2', profile: 'profpic', status: 'in_group' }, 
-                                      { username: 'friend3', profile: 'profpic', status: 'offline' }]);
+                                      { username: 'friend3', profile: 'profpic', status: 'online' },
+                                      { username: 'friend4', profile: 'profpic', status: 'offline'}]);
         done();
       })
     });
 
     it('can find usernames of friends', function(done) {
       user.getFriendNames(function(err, names) {
-        names.should.eql(['friend1', 'friend2', 'friend3']);
+        names.should.eql(['friend1', 'friend2', 'friend3', 'friend4']);
         done();
       });
     });
 
     it('can add a new friend', function(done) {
-      factory.user({ username: 'friend4' }, function(err, friend) {
+      factory.user({ username: 'friend5' }, function(err, friend) {
         if(err) { return done(err); }
-        user.addFriend('friend4', function(err) {
+        user.addFriend('friend5', function(err) {
           if(err) { return done(err); }
           user.friends.should.include(friend._id);
           done();
@@ -156,9 +158,9 @@ describe('User', function() {
     });
 
     it('should not add a friend if already on friend list', function(done) {
-      user.addFriend('friend3', function(err) {
+      user.addFriend('friend4', function(err) {
         should.exist(err);
-        user.friends.length.should.equal(3);
+        user.friends.length.should.equal(4);
         done();
       });
     });
@@ -166,7 +168,7 @@ describe('User', function() {
     it('should not add a friend who does not exist', function(done) {
       user.addFriend('does_not_exist', function(err) {
         should.exist(err);
-        user.friends.length.should.equal(3);
+        user.friends.length.should.equal(4);
         done();
       });
     });
@@ -184,7 +186,7 @@ describe('User', function() {
     it('should throw an error when removing a friend who doesn\'t exist', function(done) {
       user.removeFriend('does_not_exist', function(err) {
         should.exist(err);
-        user.friends.length.should.equal(3);
+        user.friends.length.should.equal(4);
         done();
       });
     });
