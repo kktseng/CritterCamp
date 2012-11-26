@@ -194,7 +194,7 @@ describe('User', function() {
 
   });
 
-  describe('Friends Requests', function() {
+  describe('Friend Requests', function() {
     var friend_request_map = {};
 
     beforeEach(function(done) {
