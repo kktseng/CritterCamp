@@ -114,6 +114,7 @@ describe('User', function() {
           cb();
         });
       }
+
       user.friends = [];
       async.forEachSeries(['friend1', 'friend2', 'friend3', 'friend4'], addFriend, function(err) {
         if(err) { return done(err); }
@@ -187,6 +188,51 @@ describe('User', function() {
       user.removeFriend('does_not_exist', function(err) {
         should.exist(err);
         user.friends.length.should.equal(4);
+        done();
+      });
+    });
+
+  });
+
+  describe('Friends Requests', function() {
+    beforeEach(function(done) {
+      function addFriendRequest(username, cb) {
+        factory.user({ username: username }, function(err, friend_request) {
+          if(err) { return cb(err); }
+          user.friendRequests.push(friend_request._id);
+          cb();
+        });
+      }
+
+      user.friendRequests = [];
+      async.forEachSeries(['friendRequest1', 'friendRequest2'], addFriendRequest, function(err) {
+        if(err) { return done(err); }
+        helpers.m.User.update({ _id: user._id }, { friendRequests: user.friendRequests }, done);
+      });
+    });
+
+    it('can find information of friend requests', function(done) {
+      user.getFriendRequestInfo(function(err, names) {
+        names.should.eql([{ username: 'friendRequest1', profile: 'profpic' }, { username: 'friendRequest2', profile: 'profpic' }]);
+        done();
+      })
+    });
+
+    it('can add a new friend request', function(done) {
+      factory.user({ username: 'friendRequest3' }, function(err, friend_request) {
+        if(err) { return done(err); }
+        user.addFriendRequest('friendRequest3', function(err) {
+          if(err) { return done(err); }
+          user.friendRequests.should.include(friend_request._id);
+          done();
+        });
+      });
+    });
+
+    it('should not add a friend request if already on friend requests list', function(done) {
+      user.addFriendRequest('friendRequest2', function(err) {
+        should.exist(err);
+        user.friendRequests.length.should.equal(2);
         done();
       });
     });
