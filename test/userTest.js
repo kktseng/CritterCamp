@@ -195,11 +195,14 @@ describe('User', function() {
   });
 
   describe('Friends Requests', function() {
+    var friend_request_map = {};
+
     beforeEach(function(done) {
       function addFriendRequest(username, cb) {
         factory.user({ username: username }, function(err, friend_request) {
           if(err) { return cb(err); }
           user.friendRequests.push(friend_request._id);
+          friend_request_map[username] = friend_request._id;
           cb();
         });
       }
@@ -209,6 +212,15 @@ describe('User', function() {
         if(err) { return done(err); }
         helpers.m.User.update({ _id: user._id }, { friendRequests: user.friendRequests }, done);
       });
+    });
+
+    it('can retrieve friends requests list', function(done) {
+      friend.getFriendList(user.username, function(err, result) {
+        if(err) { return done(err); }
+        result.friend_requests.should.eql([{ username: 'friendRequest1', profile: 'profpic' }, 
+                                          { username: 'friendRequest2', profile: 'profpic' }]);
+        done();
+      })
     });
 
     it('can find information of friend requests', function(done) {
@@ -231,6 +243,31 @@ describe('User', function() {
 
     it('should not add a friend request if already on friend requests list', function(done) {
       user.addFriendRequest('friendRequest2', function(err) {
+        should.exist(err);
+        user.friendRequests.length.should.equal(2);
+        done();
+      });
+    });
+
+    it('should not add a friend request with user who does not exist', function(done) {
+      user.addFriendRequest('does_not_exist_request', function(err) {
+        should.exist(err);
+        user.friendRequests.length.should.equal(2);
+        done();
+      });
+    });
+
+    it('can remove an existing friend request', function(done) {
+      user.removeFriendRequest('friendRequest1', function(err) {
+        if(err) { return done(err); }
+        user.friendRequests.should.not.include(friend_request_map.friendRequest1);
+        user.friendRequests.should.include(friend_request_map.friendRequest2);
+        done();
+      });
+    });
+
+    it('should throw an error when removing a friend request that doesn\'t exist', function(done) {
+      user.removeFriendRequest('does_not_exist_request', function(err) {
         should.exist(err);
         user.friendRequests.length.should.equal(2);
         done();
