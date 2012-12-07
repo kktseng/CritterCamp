@@ -4,7 +4,8 @@ var async = require('async'),
     mongoose = require('mongoose'),
     sha1 = require('crypto').createHash('sha1'),
     Schema = mongoose.Schema,
-    ObjectId = Schema.ObjectId;
+    ObjectId = Schema.ObjectId,
+    users = require('../lib/users');
 
 var User = new Schema({
   username: { type: String, required: true },
@@ -127,6 +128,8 @@ User.methods.removeFriendRequest = function(username, callback) {
   });
 };
 
+///////////////////////////////////--------------------
+/// WE CAN PROBABLY REMOVE THIS ONCE SETSTATUS IS FINISHED
 /**
 * gets a list of all the user's friends
 *
@@ -135,6 +138,7 @@ User.methods.removeFriendRequest = function(username, callback) {
 User.methods.getFriendNames = function(callback) {
   async.map(this.friends, helpers.m.User.getUsername, callback);
 };
+/////////////////////////////////////////////////////////
 
 /**
 * gets a list of all the information of the user's friends
@@ -142,7 +146,20 @@ User.methods.getFriendNames = function(callback) {
 * callback(err, list)
 **/
 User.methods.getFriendInfo = function(callback) {
-  async.map(this.friends, helpers.m.User.getUserInfo, callback);
+  async.parallel([
+    async.apply(async.map, this.friends, helpers.m.User.getUsername),
+    async.apply(async.map, this.friends, helpers.m.User.getUserInfo)
+  ], function(err, results) {
+    if(err) { return callback(err); }
+    // find statuses of all friends
+    async.map(results[0], users.getStatus, function(err, status) {
+      if(err) { return callback(err); }
+      for(var i = 0; i < status.length; i++) {
+        results[1][i].status = status[i];
+      }
+      callback(null, results[1]);
+    });
+  });
 };
 
 /**
@@ -251,7 +268,7 @@ User.statics.getUsername = function(id, cb) {
 /**
 * gets a username and profile based off an id
 *
-* callback(err, {username:username, profile:profile_photo} )
+* callback(err, {username: username, profile: profile_photo} )
 **/
 User.statics.getUserInfo = function(id, cb) {
   helpers.m.User.findOne({ _id: id }, { username: true, profile: true }, function(err, results) {
