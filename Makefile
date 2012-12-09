@@ -7,4 +7,4 @@ deploy :
 	ssh $(deployment_hostname) "cd $(app_dir); make start_app"	
 
 start_app :
-	sudo start --no-wait -q server
+	ssh $(deployment_hostname) "(sudo stop -q server > /dev/null 2>&1; sudo start -q server)"
