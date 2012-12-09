@@ -47,3 +47,5 @@ wsServer = new ws({
 });
 
 wsServer.on('request', wsHandler.request);
+
+//JENKINS!
