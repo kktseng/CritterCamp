@@ -23,7 +23,7 @@ var options = {
 };
 
 app.configure(function() {
-  app.set('port', process.env.PORT || 8080);
+  app.set('port', process.env.PORT || 443);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -59,8 +59,8 @@ var server = https.createServer(options, app).listen(app.get('port'), function()
 });
 
 // temporary non https server
-var server2 = http.createServer(app).listen(8888, function() {
-  logger.info('Server2 listening on port 8888');
+var server2 = http.createServer(app).listen(80, function() {
+  logger.info('Server2 listening on port 80');
 });
 
 
