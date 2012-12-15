@@ -124,9 +124,9 @@ describe('User', function() {
 
     it('can retrieve friends list', function(done) {
       //set up some values for the test
-      helpers.redis.hset('user_friend1', 'party', '123');
-      helpers.redis.hset('user_friend2', 'group', '456');
-      helpers.redis.hset('user_friend3', 'conn', '789');
+      helpers.redis.hset('user_friend1', 'status', 'in_party');
+      helpers.redis.hset('user_friend2', 'status', 'in_group');
+      helpers.redis.hset('user_friend3', 'status', 'online');
 
       friend.getFriendList(user.username, function(err, result) {
         if(err) { return done(err); }
