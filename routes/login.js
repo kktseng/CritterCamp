@@ -23,6 +23,9 @@ module.exports = function(app, basepath) {
         async.apply(auth_user.getFriendRequestInfo.bind(auth_user))
       ], function(err, results) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
+        // generate auth key for TCP connection
+        var key = helpers.rand();
+        helpers.redis.hset('auth', key, username);
         res.send({ status: 'success', news: results[0], friends: results[1], requests: results[2] });
       });
     });

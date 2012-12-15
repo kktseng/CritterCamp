@@ -182,8 +182,7 @@ User.statics.createUser = function(username, callback) {
     if(results) {
       return callback(new Error('Username ' + username + ' already exists'));
     } else {
-      var current_time = (new Date()).toString();
-      var password = sha1.update(current_time).digest('hex');
+      var password = helpers.rand();
       var encrypted = helpers.m.User.hashPassword(password);
       var user = new helpers.m.User({ username: username , password: encrypted });
       user.save( function(err, user_object) { 
