@@ -128,8 +128,6 @@ User.methods.removeFriendRequest = function(username, callback) {
   });
 };
 
-///////////////////////////////////--------------------
-/// WE CAN PROBABLY REMOVE THIS ONCE SETSTATUS IS FINISHED
 /**
 * gets a list of all the user's friends
 *
@@ -138,7 +136,6 @@ User.methods.removeFriendRequest = function(username, callback) {
 User.methods.getFriendNames = function(callback) {
   async.map(this.friends, helpers.m.User.getUsername, callback);
 };
-/////////////////////////////////////////////////////////
 
 /**
 * gets a list of all the information of the user's friends
@@ -295,4 +292,12 @@ User.statics.getId = function(username, cb) {
   });
 };
 
+/**
+* returns a user object from a username
+*
+* callback(err, user)
+**/
+User.statics.getUser = function(username, cb) {
+  helpers.m.User.findOne({ username: username }, {}, cb);
+};
 module.exports = mongoose.model('User', User);

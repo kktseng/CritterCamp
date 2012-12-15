@@ -2,3 +2,4 @@ node_modules
 *.log
 dumb.rdb
 Makefile
+.DS_Store
