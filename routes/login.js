@@ -10,13 +10,12 @@ module.exports = function(app, basepath) {
     var username = req.param('username');
     var password = req.param('password');
 
+    if(!username || !password) {
+      res.send({ status: 'failure', message: 'You require a username and password.'})
+    }
     // verify username and password
     helpers.m.User.authenticate(username, password, function(err, auth_user) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
-      // gather all relevant data to send back
-      // friends
-      // profile
-      // news
       async.parallel([
         async.apply(helpers.m.News.findLatest),
         async.apply(auth_user.getFriendInfo.bind(auth_user)),
