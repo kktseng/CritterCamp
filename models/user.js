@@ -17,6 +17,8 @@ var User = new Schema({
   friendRequests: [ { type: ObjectId, ref: 'User' } ],
   achievements: [ { type: ObjectId, ref: 'Achievement' } ],
   gold: { type: Number, default: 0 },
+  exp: { type: Number, default: 0 },
+  level: { type: Number, default: 1 },
 
   // metrics
   dateCreated: { type: Date, default: Date.now },
