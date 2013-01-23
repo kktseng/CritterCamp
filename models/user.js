@@ -301,4 +301,5 @@ User.statics.getId = function(username, cb) {
 User.statics.getUser = function(username, cb) {
   helpers.m.User.findOne({ username: username }, {}, cb);
 };
+
 module.exports = mongoose.model('User', User);
