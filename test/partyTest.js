@@ -17,14 +17,24 @@ function getRedisInfo(party, users, callback) {
   async.parallel(commands, callback);
 }
 
-// remove from party
-// join party (make new party)
-// join existing party
-
 describe('Parties', function() {
 
   beforeEach(function(done) {
     redis.flushdb(done);
+  });
+
+  it('can check if users are in the same party', function(done) {
+    async.parallel([
+      async.apply(redis.hset.bind(redis), 'user_test_user1', 'party', '1'),
+      async.apply(redis.hset.bind(redis), 'user_test_user2', 'party', '1')
+    ], function(err) {
+      if(err) { return done(err); }
+      party.sameParty('test_user1', 'test_user2', function(err, same_party) {
+        if(err) { return done(err); }
+        same_party.should.be.true;
+        done();
+      });
+    });
   });
 
   it('can remove a user from a party', function(done) {
