@@ -17,7 +17,9 @@ describe('Score System', function() {
 
   it('can set exp and level correctly', function(done) {
     users.setExp(user.username, 999, function(err) {
+      if(err) { return done(err); }
       user.exp.should.equal(999);
+      console.log('final user level: ' + user.level);
       user.level.should.equal(9990);
     })
   });

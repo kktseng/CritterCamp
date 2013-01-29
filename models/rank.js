@@ -16,9 +16,14 @@ Rank.index({ level: 1 });
 **/
 Rank.statics.incrRank = function(level, cb) {
   getRank(level, function(err, rank) {
+    console.log('lvl' + level);
     if(err) { return cb(err); }
-    rank.rank += 1;
-    rank.save(cb);
+    if (rank) {
+      rank.rank += 1;
+      rank.save(cb);
+    } else {
+      return cb(null);
+    }
   });
 };
 
