@@ -4,7 +4,8 @@ var mongoose = require('mongoose'),
 
 var Rank = new Schema({
   rank: { type: Number, required: true },
-  level: { type: Number, required: true }
+  level: { type: Number, required: true },
+  players: { type: Number, default: 1 }
 });
 
 Rank.index({ level: 1 });
@@ -18,11 +19,16 @@ Rank.statics.incrRank = function(level, cb) {
   getRank(level, function(err, rank) {
     console.log('lvl' + level);
     if(err) { return cb(err); }
-    if (rank) {
+    if(rank) {
+      // don't increase rank if no players are at this level
+      if(rank.players <= 0) {
+        return cb(null);
+      }
       rank.rank += 1;
       rank.save(cb);
     } else {
-      return cb(null);
+      // should never reach here?
+      return cb(new Error('No rank found for level ' + level));
     }
   });
 };
@@ -35,5 +41,13 @@ Rank.statics.incrRank = function(level, cb) {
 var getRank = Rank.statics.getRank = function(level, cb) {
   helpers.m.Rank.findOne({ level: level }, {}, cb);
 };
+
+/**
+* calculates level based on experience
+*
+**/
+Rank.statics.getLevel = function(exp) {
+  return exp;
+}
 
 module.exports = mongoose.model('Rank', Rank);
