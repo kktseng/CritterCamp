@@ -28,19 +28,19 @@ describe('Score System', function() {
           rank.save(callb);
         }, function(err) {
           if(err) { return done(err); }
-          helpers.m.User.remove({ username: 'ranked_user' }, function(err) {
+          helpers.m.User.remove({ username: { $regex: 'ranked_user_.*', $options: 's' } }, function(err) {
             if(err) { return done(err); }
             var ranked_users = [];
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 1 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 2 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 3 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 4 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 5 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 6 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 7 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 8 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 9 }));
-            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 10 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_1', level: 1 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_2', level: 2 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_3', level: 3 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_4', level: 4 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_5', level: 5 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_6', level: 6 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_7', level: 7 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_8', level: 8 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_9', level: 9 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user_10', level: 10 }));
             async.forEach(ranked_users, function(ranked_user, cb) {
               ranked_user.save(cb);
             }, done);
