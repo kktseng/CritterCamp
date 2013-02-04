@@ -43,10 +43,22 @@ var getRank = Rank.statics.getRank = function(level, cb) {
 };
 
 /**
+* gets level of rank object given rank
+*
+* callback(err, level)
+**/
+var getLevel = Rank.statics.getLevel = function(rank, cb) {
+  helpers.m.Rank.findOne({ rank: rank }, { level:true }, function(err, result) {
+    if(err) { return cb(err); }
+    return cb(err, result.level);
+  });
+};
+
+/**
 * calculates level based on experience
 *
 **/
-Rank.statics.getLevel = function(exp) {
+Rank.statics.calculateLevel = function(exp) {
   return exp;
 }
 

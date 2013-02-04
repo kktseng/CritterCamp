@@ -28,6 +28,8 @@ var User = new Schema({
   totalGames: { type: Number, default: 0 }
 });
 
+User.index({ level: -1 });
+
 var EMAIL_REGEX = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 var MAX_USERNAME_LENGTH = 15;
 
@@ -266,12 +268,28 @@ User.statics.getUsername = function(id, cb) {
 /**
 * gets a username and profile based off an id
 *
-* callback(err, {username: username, profile: profile_photo} )
+* callback(err, { username: username, profile: profile_photo })
 **/
 User.statics.getUserInfo = function(id, cb) {
   helpers.m.User.findOne({ _id: id }, { username: true, profile: true }, function(err, results) {
     if(results) {
       return cb(err, { username: results.username, profile: results.profile } );
+    } else {
+      return cb(err, null);
+    }
+  });
+};
+
+/**
+* gets ids from a level
+*
+* callback(err, [{ _id: user_1_id }, { _id: user_2_id }, ... ])
+**/
+User.statics.getIdFromLevel = function(level, cb) {
+  helpers.m.User.find({ level: level }, { _id: true }, function(err, results) {
+    console.log('resultxslength!!!' + results.length);
+    if(results) {
+      return cb(err, results);
     } else {
       return cb(err, null);
     }

@@ -14,41 +14,78 @@ describe('Score System', function() {
         if(err) { return done(err); }
         user = new_user;
         var ranks = [];
-        ranks.push(new helpers.m.Rank({ rank: 1, level: 3 }));
-        ranks.push(new helpers.m.Rank({ rank: 2, level: 2 }));
-        ranks.push(new helpers.m.Rank({ rank: 3, level: 1 }));
-        async.forEach(ranks, function(rank, cb) {
-          rank.save(cb);
-        }, done);
+        ranks.push(new helpers.m.Rank({ rank: 1, level: 10 }));
+        ranks.push(new helpers.m.Rank({ rank: 2, level: 9 }));
+        ranks.push(new helpers.m.Rank({ rank: 3, level: 8 }));
+        ranks.push(new helpers.m.Rank({ rank: 4, level: 7 }));
+        ranks.push(new helpers.m.Rank({ rank: 5, level: 6 }));
+        ranks.push(new helpers.m.Rank({ rank: 6, level: 5 }));
+        ranks.push(new helpers.m.Rank({ rank: 7, level: 4 }));
+        ranks.push(new helpers.m.Rank({ rank: 8, level: 3 }));
+        ranks.push(new helpers.m.Rank({ rank: 9, level: 2 }));
+        ranks.push(new helpers.m.Rank({ rank: 10, level: 1 }));
+        async.forEach(ranks, function(rank, callb) {
+          rank.save(callb);
+        }, function(err) {
+          if(err) { return done(err); }
+          helpers.m.User.remove({ username: 'ranked_user' }, function(err) {
+            if(err) { return done(err); }
+            var ranked_users = [];
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 1 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 2 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 3 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 4 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 5 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 6 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 7 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 8 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 9 }));
+            ranked_users.push(new helpers.m.User({ username: 'ranked_user', level: 10 }));
+            async.forEach(ranked_users, function(ranked_user, cb) {
+              ranked_user.save(cb);
+            }, done);
+          });
+        });
       });
     });
   });
 
   it('can set exp and level correctly', function(done) {
-    user.level = 2;
-    user.save(function(err) {
-      if(err) { return done(err); }
-      users.setExp(user.username, 3, function(err) {
-        if(err) { return done(err); }
-        helpers.m.User.getUser(user.username, function(err, updated_user) {
-          if(err) { return done(err); }
-          users.getRank(user.username, function(err, rank) {
-            if(err) { return done(err); }
-            rank.rank.should.equal(1);
-            updated_user.exp.should.equal(3);
-            updated_user.level.should.equal(3);
-            helpers.m.Rank.getRank(3, function(err, rank_3) {
-              if(err) { return done(err); }
-              rank_3.rank.should.equal(1);
-              helpers.m.Rank.getRank(1, function(err, rank_1) {
-                if(err) { return done(err); }
-                rank_1.rank.should.equal(3);
-                done();
-              });
-            });
-          });
+    user.level = 5;
+    async.waterfall([
+      function(callback) {
+        user.save(function(err) {
+          callback(err);
         });
-      });
+      },
+      function(callback) {
+        users.setExp(user.username, 6, callback);
+      },
+      function(callback) {
+        helpers.m.User.getUser(user.username, callback);
+      },
+      function(updated_user, callback) {
+        users.getRank(user.username, function(err, rank) {
+          callback(err, updated_user, rank);
+        });
+      },
+      function(updated_user, rank, callback) {
+        rank.rank.should.equal(5);
+        updated_user.exp.should.equal(6);
+        updated_user.level.should.equal(6);
+        helpers.m.Rank.getRank(5, callback);
+      },
+      function(rank_level_5, callback) {
+        rank_level_5.rank.should.equal(6);
+        helpers.m.Rank.getRank(1, callback);
+      },
+      function(rank_level_1, callback) {
+        rank_level_1.rank.should.equal(10);
+        callback(null);
+      }
+    ], function(err) {
+      if(err) { return done(err); }
+      done();
     });
   });
 });
