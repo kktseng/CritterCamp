@@ -287,7 +287,6 @@ User.statics.getUserInfo = function(id, cb) {
 **/
 User.statics.getIdFromLevel = function(level, cb) {
   helpers.m.User.find({ level: level }, { _id: true }, function(err, results) {
-    console.log('resultxslength!!!' + results.length);
     if(results) {
       return cb(err, results);
     } else {
