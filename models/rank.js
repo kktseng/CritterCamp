@@ -11,13 +11,12 @@ var Rank = new Schema({
 Rank.index({ level: 1 });
 
 /**
-* increases rank by 1
+* increases rank by 1 based on level
 *
 * callback(err)
 **/
 Rank.statics.incrRank = function(level, cb) {
   getRank(level, function(err, rank) {
-    console.log('lvl' + level);
     if(err) { return cb(err); }
     if(rank) {
       // don't increase rank if no players are at this level

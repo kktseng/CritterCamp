@@ -51,12 +51,30 @@ describe('Score System', function() {
   });
 
   it('can set exp and level correctly', function(done) {
-    user.level = 5;
     async.waterfall([
       function(callback) {
+        user.level = 5;
         user.save(function(err) {
           callback(err);
         });
+      },
+      function(callback) {
+        users.getRank(user.username, callback);
+      },
+      function(test_user_rank, callback) {
+        // increase the number of players of test user rank
+        test_user_rank.players++;
+        test_user_rank.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        // increase ranks below test user
+        var ranks_to_increase = [];
+        for(var i = 1; i < 5; i++) {
+          ranks_to_increase.push(i);
+        }
+        async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
         users.setExp(user.username, 6, callback);
@@ -65,38 +83,76 @@ describe('Score System', function() {
         helpers.m.User.getUser(user.username, callback);
       },
       function(updated_user, callback) {
-        users.getRank(user.username, function(err, rank) {
-          callback(err, updated_user, rank);
-        });
-      },
-      function(updated_user, rank, callback) {
-        rank.rank.should.equal(5);
-        updated_user.exp.should.equal(6);
         updated_user.level.should.equal(6);
-        helpers.m.Rank.getRank(5, callback);
+        updated_user.exp.should.equal(6);
+        users.getRank(user.username, callback);
       },
-      function(rank_level_5, callback) {
-        rank_level_5.rank.should.equal(6);
-        helpers.m.Rank.getRank(1, callback);
+      function(test_user_rank, callback) {
+        test_user_rank.rank.should.equal(5);
+        users.getRank('ranked_user_5', callback);
       },
-      function(rank_level_1, callback) {
-        rank_level_1.rank.should.equal(10);
-        callback(null);
+      function(ranked_user_5_rank, callback) {
+        ranked_user_5_rank.rank.should.equal(7);
+        helpers.m.Leader.findOne({ rank: 7 }, {}, callback);
+      },
+      function(leader_7, callback) {
+        helpers.m.User.getUsername(leader_7.user, callback);
+      },
+      function(leader_7_username, callback) {
+        leader_7_username.should.equal('ranked_user_5');
+        callback(null, done);
       }
     ], function(err) {
       if(err) { return done(err); }
       done();
     });
   });
+
+  it('can create new rank object correctly', function(done) {
+    async.waterfall([
+      function(callback) {
+        user.level = 10;
+        user.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        users.getRank(user.username, callback);
+      },
+      function(test_user_rank, callback) {
+        // increase the number of players of test user rank
+        test_user_rank.players++;
+        test_user_rank.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        // increase ranks below test user
+        var ranks_to_increase = [];
+        for(var i = 1; i < 10; i++) {
+          ranks_to_increase.push(i);
+        }
+        async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
+      },
+      function(callback) {
+        users.setExp(user.username, 11, callback);
+      },
+      function(callback) {
+        helpers.m.User.getUser(user.username, callback);
+      },
+      function(updated_user, callback) {
+        updated_user.level.should.equal(11);
+        updated_user.exp.should.equal(11);
+        users.getRank(user.username, callback);
+      },
+      function(test_user_rank, callback) {
+        test_user_rank.rank.should.equal(1);
+        callback(null, done);
+      }
+    ], function(err) {
+      if(err) { return done(err); }
+      done();
+    });
+  });
+
 });
-
-// edge case
-// we assume each rank: level pair contains at least 1 user at that level
-// what if no user is in that level?
-/*
-lvl 3: rank 1
-lvl 2: ?
-lvl 1: rank 2
-
-
-*/
