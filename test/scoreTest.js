@@ -50,7 +50,7 @@ describe('Score System', function() {
     });
   });
 
-  it('can set exp and level correctly', function(done) {
+  it('can set exp and level, update ranks and update leaderboard', function(done) {
     async.waterfall([
       function(callback) {
         user.level = 5;
@@ -147,6 +147,97 @@ describe('Score System', function() {
       },
       function(test_user_rank, callback) {
         test_user_rank.rank.should.equal(1);
+        callback(null, done);
+      }
+    ], function(err) {
+      if(err) { return done(err); }
+      done();
+    });
+  });
+
+  it('can set exp correctly when level does not change', function(done) {
+    async.waterfall([
+      function(callback) {
+        user.level = 5;
+        user.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        users.getRank(user.username, callback);
+      },
+      function(test_user_rank, callback) {
+        // increase the number of players of test user rank
+        test_user_rank.players++;
+        test_user_rank.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        // increase ranks below test user
+        var ranks_to_increase = [];
+        for(var i = 1; i < 5; i++) {
+          ranks_to_increase.push(i);
+        }
+        async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
+      },
+      function(callback) {
+        users.setExp(user.username, 5, callback);
+      },
+      function(callback) {
+        helpers.m.User.getUser(user.username, callback);
+      },
+      function(updated_user, callback) {
+        updated_user.level.should.equal(5);
+        updated_user.exp.should.equal(5);
+        users.getRank(user.username, callback);
+      },
+      function(test_user_rank, callback) {
+        test_user_rank.rank.should.equal(6);
+        callback(null, done);
+      }
+    ], function(err) {
+      if(err) { return done(err); }
+      done();
+    });
+  });
+  
+  it('can update leaderboard correctly when less than 10 users', function(done) {
+    async.waterfall([
+      function(callback) {
+        user.level = 5;
+        user.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        users.getRank(user.username, callback);
+      },
+      function(test_user_rank, callback) {
+        // increase the number of players of test user rank
+        test_user_rank.players++;
+        test_user_rank.save(function(err) {
+          callback(err);
+        });
+      },
+      function(callback) {
+        // remove some ranks so that number of ranks < 10
+        var ranks_to_remove = [];
+        for(var i = 7; i < 12; i++) {
+          ranks_to_remove.push(i);
+        }
+        async.forEach(ranks_to_remove, function(rank_to_remove, cb) {
+          helpers.m.Rank.remove({ rank: rank_to_remove }, cb);
+        }, callback);
+      },
+      function(callback) {
+        users.setExp(user.username, 6, callback);
+      },
+      function(callback) {
+        helpers.m.Leader.count({}, callback);
+      },
+      function(leader_count, callback) {
+        leader_count.should.equal(7);
         callback(null, done);
       }
     ], function(err) {
