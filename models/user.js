@@ -142,34 +142,12 @@ User.methods.getFriendNames = function(callback) {
 };
 
 /**
-* gets a list of all the information of the user's friends
+* gets a list of all the user's friend requests
 *
 * callback(err, list)
 **/
-User.methods.getFriendInfo = function(callback) {
-  async.parallel([
-    async.apply(async.map, this.friends, helpers.m.User.getUsername),
-    async.apply(async.map, this.friends, helpers.m.User.getUserInfo)
-  ], function(err, results) {
-    if(err) { return callback(err); }
-    // find statuses of all friends
-    async.map(results[0], users.getStatus, function(err, status) {
-      if(err) { return callback(err); }
-      for(var i = 0; i < status.length; i++) {
-        results[1][i].status = status[i];
-      }
-      callback(null, results[1]);
-    });
-  });
-};
-
-/**
-* gets a list of all the information of the user's friend requests
-*
-* callback(err, list)
-**/
-User.methods.getFriendRequestInfo = function(callback) {
-  async.map(this.friendRequests, helpers.m.User.getUserInfo, callback);
+User.methods.getFriendRequestNames = function(callback) {
+  async.map(this.friendRequests, helpers.m.User.getUsername, callback);
 };
 
 /**
@@ -268,12 +246,12 @@ User.statics.getUsername = function(id, cb) {
 /**
 * gets a username and profile based off an id
 *
-* callback(err, { username: username, profile: profile_photo })
+* callback(err, { username: username, profile: profile_photo, level: user_level })
 **/
 User.statics.getUserInfo = function(id, cb) {
-  helpers.m.User.findOne({ _id: id }, { username: true, profile: true }, function(err, results) {
+  helpers.m.User.findOne({ _id: id }, { username: true, profile: true, level: true }, function(err, results) {
     if(results) {
-      return cb(err, { username: results.username, profile: results.profile } );
+      return cb(err, { username: results.username, profile: results.profile, level: results.level } );
     } else {
       return cb(err, null);
     }

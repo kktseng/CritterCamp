@@ -132,10 +132,10 @@ describe('User', function() {
         if(err) { return done(err); }
 
         //assertion based on values set above
-        result.friend_list.should.eql([{ username: 'friend1', profile: 'profpic', status: 'in_party' }, 
-                                      { username: 'friend2', profile: 'profpic', status: 'in_group' }, 
-                                      { username: 'friend3', profile: 'profpic', status: 'online' },
-                                      { username: 'friend4', profile: 'profpic', status: 'offline'}]);
+        result.friend_list.should.eql([{ username: 'friend1', status: 'in_party' }, 
+                                      { username: 'friend2', status: 'in_group' }, 
+                                      { username: 'friend3', status: 'online' },
+                                      { username: 'friend4', status: 'offline'}]);
         done();
       })
     });
@@ -217,15 +217,7 @@ describe('User', function() {
     it('can retrieve friends requests list', function(done) {
       friend.getFriendList(user.username, function(err, result) {
         if(err) { return done(err); }
-        result.friend_requests.should.eql([{ username: 'friendRequest1', profile: 'profpic' }, 
-                                          { username: 'friendRequest2', profile: 'profpic' }]);
-        done();
-      })
-    });
-
-    it('can find information of friend requests', function(done) {
-      user.getFriendRequestInfo(function(err, names) {
-        names.should.eql([{ username: 'friendRequest1', profile: 'profpic' }, { username: 'friendRequest2', profile: 'profpic' }]);
+        result.friend_requests.should.eql([ 'friendRequest1', 'friendRequest2' ]);
         done();
       })
     });
