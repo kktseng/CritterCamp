@@ -7,4 +7,15 @@ var Leader = new Schema({
   rank: { type: Number, required: true }
 });
 
+Leader.index({ rank: 1 });
+
+/**
+* gets leaderboard in sorted order from 1 to 10
+*
+* callback(err, results)
+**/
+Leader.statics.getLeaders = function(callback) {
+  helpers.m.Leader.find({}, { _id: true }).sort({ rank: 1 }, callback);
+};
+
 module.exports = mongoose.model('Leader', Leader);

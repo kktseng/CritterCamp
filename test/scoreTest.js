@@ -77,14 +77,14 @@ describe('Score System', function() {
         async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
-        users.setExp(user.username, 6, callback);
+        users.setExp(user.username, 500, callback);
       },
       function(callback) {
         helpers.m.User.getUser(user.username, callback);
       },
       function(updated_user, callback) {
         updated_user.level.should.equal(6);
-        updated_user.exp.should.equal(6);
+        updated_user.exp.should.equal(500);
         users.getRank(user.username, callback);
       },
       function(test_user_rank, callback) {
@@ -135,14 +135,14 @@ describe('Score System', function() {
         async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
-        users.setExp(user.username, 11, callback);
+        users.setExp(user.username, 1050, callback);
       },
       function(callback) {
         helpers.m.User.getUser(user.username, callback);
       },
       function(updated_user, callback) {
         updated_user.level.should.equal(11);
-        updated_user.exp.should.equal(11);
+        updated_user.exp.should.equal(1050);
         users.getRank(user.username, callback);
       },
       function(test_user_rank, callback) {
@@ -182,14 +182,14 @@ describe('Score System', function() {
         async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
-        users.setExp(user.username, 5, callback);
+        users.setExp(user.username, 400, callback);
       },
       function(callback) {
         helpers.m.User.getUser(user.username, callback);
       },
       function(updated_user, callback) {
         updated_user.level.should.equal(5);
-        updated_user.exp.should.equal(5);
+        updated_user.exp.should.equal(400);
         users.getRank(user.username, callback);
       },
       function(test_user_rank, callback) {
@@ -231,7 +231,7 @@ describe('Score System', function() {
         }, callback);
       },
       function(callback) {
-        users.setExp(user.username, 6, callback);
+        users.setExp(user.username, 550, callback);
       },
       function(callback) {
         helpers.m.Leader.count({}, callback);

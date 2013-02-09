@@ -1,4 +1,5 @@
 var mongoose = require('mongoose'),
+    globals = require('../lib/globals'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
@@ -47,18 +48,44 @@ var getRank = Rank.statics.getRank = function(level, cb) {
 * callback(err, level)
 **/
 var getLevel = Rank.statics.getLevel = function(rank, cb) {
-  helpers.m.Rank.findOne({ rank: rank }, { level:true }, function(err, result) {
+  helpers.m.Rank.findOne({ rank: rank }, { level: true }, function(err, result) {
     if(err) { return cb(err); }
     return cb(err, result.level);
   });
 };
 
 /**
+* helper function that performs a binary search for the level corresponding to exp
+*
+**/
+var level_binary_search = function(start, end, exp) {
+  var middle = start + Math.floor((end - start) / 2);
+  if(globals.exp_to_level[middle] <= exp && globals.exp_to_level[middle + 1] > exp) {
+    return middle + 1; // account for 0-indexed array
+  }
+  else if(globals.exp_to_level[end] <= exp) {
+    return end + 1; // any exp > highest exp is highest level
+  }
+  else if(globals.exp_to_level[middle] > exp) {
+    return level_binary_search(start, middle, exp);
+  }
+  else if(globals.exp_to_level[middle+1] <= exp) {
+    return level_binary_search(middle, end, exp);
+  }
+  else {
+    return -1;
+  }
+}
+
+/**
 * calculates level based on experience
 *
 **/
 Rank.statics.calculateLevel = function(exp) {
-  return exp;
+  var start = 0;
+  var end = globals.exp_to_level.length - 1;
+  var result = level_binary_search(start, end, exp);
+  return result;
 }
 
 module.exports = mongoose.model('Rank', Rank);
