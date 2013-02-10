@@ -18,8 +18,8 @@ module.exports = function(app, basepath) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
       async.parallel([
         async.apply(helpers.m.News.findLatest),
-        async.apply(auth_user.getFriendInfo.bind(auth_user)),
-        async.apply(auth_user.getFriendRequestInfo.bind(auth_user))
+        async.apply(auth_user.getFriendNames.bind(auth_user)),
+        async.apply(auth_user.getFriendRequestNames.bind(auth_user))
       ], function(err, results) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
         // generate auth key for TCP connection
