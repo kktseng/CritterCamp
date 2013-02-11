@@ -60,16 +60,16 @@ var getLevel = Rank.statics.getLevel = function(rank, cb) {
 **/
 var level_binary_search = function(start, end, exp) {
   var middle = start + Math.floor((end - start) / 2);
-  if(globals.exp_to_level[middle] <= exp && globals.exp_to_level[middle + 1] > exp) {
+  if(globals.EXP_TO_LEVEL[middle] <= exp && globals.EXP_TO_LEVEL[middle + 1] > exp) {
     return middle + 1; // account for 0-indexed array
   }
-  else if(globals.exp_to_level[end] <= exp) {
+  else if(globals.EXP_TO_LEVEL[end] <= exp) {
     return end + 1; // any exp > highest exp is highest level
   }
-  else if(globals.exp_to_level[middle] > exp) {
+  else if(globals.EXP_TO_LEVEL[middle] > exp) {
     return level_binary_search(start, middle, exp);
   }
-  else if(globals.exp_to_level[middle+1] <= exp) {
+  else if(globals.EXP_TO_LEVEL[middle+1] <= exp) {
     return level_binary_search(middle, end, exp);
   }
   else {
@@ -83,7 +83,7 @@ var level_binary_search = function(start, end, exp) {
 **/
 Rank.statics.calculateLevel = function(exp) {
   var start = 0;
-  var end = globals.exp_to_level.length - 1;
+  var end = globals.EXP_TO_LEVEL.length - 1;
   var result = level_binary_search(start, end, exp);
   return result;
 }
