@@ -1,6 +1,7 @@
 var async = require('async'),
     bcrypt = require('bcrypt'),
     helpers = require('../lib/helpers'),
+    globals = require('../lib/globals'),
     mongoose = require('mongoose'),
     sha1 = require('crypto').createHash('sha1'),
     Schema = mongoose.Schema,
@@ -30,9 +31,6 @@ var User = new Schema({
 
 User.index({ level: -1 });
 
-var EMAIL_REGEX = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-var MAX_USERNAME_LENGTH = 15;
-
 /**
 * checks if username matches set criteria
 * does NOT check for existing users
@@ -40,8 +38,8 @@ var MAX_USERNAME_LENGTH = 15;
 function invalidUsername(username) {
   if(username.search(/[^A-Za-z0-9]/) !== -1) {
     return new Error('Usernames may only contain letters and numbers: ' + username);
-  } else if (username.length > MAX_USERNAME_LENGTH) {
-    return new Error('Usernames may only be up to ' + MAX_USERNAME_LENGTH + ' characters long: ' + username);
+  } else if (username.length > globals.MAX_USERNAME_LENGTH) {
+    return new Error('Usernames may only be up to ' + globals.MAX_USERNAME_LENGTH + ' characters long: ' + username);
   } else return null;
 }
 
@@ -218,9 +216,16 @@ User.statics.authenticate = function(username, password, callback) {
       return callback(new Error('User ' + username + ' not found'));
     }
     if(bcrypt.compareSync(password, user.password)) {
-      return callback(null, user);
+      user.loginCount++;
+      user.lastLogin = Date.now();
+      user.save(function(err) {
+        // ignore err; don't want metrics err to affect authentication
+        return callback(null, user);
+      });
     }
-    callback(new Error('Invalid password'));
+    else {
+      callback(new Error('Invalid password'));
+    }
   });
 };
 
