@@ -9,22 +9,24 @@ module.exports = function(app, basepath) {
   app.post(basepath, function(req, res) {
     var username = req.param('username');
     var password = req.param('password');
+    var version = req.param('version');
 
     if(!username || !password) {
-      res.send({ status: 'failure', message: 'You require a username and password.'})
+      res.send({ status: 'failure', message: 'You require a username and password.'});
     }
     // verify username and password
     helpers.m.User.authenticate(username, password, function(err, auth_user) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
+      // generate auth key for TCP connection
+      var key = helpers.rand();
       async.parallel([
         async.apply(helpers.m.News.findLatest),
         async.apply(auth_user.getFriendNames.bind(auth_user)),
-        async.apply(auth_user.getFriendRequestNames.bind(auth_user))
+        async.apply(auth_user.getFriendRequestNames.bind(auth_user)),
+        async.apply(helpers.redis.hset.bind(helpers.redis), 'auth', key, username),
+        async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + username, 'version', version)
       ], function(err, results) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
-        // generate auth key for TCP connection
-        var key = helpers.rand();
-        helpers.redis.hset('auth', key, username);
         res.send({ status: 'success', news: results[0], friends: results[1], requests: results[2], auth: key });
       });
     });
