@@ -1,4 +1,6 @@
 var async = require('async'),
+    leader = require('../lib/leader'),
+    users = require('../lib/users'),
     helpers = require('../lib/helpers');
 
 module.exports = function(app, basepath) {
@@ -19,15 +21,27 @@ module.exports = function(app, basepath) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
       // generate auth key for TCP connection
       var key = helpers.rand();
+      var percent_next_level = auth_user.getPercentNextLevel();
+
       async.parallel([
         async.apply(helpers.m.News.findLatest),
         async.apply(auth_user.getFriendNames.bind(auth_user)),
         async.apply(auth_user.getFriendRequestNames.bind(auth_user)),
+        async.apply(leader.getLeaderUsernames.bind(leader)),
+        async.apply(users.getRank.bind(users), auth_user.username),
         async.apply(helpers.redis.hset.bind(helpers.redis), 'auth', key, username),
         async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + username, 'version', version)
       ], function(err, results) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
-        res.send({ status: 'success', news: results[0], friends: results[1], requests: results[2], auth: key });
+        res.send({ status: 'success', 
+                    news: results[0], 
+                    friends: results[1], 
+                    requests: results[2],
+                    leaders: results[3],
+                    rank: results[4].rank,
+                    level: auth_user.level, 
+                    percentage_to_next_level: percent_next_level,
+                    auth: key });
       });
     });
   });
