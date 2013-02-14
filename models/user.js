@@ -149,6 +149,16 @@ User.methods.getFriendRequestNames = function(callback) {
 };
 
 /**
+* returns the percentage a user is to the next level (synchronous function)
+*
+*/
+User.methods.get_percentage_to_next_level = function() {
+  var exp_next_level = globals.EXP_TO_LEVEL[user.level + 2];
+  var exp_this_level = globals.EXP_TO_LEVEL[user.level + 1];
+  return (user.exp - exp_this_level) / (exp_next_level - exp_this_level);
+};
+
+/**
 * creates a user based on username and set password to hash of current time
 *
 * callback(err, user)
