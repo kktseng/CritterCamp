@@ -153,9 +153,10 @@ User.methods.getFriendRequestNames = function(callback) {
 *
 */
 User.methods.getPercentNextLevel = function() {
-  var exp_next_level = globals.EXP_TO_LEVEL[user.level + 2];
-  var exp_this_level = globals.EXP_TO_LEVEL[user.level + 1];
-  return (user.exp - exp_this_level) / (exp_next_level - exp_this_level);
+  var self = this;
+  var exp_next_level = globals.EXP_TO_LEVEL[self.level + 2];
+  var exp_this_level = globals.EXP_TO_LEVEL[self.level + 1];
+  return (self.exp - exp_this_level) / (exp_next_level - exp_this_level);
 };
 
 /**

@@ -21,14 +21,14 @@ module.exports = function(app, basepath) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
       // generate auth key for TCP connection
       var key = helpers.rand();
-      var percent_next_level = auth_user.getPercentNextLevel();
+      var percent_next_level = auth_user.getPercentNextLevel.bind(auth_user);
 
       async.parallel([
         async.apply(helpers.m.News.findLatest),
         async.apply(auth_user.getFriendNames.bind(auth_user)),
         async.apply(auth_user.getFriendRequestNames.bind(auth_user)),
-        async.apply(leader.getLeaderUsernames.bind(leader)),
-        async.apply(users.getRank.bind(users), auth_user.username),
+        async.apply(leader.getLeaderUsernames),
+        async.apply(users.getRank, auth_user.username),
         async.apply(helpers.redis.hset.bind(helpers.redis), 'auth', key, username),
         async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + username, 'version', version)
       ], function(err, results) {
