@@ -40,7 +40,7 @@ module.exports = function(app, basepath) {
                     leaders: results[3],
                     rank: results[4].rank,
                     level: auth_user.level, 
-                    percentage_to_next_level: percent_next_level,
+                    percentage: percent_next_level,
                     auth: key });
       });
     });
