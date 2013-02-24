@@ -15,7 +15,14 @@ Leader.index({ rank: 1 });
 * callback(err, results)
 **/
 Leader.statics.getLeaders = function(callback) {
-  helpers.m.Leader.find({}, { _id: true }).sort({ rank: 1 }, callback);
+  helpers.m.Leader.count({}, function(err, leader_count) {
+    if(err) { return callback(err); }
+    if(leader_count == 0) {
+      return callback(null, []);
+    } else {
+      helpers.m.Leader.find({}, { _id: true }).sort({ rank: 1 }, callback);
+    }
+  });
 };
 
 module.exports = mongoose.model('Leader', Leader);
