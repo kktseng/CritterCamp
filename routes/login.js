@@ -1,5 +1,4 @@
 var async = require('async'),
-    leader = require('../lib/leader'),
     users = require('../lib/users'),
     helpers = require('../lib/helpers');
 

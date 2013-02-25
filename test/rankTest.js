@@ -1,6 +1,5 @@
 var async = require('async'),
     users = require('../lib/users'),
-    leader = require('../lib/leader'),
     factory = require('./factory'),
     helpers = require('../lib/helpers'),
     should = require('should');
