@@ -1,0 +1,11 @@
+db.users.remove({});
+db.users.insert({ username: 'pablosanchez', password: 'pablosanchez123', email: 'pablosanchez@gmail.com' });
+db.users.insert({ username: 'petewheeler', password: 'petewheeler123', email: 'petewheeler@gmail.com' });
+db.users.insert({ username: 'achmedkhan', password: 'achmedkhan123', email: 'achmedkhan@gmail.com' });
+db.users.insert({ username: 'angeladelvecchio', password: 'angeladelvecchio123', email: 'angeladelvecchio@gmail.com' });
+db.users.insert({ username: 'kieshaphillips', password: 'kieshaphillips123', email: 'kieshaphillips@gmail.com' });
+db.users.insert({ username: 'kennykawaguchi', password: 'kennykawaguchi123', email: 'kennykawaguchi@gmail.com' });
+db.users.insert({ username: 'markydubois', password: 'markydubois123', email: 'markydubois@gmail.com' });
+db.users.insert({ username: 'erniesteele', password: 'erniesteele123', email: 'erniesteele@gmail.com' });
+db.users.insert({ username: 'ashleywebber', password: 'ashleywebber123', email: 'ashleywebber@gmail.com' });
+db.users.insert({ username: 'sydneywebber', password: 'sydneywebber123', email: 'sydneywebber@gmail.com' });
