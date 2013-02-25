@@ -1,5 +1,6 @@
 var async = require('async'),
     users = require('../lib/users'),
+    leader = require('../lib/leader'),
     factory = require('./factory'),
     helpers = require('../lib/helpers'),
     should = require('should');
@@ -97,7 +98,13 @@ describe('Score System', function() {
       },
       function(leader_7_username, callback) {
         leader_7_username.should.equal('ranked_user_5');
-        callback(null, done);
+        helpers.m.Leader.getLeaderUsernames(callback);
+      },
+      function(leaders, callback) {
+        leaders[0].should.equal('ranked_user_10');
+        leaders[5].should.equal('test_user');
+        leaders[9].should.equal('ranked_user_2');
+        callback();      
       }
     ], function(err) {
       if(err) { return done(err); }
@@ -246,5 +253,4 @@ describe('Score System', function() {
       done();
     });
   });
-
 });
