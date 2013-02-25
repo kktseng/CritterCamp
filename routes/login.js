@@ -27,7 +27,6 @@ module.exports = function(app, basepath) {
         async.apply(helpers.m.News.findLatest),
         async.apply(auth_user.getFriendNames.bind(auth_user)),
         async.apply(auth_user.getFriendRequestNames.bind(auth_user)),
-        async.apply(leader.getLeaderUsernames),
         async.apply(users.getRank, auth_user.username),
         async.apply(helpers.redis.hset.bind(helpers.redis), 'auth', key, username),
         async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + username, 'version', version)
@@ -37,8 +36,7 @@ module.exports = function(app, basepath) {
                     news: results[0], 
                     friends: results[1], 
                     requests: results[2],
-                    leaders: results[3],
-                    rank: results[4].rank,
+                    rank: results[3].rank,
                     level: auth_user.level, 
                     percentage: percent_next_level,
                     auth: key });
