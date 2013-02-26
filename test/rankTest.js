@@ -101,7 +101,7 @@ describe('Score System', function() {
       },
       function(leaders, callback) {
         leaders[0].should.equal('ranked_user_10');
-        leaders[5].should.equal('test_user');
+        // test_user is in between
         leaders[9].should.equal('ranked_user_2');
         callback();      
       }
@@ -193,50 +193,6 @@ describe('Score System', function() {
       function(test_user_rank, callback) {
         test_user_rank.rank.should.equal(6);
         callback(null);
-      }
-    ], function(err) {
-      if(err) { return done(err); }
-      done();
-    });
-  });
-
-  it('can update leaderboard correctly when less than 10 users', function(done) {
-    async.waterfall([
-      function(callback) {
-        user.level = 5;
-        user.save(function(err) {
-          callback(err);
-        });
-      },
-      function(callback) {
-        users.getRank(user.username, callback);
-      },
-      function(test_user_rank, callback) {
-        // increase the number of players of test user rank
-        test_user_rank.players++;
-        test_user_rank.save(function(err) {
-          callback(err);
-        });
-      },
-      function(callback) {
-        // remove some ranks so that number of ranks < 10
-        var ranks_to_remove = [];
-        for(var i = 8; i < 12; i++) {
-          ranks_to_remove.push(i);
-        }
-        async.forEach(ranks_to_remove, function(rank_to_remove, cb) {
-          helpers.m.Rank.remove({ rank: rank_to_remove }, cb);
-        }, callback);
-      },
-      function(callback) {
-        users.setExp(user.username, 55000, callback);
-      },
-      function(updated_user, callback) {
-        helpers.m.Leader.count({}, callback);
-      },
-      function(leader_count, callback) {
-        leader_count.should.equal(7);
-        callback(null, done);
       }
     ], function(err) {
       if(err) { return done(err); }
