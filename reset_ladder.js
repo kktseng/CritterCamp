@@ -1,4 +1,5 @@
 var mongodb = require('mongodb'),
+    globals = require('./lib/globals'),
     async = require('async');
 
 var server = new mongodb.Server("127.0.0.1", 27017, {});
@@ -14,8 +15,8 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
   var usernames = [ 'petewheeler', 'achmedkhan', 'angeladelvecchio', 'kieshaphillips', 'erniesteele',
                     'kennykawaguchi', 'markydubois', 'ashleywebber', 'sydneywebber', 'pablosanchez' ];
 
-  var insert_username = function(username, cb) {
-    users.insert({ username: username, password: username + '123', email: username + '@gmail.com', level: level_count }, { safe: true }, function(err, result) {
+  var upsert_username = function(username, cb) {
+    users.update({ username: username, password: username + '123', email: username + '@gmail.com' }, { $set: { level: level_count, exp: globals.EXP_TO_LEVEL[level_count-1] }}, { safe: true, upsert: true }, function(err, result) {
       if(err) { console.warn(err.message); }
       level_count++;
       cb();
@@ -34,14 +35,14 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
   };
 
   async.waterfall([
-    function clear_users(callback) {
-      users.remove({}, { safe: true }, function(err, result) {
+    function reset_users(callback) {
+      users.update({}, { $set: { level: 1, exp: 0 }}, { safe: true, multi: true }, function(err, result) {
         if(err) { console.warn(err.message); }
         callback();
       });
     },
-    function insert_dummy_users(callback) {
-      async.forEachSeries(usernames, insert_username, callback);
+    function upsert_dummy_users(callback) {
+      async.forEachSeries(usernames, upsert_username, callback);
     },
     function clear_ranks(callback) {
       ranks.remove({}, { safe: true }, function(err, result) {
