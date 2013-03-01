@@ -10,7 +10,8 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
 
   var password_hash = bcrypt.hashSync('password', 12);
 
-  users.insert({
+  users.update({ username: 'test_user1' },
+  {
     username: 'test_user1', 
     password: password_hash, 
     email: 'test_user1@gmail.com', 
@@ -26,9 +27,10 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
     loginCount: 0,
     moneySpent: 0,
     totalGames: 0
-  }, { safe: true }, function(err, result) {
+  }, { safe: true, upsert: true }, function(err, result) {
     if(err) { console.warn(err.message); }
-      users.insert({ 
+      users.update({ username: 'test_user2' },
+      { 
         username: 'test_user2', 
         password: password_hash, 
         email: 'test_user2@gmail.com',
@@ -44,7 +46,7 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
         loginCount: 0,
         moneySpent: 0,
         totalGames: 0
-      }, { safe: true }, function(err, result) {
+      }, { safe: true, upsert: true }, function(err, result) {
         if(err) { console.warn(err.message); }
         console.log('Initialize test users success!');
         server.close();
