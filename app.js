@@ -14,12 +14,23 @@ var crypto = require('crypto'),
 
 var app = express();
 
-var privateKey = fs.readFileSync('privatekey.pem').toString();
-var certificate = fs.readFileSync('certificate.pem').toString();
+// parses bundle for SSL Certification chain
+var ca = [];
+var chain = fs.readFileSync('./certs/www.thepigmaster.com.ca-bundle', 'utf8');
+chain = chain.split('\n');
+var cert = [];
+for(var line in chain) {
+  cert.push(line);
+  if(line.match()) {
+    ca.push(cert.join('\n'));
+    cert = [];
+  }
+}
 
 var options = {
-  key: fs.readFileSync('privatekey.pem'),
-  cert: fs.readFileSync('certificate.pem')
+  ca: fs.readFileSync('./certs/www.thepigmaster.com.ca-bundle'),
+  key: fs.readFileSync('./certs/www.thepigmaster.com.key'),
+  cert: fs.readFileSync('./certs/www.thepigmaster.com.crt')
 };
 
 app.configure(function() {
@@ -53,6 +64,7 @@ net.createServer(connection.request).listen(8000, function() {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/connect', routes.connect);
 
 var server = https.createServer(options, app).listen(app.get('port'), function() {
   logger.info('Server listening on port ' + app.get('port'));
