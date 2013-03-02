@@ -280,13 +280,7 @@ User.statics.getUserInfo = function(id, cb) {
 * callback(err, [{ _id: user_1_id }, { _id: user_2_id }, ... ])
 **/
 User.statics.getIdFromLevel = function(level, cb) {
-  helpers.m.User.find({ level: level }, { _id: true }, function(err, results) {
-    if(results) {
-      return cb(err, results);
-    } else {
-      return cb(err, null);
-    }
-  });
+  helpers.m.User.find({ level: level }, { _id: true }, cb);
 };
 
 /**
