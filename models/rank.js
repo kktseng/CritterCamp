@@ -27,7 +27,6 @@ Rank.statics.incrRank = function(level, cb) {
       rank.rank += 1;
       rank.save(cb);
     } else {
-      // should never reach here?
       return cb(new Error('No rank found for level ' + level));
     }
   });
@@ -49,7 +48,6 @@ var getRank = Rank.statics.getRank = function(level, cb) {
 **/
 var getLevel = Rank.statics.getLevel = function(rank, cb) {
   helpers.m.Rank.findOne({ rank: rank }, { level: true }, function(err, result) {
-    if(err) { return cb(err); }
     return cb(err, result.level);
   });
 };
