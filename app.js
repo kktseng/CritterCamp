@@ -67,10 +67,10 @@ app.get('/users', user.list);
 app.get('/connect', routes.connect);
 
 var server = https.createServer(options, app).listen(app.get('port'), function() {
-  logger.info('Server listening on port ' + app.get('port'));
+  logger.info('HTTPS server listening on port ' + app.get('port'));
 });
 
 // temporary non https server
 var server2 = http.createServer(app).listen(8080, function() {
-  logger.info('Server2 listening on port 80');
+  logger.info('HTTP server listening on port 8080');
 });
