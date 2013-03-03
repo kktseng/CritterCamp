@@ -164,9 +164,6 @@
     "should": {
       "version": "1.2.0"
     },
-    "websocket": {
-      "version": "1.0.7"
-    },
     "winston": {
       "version": "0.6.2",
       "dependencies": {
