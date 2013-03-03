@@ -10,13 +10,13 @@ See [here](https://github.com/kktseng/CritterCampClient) for the front end code.
 Useful wiki links:
 ==================
 
-[New Developer Setup](/kktseng/CritterCamp/wiki/New Developer Setup)
+[New Developer Setup](https://github.com/kktseng/CritterCamp/wiki/New Developer Setup)
 
 
-[New Server Setup](/kktseng/CritterCamp/wiki/New Server Setup)
+[New Server Setup](https://github.com/kktseng/CritterCamp/wiki/New Server Setup)
 
 
-[Upstart Script](/kktseng/CritterCamp/wiki/Upstart-script)
+[Upstart Script](https://github.com/kktseng/CritterCamp/wiki/Upstart-script)
 
 
-[Continuous Development Setup](/kktseng/CritterCamp/wiki/Continuous-Deployment)
+[Continuous Development Setup](https://github.com/kktseng/CritterCamp/wiki/Continuous-Deployment)
