@@ -1,5 +1,5 @@
 --require test/mocha
 --require should
 
--R spec
+-R nyan
 --ui bdd

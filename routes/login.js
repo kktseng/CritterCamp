@@ -1,4 +1,5 @@
 var async = require('async'),
+    globals = require('../lib/globals'),
     users = require('../lib/users'),
     helpers = require('../lib/helpers');
 
@@ -14,6 +15,10 @@ module.exports = function(app, basepath) {
 
     if(!username || !password) {
       res.send({ status: 'failure', message: 'You require a username and password.'});
+    }
+
+    if(version < globals.MIN_VERSION) {
+      res.send({ status: 'failure', message: 'Please update your game to a newer version.'});
     }
     // verify username and password
     helpers.m.User.authenticate(username, password, function(err, auth_user) {
