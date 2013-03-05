@@ -3,7 +3,6 @@ var async = require('async'),
     helpers = require('../lib/helpers'),
     globals = require('../lib/globals'),
     mongoose = require('mongoose'),
-    sha1 = require('crypto').createHash('sha1'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId,
     users = require('../lib/users');
