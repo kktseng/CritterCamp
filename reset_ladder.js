@@ -53,7 +53,7 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
     function insert_dummy_rank(callback) {
       for(var i = 1; i < 11; i++) {
         (function(level) {
-          ranks.insert({ level: level, rank: 11-level }, { safe: true }, function(err, results) {
+          ranks.insert({ level: level, rank: 11-level, players: 1 }, { safe: true }, function(err, results) {
             if(err) { console.warn(err.message); }
           });
         })(i);
