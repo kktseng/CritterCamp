@@ -13,6 +13,7 @@ var MAX_SCORE_LENGTH = 10;
 
 var Game = new Schema({
   name: { type: String, required: true },
+  minVersion: { type: String, require: true }
 });
 
 Game.index({ name: 1 });
