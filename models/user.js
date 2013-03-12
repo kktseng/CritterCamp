@@ -223,7 +223,7 @@ User.statics.authenticate = function(username, password, callback) {
   helpers.m.User.findOne(criteria, function(err, user) {
     if(err) { return callback(err); }
     if(!user) {
-      return callback(new Error('Invalid username and password.');
+      return callback(new Error('Invalid username and password.'));
     }
     if(bcrypt.compareSync(password, user.password)) {
       user.loginCount++;
