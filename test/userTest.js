@@ -68,7 +68,7 @@ describe('User', function() {
 
     it('can create new user account with only username and login with it', function(done) {
       helpers.m.User.remove( { username: 'createusertest'} , function(err) {
-        helpers.m.User.createUser('createusertest', function(err, created_user, created_user_password) {
+        helpers.m.User.createUser('createusertest', undefined, function(err, created_user, created_user_password) {
           if(err) { return done(err); }
           helpers.m.User.authenticate(created_user.username, created_user_password, function(auth_err, auth_user) {
             if(auth_err) { return done(auth_err); }
@@ -94,7 +94,7 @@ describe('User', function() {
     });
 
     it('should not create user account with existing username when password not provided', function(done) {
-      helpers.m.User.createUser('createusertest', function(err) {
+      helpers.m.User.createUser('createusertest', undefined, function(err) {
         err.should.eql(new Error('User createusertest already exists'));
         done();
       });

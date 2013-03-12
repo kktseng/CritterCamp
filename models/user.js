@@ -159,11 +159,11 @@ User.methods.getPercentNextLevel = function() {
 };
 
 /**
-* creates a user based on username and set password to hash of current time
+* creates a user based on username and set password to hash of current time if no password is provided
 *
 * callback(err, user)
 **/
-User.statics.createUser = function(username, callback) {
+User.statics.createUser = function(username, password, callback) {
   if(invalidUsername(username)) {
     return callback(invalidUsername(username));
   }
@@ -172,7 +172,7 @@ User.statics.createUser = function(username, callback) {
     if(results) {
       return callback(new Error('Username ' + username + ' already exists'));
     } else {
-      var password = helpers.rand();
+      password = password || helpers.rand();
       var encrypted = helpers.m.User.hashPassword(password);
       var user = new helpers.m.User({ username: username , password: encrypted });
       user.save( function(err, user_object) { 

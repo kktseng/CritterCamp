@@ -36,14 +36,16 @@ module.exports = function(app, basepath) {
         async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + username, 'version', version)
       ], function(err, results) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
-        res.send({ status: 'success', 
-                    news: results[0], 
-                    friends: results[1], 
-                    requests: results[2],
-                    rank: results[3].rank,
-                    level: auth_user.level, 
-                    percentage: percent_next_level,
-                    auth: key });
+        res.send({
+          status: 'success', 
+          news: results[0], 
+          friends: results[1], 
+          requests: results[2],
+          rank: results[3].rank,
+          level: auth_user.level, 
+          percentage: percent_next_level,
+          auth: key 
+        });
       });
     });
   });
@@ -54,9 +56,10 @@ module.exports = function(app, basepath) {
 
   app.post(basepath + '/create', function(req, res) {
     var username = req.param('username');
+    var password = req.param('password');
 
     // create account
-    helpers.m.User.createUser(username, function(err, created_user, created_user_password) {
+    helpers.m.User.createUser(username, password, function(err, created_user, created_user_password) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
       res.send({ status: 'success', password: created_user_password });
     });
