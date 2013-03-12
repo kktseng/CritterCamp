@@ -38,7 +38,7 @@ module.exports = function(app, basepath) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
         res.send({
           status: 'success',
-          message: 'Login Successful!'
+          message: 'Login Successful!',
           news: results[0], 
           friends: results[1], 
           requests: results[2],
