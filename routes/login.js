@@ -37,7 +37,8 @@ module.exports = function(app, basepath) {
       ], function(err, results) {
         if(err) { return res.send({ status: 'failure', message: err.message }) };
         res.send({
-          status: 'success', 
+          status: 'success',
+          message: 'Login Successful!'
           news: results[0], 
           friends: results[1], 
           requests: results[2],
@@ -61,7 +62,7 @@ module.exports = function(app, basepath) {
     // create account
     helpers.m.User.createUser(username, password, function(err, created_user, created_user_password) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
-      res.send({ status: 'success', password: created_user_password });
+      res.send({ status: 'success', message: 'User successfully created!', password: created_user_password });
     });
   });
 };
