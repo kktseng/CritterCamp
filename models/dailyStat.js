@@ -66,4 +66,5 @@ DailyStat.statics.aggregateGame = function(game, callback) {
   });
 };
 
+module.exports = mongoose.model('GameStat', GameStat);
 module.exports = mongoose.model('DailyStat', DailyStat);

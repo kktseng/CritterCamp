@@ -27,18 +27,18 @@ var getLeaders = Leader.statics.getLeaders = function(callback) {
 };
 
 /**
-* gets leader usernames in sorted order from 1 to 10
+* gets leader users' info in sorted order from 1 to 10
 *
 * callback(err, results)
 **/
-Leader.statics.getLeaderUsernames = function(callback) {
+Leader.statics.getLeaderInfo = function(callback) {
   var leader_ids = [];
   getLeaders(function(err, leaders) {
     leaders.forEach(function(leader) {
       leader_ids.push(leader.user);
     });
     // get usernames of leaders from user ids
-    async.map(leader_ids, helpers.m.User.getUsername, callback);
+    async.map(leader_ids, helpers.m.User.getUserInfo, callback);
   });
 };
 

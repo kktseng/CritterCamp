@@ -97,12 +97,12 @@ describe('Score System', function() {
       },
       function(leader_7_username, callback) {
         leader_7_username.should.equal('ranked_user_5');
-        helpers.m.Leader.getLeaderUsernames(callback);
+        helpers.m.Leader.getLeaderInfo(callback);
       },
-      function(leaders, callback) {
-        leaders[0].should.equal('ranked_user_10');
+      function(leader_info, callback) {
+        leader_info[0].username.should.equal('ranked_user_10');
         // test_user is in between
-        leaders[9].should.equal('ranked_user_2');
+        leader_info[9].username.should.equal('ranked_user_2');
         callback();      
       }
     ], function(err) {

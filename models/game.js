@@ -20,4 +20,5 @@ function scoreSort(a, b) {
   return a.score <= b.score;
 }
 
+module.exports = mongoose.model('Score', Score);
 module.exports = mongoose.model('Game', Game);
