@@ -6,7 +6,7 @@ var mongodb = require('mongodb'),
 var gameMap = {
   'twilight_tango': '1.0',
   'jetpack_jamboree': '1.0',
-  'missle_madness': '1.0'
+  'missile_madness': '1.0'
 };
 
 var server = new mongodb.Server("127.0.0.1", 27017, {});
@@ -17,10 +17,10 @@ new mongodb.Db('pig_dev', server, { w: 1 }).open(function(error, client) {
 
   var password_hash = bcrypt.hashSync('password', 12);
 
-  users.update({ username: 'test_user1' }, {
-    username: 'test_user1',
+  users.update({ username: 'testuser1' }, {
+    username: 'testuser1',
     password: password_hash,
-    email: 'test_user1@gmail.com', 
+    email: 'testuser1@gmail.com', 
     profile: 'pig',
     friends: [],
     friendRequests: [],
@@ -35,10 +35,10 @@ new mongodb.Db('pig_dev', server, { w: 1 }).open(function(error, client) {
     totalGames: 0
   }, { safe: true, upsert: true }, function(err, result) {
     if(err) { console.warn(err.message); }
-    users.update({ username: 'test_user2' }, { 
-      username: 'test_user2', 
+    users.update({ username: 'testuser2' }, { 
+      username: 'testuser2', 
       password: password_hash, 
-      email: 'test_user2@gmail.com',
+      email: 'testuser2@gmail.com',
       profile: 'pig',
       friends: [],
       friendRequests: [],
