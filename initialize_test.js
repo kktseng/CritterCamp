@@ -51,7 +51,7 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
       if(err) { console.warn(err.message); }
       games.update({ name: 'jetpack_jamboree' }, { name: 'jetpack_jamboree' }, { safe: true, upsert: true }, function(err, result) {
         if(err) { console.warn(err.message); }
-        games.update({ name: 'starry_night' }, { name: 'starry_night' }, { safe: true, upsert: true }, function(err, result) {
+        games.update({ name: 'twilight_tango' }, { name: 'twilight_tango' }, { safe: true, upsert: true }, function(err, result) {
           if(err) { console.warn(err.message); }
           console.log('Initialize test users success!');
           server.close();
