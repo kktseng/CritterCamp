@@ -36,9 +36,9 @@ User.index({ level: -1 });
 **/
 function invalidUsername(username) {
   if(username.search(/[^A-Za-z0-9]/) !== -1) {
-    return new Error('Usernames may only contain letters and numbers: ' + username);
+    return new Error('Usernames may only contain letters and numbers: ' + username) + '.';
   } else if (username.length > globals.MAX_USERNAME_LENGTH) {
-    return new Error('Usernames may only be up to ' + globals.MAX_USERNAME_LENGTH + ' characters long: ' + username);
+    return new Error('Usernames may only be up to ' + globals.MAX_USERNAME_LENGTH + ' characters long: ' + username + '.');
   } else return null;
 }
 
@@ -65,7 +65,7 @@ User.methods.addFriend = function(username, callback) {
     if(!id) {
       return callback(new Error('No id found for username ' + username));
     } else if(self.friends.indexOf(id) > -1) {
-      return callback(new Error('User ' + username + ' already in friends list'));
+      return callback(new Error('User ' + username + ' already in friends list.'));
     }
     self.friends.push(id);
     self.save(callback);
@@ -84,7 +84,7 @@ User.methods.addFriendRequest = function(username, callback) {
     if(!id) {
       return callback(new Error('No id found for username ' + username));
     } else if(self.friendRequests.indexOf(id) > -1) {
-      return callback(new Error('User ' + username + ' already in friend requests list'));
+      return callback(new Error('User ' + username + ' already in friend requests list.'));
     }
     self.friendRequests.push(id);
     self.save(callback);
@@ -101,9 +101,9 @@ User.methods.removeFriend = function(username, callback) {
   helpers.m.User.getId(username, function(err, id) {
     if(err) { return callback(err); }
     if(!id) {
-      return callback(new Error('No id found for username ' + username));
+      return callback(new Error('No id found for username ' + username + '.'));
     } else if(self.friends.indexOf(id) < 0) {
-      return callback(new Error('User ' + username + 'not on friends list'));
+      return callback(new Error('User ' + username + 'not on friends list.'));
     }
     self.friends.splice(self.friends.indexOf(id), 1);
     self.save(callback);
@@ -120,9 +120,9 @@ User.methods.removeFriendRequest = function(username, callback) {
   helpers.m.User.getId(username, function(err, id) {
     if(err) { return callback(err); }
     if(!id) {
-      return callback(new Error('No id found for username ' + username));
+      return callback(new Error('No id found for username ' + username + '.'));
     } else if(self.friendRequests.indexOf(id) < 0) {
-      return callback(new Error('User ' + username + 'not on friend requests list'));
+      return callback(new Error('User ' + username + 'not on friend requests list.'));
     }
     self.friendRequests.splice(self.friendRequests.indexOf(id), 1);
     self.save(callback);
@@ -170,13 +170,13 @@ User.statics.createUser = function(username, password, callback) {
   helpers.m.User.findOne({ username: username }, function(err, results) {
     if(err) { return callback(err); }
     if(results) {
-      return callback(new Error('Username ' + username + ' already exists'));
+      return callback(new Error('Username ' + username + ' already exists.'));
     } else {
       password = password || helpers.rand();
       var encrypted = helpers.m.User.hashPassword(password);
       var user = new helpers.m.User({ username: username , password: encrypted });
       user.save( function(err, user_object) { 
-        return callback(err, user_object, password); 
+        return callback(err, user_object, password);
       });
     }
   });
@@ -197,9 +197,9 @@ User.statics.createUserAccount = function(username, email, password, callback) {
   ], function(err, results) {
     if(err) { return callback(err); }
     if(results[0]) {
-      return callback(new Error('Username ' + username + ' already exists'));
+      return callback(new Error('Username ' + username + ' already exists.'));
     } else if(results[1]) {
-      return callback(new Error('Email ' + email + ' already in use'));
+      return callback(new Error('Email ' + email + ' already in use.'));
     } else {
       var encrypted = helpers.m.User.hashPassword(password);
       var user = new helpers.m.User({ username: username, email: email, password: encrypted });
@@ -223,7 +223,7 @@ User.statics.authenticate = function(username, password, callback) {
   helpers.m.User.findOne(criteria, function(err, user) {
     if(err) { return callback(err); }
     if(!user) {
-      return callback(new Error('User ' + username + ' not found'));
+      return callback(new Error('Invalid username and password.');
     }
     if(bcrypt.compareSync(password, user.password)) {
       user.loginCount++;
@@ -234,7 +234,7 @@ User.statics.authenticate = function(username, password, callback) {
       });
     }
     else {
-      callback(new Error('Invalid password'));
+      callback(new Error('Invalid username and password.'));
     }
   });
 };
