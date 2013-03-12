@@ -20,6 +20,6 @@ Game.index({ name: 1 });
 
 function scoreSort(a, b) {
   return a.score <= b.score;
-};
+}
 
 module.exports = mongoose.model('Game', Game);
