@@ -5,14 +5,17 @@ var helpers = require('../lib/helpers'),
 
 var DailyStat = new Schema({
   date: { type: Date, default: Date.now },
-  game: { type: ObjectId, ref: 'Game', required: true },
-  totalPlays: { type: Number, default: 0 },
-  uniqueUsers: { type: Number, default: 0 },
-  goldSpent: { type: Number, default: 0 },
-  goldEarned: { type: Number, default: 0 }
+  gameStats: [{ type: ObjectId, ref: 'GameStat' }],
+  goldSpent: { type: Number, default: 0 }
 });
 
 DailyStat.index({ date: 1, game: 1 });
+
+var GameStat = new Schema({
+  game: { type: String, required: true },
+  totalPlays: { type: Number, default: 0 },
+  uniqueUsers: { type: Number, default: 0 }
+});
 
 /**
 * aggregates all the stats for a given day

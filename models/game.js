@@ -9,8 +9,6 @@ var Score = new Schema({
   time: { type: Date, default: Date.now }
 });
 
-var MAX_SCORE_LENGTH = 10;
-
 var Game = new Schema({
   name: { type: String, required: true },
   minVersion: { type: String, require: true }

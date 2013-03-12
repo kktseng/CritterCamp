@@ -13,9 +13,9 @@ var User = new Schema({
   email: { type: String },
   profile: { type: String, default: 'pig' },
 
-  friends: [ { type: ObjectId, ref: 'User' } ],
-  friendRequests: [ { type: ObjectId, ref: 'User' } ],
-  achievements: [ { type: ObjectId, ref: 'Achievement' } ],
+  friends: [{ type: ObjectId, ref: 'User' }],
+  friendRequests: [{ type: ObjectId, ref: 'User' }],
+  achievements: [{ type: ObjectId, ref: 'Achievement' }],
   gold: { type: Number, default: 0 },
   exp: { type: Number, default: 0 },
   level: { type: Number, default: 1 },
