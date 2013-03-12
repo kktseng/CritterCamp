@@ -7,7 +7,7 @@ var encrypted_password = helpers.m.User.hashPassword('password');
 exports.user = function(parameters, callback) {
   if(typeof(parameters) == 'function') {
     callback = parameters;
-    parameters = { username: 'test_user' };
+    parameters = { username: 'testuser' };
   }
   helpers.m.User.findOne({ username: parameters.username }, function(err, user) {
     if(err) { return callback(err); }

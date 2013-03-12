@@ -50,8 +50,8 @@ describe('User', function() {
     });
 
     it('should not authenticate user whose username does not exist', function(done) {
-      helpers.m.User.authenticate('nonexistent_user', 'password', function(err) {
-        err.should.eql(new Error('User nonexistent_user not found'));
+      helpers.m.User.authenticate('nonexistentuser', 'password', function(err) {
+        err.should.eql(new Error('User nonexistentuser not found'));
         done();
       });
     });
@@ -80,14 +80,14 @@ describe('User', function() {
     });
 
     it('should not create user account with existing username when password provided', function(done) {
-      helpers.m.User.createUserAccount('test_user', 'test@gmail.com', 'password', function(err) { 
-        err.should.eql(new Error('User test_user already exists'));
+      helpers.m.User.createUserAccount('testuser', 'test@gmail.com', 'password', function(err) { 
+        err.should.eql(new Error('User testuser already exists'));
         done();
       });
     });
 
     it('should not create user account with existing email', function(done) {
-      helpers.m.User.createUserAccount('new_user', 'leungxa@gmail.com', 'password', function(err) {
+      helpers.m.User.createUserAccount('newuser', 'leungxa@gmail.com', 'password', function(err) {
         err.should.eql(new Error('Email leungxa@gmail.com already in use'));
         done();
       });
