@@ -17,20 +17,32 @@ new mongodb.Db('pig_dev', server, { w: 1 }).open(function(error, client) {
   var updateGameMetrics = function updateGameMetrics(game_obj, callback) {
     var game_name = game_obj.name;
 
-    redis_client.get('game_stat_' + game_name + '_count', function(err, count) {
-      if(err) { return console.warn(err.message); }
-      redis_client.set('game_stat_' + game_name + '_count', 0, function(err) {
-        if(err) { return console.warn(err.message); }
+    async.waterfall([
+      function(cb) {
+        redis_client.get('game_stat_' + game_name + '_count', cb);
+      },
+      function(count, cb) {
+        redis_client.set('game_stat_' + game_name + '_count', 0, function(err) {
+          if(err) { return console.warn(err.message); }
+          return cb(null, count);
+        });
+      },
+      function(count, cb) {
         redis_client.scard('game_stat_' + game_name + '_users', function(err, num_users) {
           if(err) { return console.warn(err.message); }
-          redis_client.sdiff('game_stat_' + game_name + '_users', function(err, result) {
-            if(err) { return console.warn(err.message); }
-            gamestat.insert({ name: game_name, date: Date.now(), totalPlays: count, uniqueUsers: num_users }, { safe: true }, callback);
-          });
+          return cb(null, count, num_users);
         });
-      });
+      },
+      function(count, num_users, cb) {
+        redis_client.sdiff('game_stat_' + game_name + '_users', function(err, result) {
+          if(err) { return console.warn(err.message); }
+          return cb(null, count, num_users, result);
+        });
+      }
+    ], function(err, count, num_users, result) {
+      if(err) { return console.warn(err.message); }
+      gamestat.insert({ name: game_name, date: Date.now(), totalPlays: count, uniqueUsers: num_users }, { safe: true }, callback);
     });
-
   };
 
   game.find({}).toArray(function(err, games) {
