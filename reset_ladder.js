@@ -71,7 +71,7 @@ new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
     }
   ], function(err) {
     if(err) { console.warn(err.message); }
-    console.log('Reset ladder success!');
+    else { console.log('Reset ladder success!'); }
     server.close();
   });
 
