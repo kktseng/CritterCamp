@@ -13,6 +13,7 @@ DailyStat.index({ date: 1, game: 1 });
 
 var GameStat = new Schema({
   game: { type: String, required: true },
+  date: { type: Date, default: Date.now },
   totalPlays: { type: Number, default: 0 },
   uniqueUsers: { type: Number, default: 0 }
 });
