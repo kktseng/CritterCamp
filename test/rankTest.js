@@ -90,13 +90,6 @@ describe('Score System', function() {
       },
       function(ranked_user_5_rank, callback) {
         ranked_user_5_rank.rank.should.equal(7);
-        helpers.m.Leader.findOne({ rank: 7 }, {}, callback);
-      },
-      function(leader_7, callback) {
-        helpers.m.User.getUsername(leader_7.user, callback);
-      },
-      function(leader_7_username, callback) {
-        leader_7_username.should.equal('ranked_user_5');
         helpers.m.Leader.getLeaderInfo(callback);
       },
       function(leader_info, callback) {
@@ -208,4 +201,5 @@ describe('Score System', function() {
       done();
     });
   });
+
 });
