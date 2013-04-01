@@ -48,7 +48,7 @@ new mongodb.Db('pig_dev', server, { w: 1 }).open(function(error, client) {
   game.find({}).toArray(function(err, games) {
     async.forEach(games, updateGameMetrics, function(err) {
       if(err) { console.warn(err.message); }
-      else { console.log('Update metrics success!'); }
+      else { console.log('Update daily metrics success!'); }
       server.close();
     });
   });
