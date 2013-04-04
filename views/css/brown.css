@@ -1,0 +1,71 @@
+    
+    /* Brown color variation for the landing page */
+    
+    #head {
+        background:url(../img/brown/brown_head.png);
+    }
+    
+    h1 {
+        color:#704924;
+    }
+    
+    h1 span {
+        color:#392218;
+    }
+
+    h2 {
+        color: #704924;
+    }
+
+    .ribbon {
+        background:url(../img/brown/brown_ribbon.png);
+    }
+
+    .indicator {
+        background: #704924;
+    }
+
+    .apple {
+        background:url(../img/brown/brown_button_apple.png);
+    }
+
+    .google {
+        background:url(../img/brown/brown_button_google.png);
+    }
+            
+
+    .icon {
+        background:url(../img/brown/brown_circle.png);
+    }
+
+    .other-stuff-up {
+        background:url(../img/brown/brown_other_button_up.png);
+    }
+
+    .other-stuff-down {
+    background:url(../img/brown/brown_other_button_down.png);
+    }
+
+    .subscribe input[type="submit"] {
+        background: #704924;
+    }
+
+    .quote:before {
+        background:url(../img/brown/brown_quato_left.png);
+    }
+
+    .quote:after {
+        background:url(../img/brown/brown_quato_right.png);
+    }
+
+    .about-us {
+        background:url(../img/brown/brown_aboutus.png) no-repeat top center;
+    }
+
+    .contact-us {
+        background:url(../img/brown/brown_sendmsg.png) no-repeat top center;
+    }
+
+    #footer {
+        background:url(../img/brown/brown_footer.png) no-repeat top center;
+    }

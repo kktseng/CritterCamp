@@ -1,0 +1,18 @@
+#store {
+	overflow: hidden;
+}
+
+.bar-elapsed {
+	margin-left: 8px;
+	background: #9b9ea1;
+}
+
+.subscribe input[type="text"] {
+	height: 30px;
+	padding-top: 10px;
+}
+
+#conact-container input[type="text"] {
+	height: 25px;
+	padding-top: 5px;
+}

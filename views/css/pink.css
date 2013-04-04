@@ -1,0 +1,69 @@
+    
+	/* pink color variation for the landing page */
+
+    #head {
+        background:url(../img/pink/pink_head.png);
+    }
+
+    h1 {
+        color:#b05a9b;
+    }
+    
+    h1 span {
+        color:#392218;
+    }
+
+    h2 {
+        color: #b05a9b;
+    }
+
+    .indicator {
+        background: #b05a9b;
+    }
+
+    .subscribe input[type="submit"] {
+        background: #b05a9b;
+    }
+
+    .icon {
+        background:url(../img/pink/pink_circle.png);
+    }
+    
+    .apple {
+        background:url(../img/pink/pink_button_apple.png);
+    }
+
+    .google {
+        background:url(../img/pink/pink_button_google.png);
+    }
+
+    .ribbon {
+        background:url(../img/pink/pink_ribbon.png);
+    }
+
+    .other-stuff-up {
+        background:url(../img/pink/pink_other_button_up.png);
+    }
+
+    .quote:before {
+        background:url(../img/pink/pink_quato_left.png);
+    }
+
+    .quote:after {
+        background:url(../img/pink/pink_quato_right.png);
+    }
+
+    .other-stuff-down {
+        background:url(../img/pink/pink_other_button_down.png);
+    }
+
+    .contact-us {
+        background:url(../img/pink/pink_sendmsg.png) no-repeat top center;
+    }
+    .about-us {
+        background:url(../img/pink/pink_aboutus.png) no-repeat top center;
+    }
+
+    #footer {
+        background:url(../img/pink/pink_footer.png) no-repeat top center;
+    }

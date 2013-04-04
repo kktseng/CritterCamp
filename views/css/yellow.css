@@ -1,0 +1,79 @@
+    
+	/* yellow color variation for the landing page */
+
+    #head {
+        background:url(../img/yellow/yellow_head.png);
+    }
+
+    h1 {
+        color:#b3b936;
+    }
+    
+    h1 span {
+        color:#392218;
+    }
+
+    h2 {
+        color: #b3b936;
+    }
+
+    h3 {
+        color: #504f53;
+    }
+
+    .indicator {
+        background: #b3b936;
+        color: #504f53;
+    }
+
+    .icon {
+        background:url(../img/yellow/yellow_circle.png);
+        color: #504f53;
+    }
+
+    .subscribe input[type="submit"] {
+        background: #b3b936;
+        color: #504f53;
+    }
+
+    .apple {
+        background:url(../img/yellow/yellow_button_apple.png);
+    }
+
+    .google {
+        background:url(../img/yellow/yellow_button_google.png);
+    }
+
+    .ribbon {
+        background:url(../img/yellow/yellow_ribbon.png);
+    }
+
+    .other-stuff-up {
+        background:url(../img/yellow/yellow_other_button_up.png);
+        color: #504f53;
+    }
+
+    .quote:before {
+        background:url(../img/yellow/yellow_quato_left.png);
+    }
+
+    .quote:after {
+        background:url(../img/yellow/yellow_quato_right.png);
+    }
+
+    .other-stuff-down {
+        background:url(../img/yellow/yellow_other_button_down.png);
+        color: #504f53;
+    }
+
+    .contact-us {
+        background:url(../img/yellow/yellow_sendmsg.png) no-repeat top center;
+    }
+
+    .about-us {
+        background:url(../img/yellow/yellow_aboutus.png) no-repeat top center;
+    }
+
+    #footer {
+        background:url(../img/yellow/yellow_footer.png) no-repeat top center;
+    }

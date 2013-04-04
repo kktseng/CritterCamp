@@ -1,0 +1,72 @@
+    
+	/* red color variation for the landing page */
+
+    #head {
+        background:url(../img/red/red_head.png);
+    }
+
+    h1 {
+        color:#d15238;
+    }
+    
+    h1 span {
+        color:#392218;
+    }
+
+    h2 {
+        color: #d15238;
+    }
+
+    .indicator {
+        background: #d15238;
+    }
+
+    .subscribe input[type="submit"] {
+        background: #d15238;
+    }
+
+    .icon {
+        background:url(../img/red/red_circle.png);
+    }
+
+    .apple {
+        background:url(../img/red/red_button_apple.png);
+    }
+
+    .quote:before {
+        background:url(../img/red/red_quato_left.png);
+    }
+
+    .quote:after {
+        background:url(../img/red/red_quato_right.png);
+    }
+
+    .google {
+        background:url(../img/red/red_button_google.png);
+    }
+
+    .ribbon {
+        background:url(../img/red/red_ribbon.png);
+    }
+    .other-stuff-up {
+        background:url(../img/red/red_other_button_up.png);
+    }
+
+    .other-stuff-down {
+        background:url(../img/red/red_other_button_down.png);
+    }
+
+    .icon {
+        background:url(../img/red/red_circle.png);
+    }
+    .contact-us {
+        background:url(../img/red/red_sendmsg.png) no-repeat top center;
+    }
+
+    .about-us {
+        background:url(../img/red/red_aboutus.png) no-repeat top center;
+    }
+
+    #footer {
+        background:url(../img/red/red_footer.png) no-repeat top center;
+    }
