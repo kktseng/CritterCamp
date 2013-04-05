@@ -41,8 +41,8 @@ html
                   img(src='img/02.png')
           #div
             #text
-              ul#textlength
-                li#div0.display
+              #textlength
+                #div0.display
                   h1
                     | WELCOME TO CRITTER CAMP
                     br
@@ -50,33 +50,13 @@ html
                       | the games are
                       br
                       | about to begin!
-                li#div1.display
-                  h1
-                    | Penis
-                    br
-                    span Vagina
-                li#div2.display
-                  h1
-                    | LandingSpace is the place for a
-                    span start of your app
-                li#div3.display
-                  h1
-                    | Present your application on
-                    br
-                    span
-                      | this great
-                      br
-                      | place
             #store
-              ul
-                li#div0.google
-                  a(href='#', title='')
-                li#div1.storeicon.apple
-                  a(href='#', title='')
-                li#div2.storeicon.google
-                  a(href='#', title='')
-                li#div3.storeicon.apple
-                  a(href='#', title='')
+              .apple
+                  img(src='img/green/green_button_apple_simple.png')
+              .google
+                  img(src='img/green/green_button_google_simple.png')
+              .windows
+                  img(src='img/green/green_button_windows_simple.png')
       #middle
         #table.wooden-table
         .inner.inner-margin_top
@@ -120,7 +100,7 @@ html
               img(src='img/pigUp.png')
             h2 discover new camp mini-games
             p
-              | Playing the same camp games over and over
+              | Playing the same games over and over
               | would be boring. That's why you can vote on which camp
               | game you'd like to play so you'll get to be a part
               | of a variety of competitions. We'll also constantly 
@@ -171,9 +151,9 @@ html
             | exe ea commodo consequatq. Duis autem vel eum iriure dolor in hendrerit
         .contact-us
         .social
-          a(href='http://www.facebook.com/chillipear', target='_blank')
+          a(href='http://www.facebook.com/CritterCampGame', target='_blank')
             img(src='img/facebook.png')
-          a(href='https://twitter.com/chillipear', target='_blank')
+          a(href='https://twitter.com/CritterCampGame', target='_blank')
             img(src='img/twitter.png')
           a(href='#', target='_blank')
             img(src='img/vimeo.png')
@@ -244,18 +224,4 @@ html
         var textLength = $('#textlength li').length;
         var timer = setInterval(showDiv, 5000);
         var counter = 0;
-
-        function showDiv() {
-          if (counter ==0) { counter++; return; }
-          $('#div0').hide();
-          $('li','#div')
-            .stop()
-            .animate({ opacity: 0 }, 100)
-            .hide()
-            .filter(function() { return this.id.match('div' + counter); })
-            .animate({ opacity: 1, marginLeft: 0 }, 300)
-            .show();
-          $('.storeicon').css('margin-left', '-400px');
-          counter == textLength - 1 ? counter = 0 : counter++;
-        }
       });

@@ -92,7 +92,7 @@ h1,h2,h3 {
 
              
             #store {
-                width:330px;
+                width:320px;
                 height:87px;
                 float:right;
                 clear:both;
@@ -100,12 +100,12 @@ h1,h2,h3 {
             }
 
                 #store li {
-                    width: 330px;
+                    width: 320px;
                     height: 87px;
                 }
 
                 #store a {
-                    width: 330px;
+                    width: 320px;
                     height: 87px;
                     display: block;
                 }
