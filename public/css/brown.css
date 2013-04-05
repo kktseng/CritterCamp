@@ -26,13 +26,18 @@
     }
 
     .apple {
-        background:url(../img/brown/brown_button_apple.png);
+        position: absolute;
     }
 
     .google {
-        background:url(../img/brown/brown_button_google.png);
+        margin: 0 0 0 160px;
+        position: absolute;
     }
-            
+
+    .windows {
+        margin: 60px 0 0 0;
+        position: absolute;
+    }     
 
     .icon {
         background:url(../img/brown/brown_circle.png);
