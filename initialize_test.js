@@ -6,7 +6,7 @@ var mongodb = require('mongodb'),
 var gameMap = {
   'twilight_tango': '1.0',
   'jetpack_jamboree': '1.0',
-  'missile_madness': '1.0'
+  'fishing_frenzy': '1.0'
 };
 
 var server = new mongodb.Server("127.0.0.1", 27017, {});
