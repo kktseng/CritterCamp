@@ -57,6 +57,7 @@ helpers.initModels();
 
 require('./routes/login')(app, '/login');
 require('./routes/metrics')(app, '/metrics');
+require('./routes/chart')(app, '/chart');
 
 // set up TCP server
 net.createServer(connection.request).listen(8000, function() {
