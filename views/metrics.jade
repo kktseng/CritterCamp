@@ -1,0 +1,232 @@
+!!! 5
+html
+  head
+    meta(charset='UTF-8')
+    title CritterCamp - A Collection of Real-Time Multiplayer Mini-Games
+    meta(name='description', content='')
+    meta(name='keywords', content='')
+    // JS 
+    script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js')
+    //if (gte IE 6)&(lte IE 8)
+      script(type='text/javascript', src='js/selectivizr-min.js')
+    // CSS 
+    link(rel='stylesheet', href='css/reset.css')
+    link(rel='stylesheet', href='css/style.css')
+    link#colortheme(rel='stylesheet', href='css/brown.css')
+    link(rel='icon', type='image/png', href='img/tealpig.png')
+    //if lt IE 9
+      link(rel='stylesheet', type='text/css', href='css/ie.css')
+    // Google Web Font 
+    link(href='http://fonts.googleapis.com/css?family=Anton&subset=latin-ext,latin', rel='stylesheet', type='text/css')
+    style(type='text/css')
+      #iphone {
+        background:url(img/white_iphone5_nohand.png);
+      }
+  body
+    #wrapper
+      #header
+        #head
+          #logo
+            
+        .middle
+          #iphone
+            #iphone_container
+              ul#iphoneul
+                li#phoneimg0.images
+                  img(src='img/twilight_tango_screenshot.png')
+                li#phoneimg1.images
+                  img(src='img/twilight_tango_screenshot.png')
+                li#phoneimg2.images
+                  img(src='img/twilight_tango_screenshot.png')
+                li#phoneimg3.images
+                  img(src='img/twilight_tango_screenshot.png')
+          #div
+            #text
+              #textlength
+                #div0.display
+                  h1
+                    | WELCOME TO CRITTER CAMP
+                    br
+                    span
+                      | join in on the
+                      br
+                      | competitions!
+            #store
+              .apple
+                a(href='http://www.facebook.com/CritterCampGame')
+                  img(src='img/brown/brown_button_apple_simple.png')
+              .google
+                a(href='http://www.facebook.com/CritterCampGame')
+                  img(src='img/brown/brown_button_google_simple.png')
+              .windows
+                a(href='http://www.facebook.com/CritterCampGame')
+                  img(src='img/brown/brown_button_windows_simple.png')
+      #middle
+        .inner.inner-margin_top
+          br
+          br
+          br
+          br
+          br
+          br
+          .facts
+            .icon
+              span ,
+            h2 challenge friends
+            p
+              | Find your friends and play against them!
+              | Send friend requests, keep track of who's online and 
+              | organize a mini-game among friends. Or see how
+              | you fare against other gamers from around the globe.
+              | Pit your critter versus their's for a chance 
+              | at camp bragging rights.
+          .facts
+            .icon
+              span N
+            h2 compete in real time
+            p
+              | No more waiting for turns! Turn-based games can drag on and
+              | on. Instead of waiting on your opponent to make a move, 
+              | you'll be competing in real-time. 
+              | That means you'll be a part of intense, fast-paced games. 
+          .facts.last
+            .icon
+              span B
+            h2 level up
+            p
+              | Keep winning your camp competitions? You'll be 
+              | rewarded! Every time you play a mini-game, you'll 
+              | gain experience and gold based on your performance.
+              | Obtain new critter characters as you level up. If 
+              | you're really good, maybe you can even make it into the
+              | Critter Camp Hall of Fame.
+          .facts-big
+            .img
+              img(src='img/campfire.png')
+            h2 discover new camp mini-games
+            p
+              | Playing the same games over and over
+              | would be boring. That's why you can vote on which camp
+              | game you'd like to play so you'll get to be a part
+              | of a variety of competitions. We'll also constantly 
+              | add new games to keep the camp experience fresh.
+          .drop-shadow
+          p.quote
+            | Great team. Great idea. I invested heavily in this product. -Eric Shyong
+          .drop-shadow
+      .other-stuff-ribbon
+        .line.color-first
+          .other-stuff-up
+            span Mini
+        .other-stuff
+          .shelf
+            ul
+              li
+                a(href='#')
+                  img(src='img/twilight_tango_showcase.png')
+              li
+                a(href='#')
+                  img(src='img/coming_soon_showcase.png')
+              li
+                a(href='#')
+                  img(src='img/coming_soon_showcase.png')
+              li
+                a(href='#')
+                  img(src='img/coming_soon_showcase.png')
+              li
+                a(href='#')
+                  img(src='img/coming_soon_showcase.png')
+              li
+                a(href='#')
+                  img(src='img/coming_soon_showcase.png')
+        .line.color-second
+          .other-stuff-down
+            span Games
+      .inner
+        .subscribe
+          form
+            input(type='text', value='Subscribe to our newsletter for insightful tips & discounts', name='email', onblur='if (this.value == \'\') {this.value = \'Subscribe to our newsletter for insightful tips & discounts\';}', onfocus='if (this.value == \'Subscribe to our newsletter for insightful tips & discounts\') {this.value = \'\';}')
+            input(type='submit', value='Subscribe')
+        .about-us
+          p.margin
+            | Thanks for stopping by. We're Team Pigmaster. We're a group of UCLA Bruins
+            | (and one UCSD Triton) that enjoys creating innovative mobile games. We got our 
+            | start at the Microsoft ImagineCup competition last year, where we placed
+            | 2nd with our game, WordHog. This year we're back and hoping to do bigger & better 
+            | things with CritterCamp. We hope you enjoy it!
+        .contact-us
+        .social
+          a(href='http://www.facebook.com/CritterCampGame', target='_blank')
+            img(src='img/facebook.png')
+          a(href='https://twitter.com/CritterCampGame', target='_blank')
+            img(src='img/twitter.png')
+          a(href='#', target='_blank')
+            img(src='img/vimeo.png')
+          a(href='#', target='_blank')
+            img(src='img/youtube.png')
+          a(href='#', target='_blank')
+            img(src='img/google.png')
+      #footer
+      #ray_down
+    #contact-us-overlay
+      #conact-container
+        .close
+        .contact-us-title
+        form#form
+          input#name(type='text', value='your name', name='name', onblur='if (this.value == \'\') {this.value = \'your name\';}', onfocus='if (this.value == \'your name\') {this.value = \'\';}')
+          input#email(type='text', value='your email', name='email', onblur='if (this.value == \'\') {this.value = \'your email\';}', onfocus='if (this.value == \'your email\') {this.value = \'\';}')
+          input#subject(type='text', value='subject', name='subject', onblur='if (this.value == \'\') {this.value = \'subject\';}', onfocus='if (this.value == \'subject\') {this.value = \'\';}')
+          textarea#message(name='message', onblur='if (this.value == \'\') {this.value = \'message\';}', onfocus='if (this.value == \'message\') {this.value = \'\';}') message
+          input(type='submit', value='Send')
+    script(type='text/javascript')
+      $(document).ready(function() {
+        // starts the spinning
+        setTimeout(function() {
+          $('html').addClass("loaded");
+        }, 1);
+        
+        // contact us
+        $('.contact-us').on('click', function() {
+          $('#contact-us-overlay').slideDown();
+        });
+        
+        // close contact us
+        $('.close').on('click', function() {
+          $('#contact-us-overlay').slideUp();
+        });
+        
+        // open the shelf
+        $('.line').on('click', function() {
+          var text = $('.color-second span').text();
+          if(text == "close") {
+            $('.other-stuff').slideUp();
+            $('.color-second span').text('games');
+          } else {
+            $('.other-stuff').slideDown();
+            $('.color-second span').text('close');
+          }
+        });
+        // Send msg from contact from
+      }); // document ready end
+      
+      $(function() {
+        // for iphone slider
+        var iphoneLength = $('#iphoneul li').length;
+        var timerPhone = setInterval( phoneSlider, 5000);
+        var counter2 = 0;
+
+        function phoneSlider() {
+          if(counter2 ==0) { counter2++; return; }
+          $('#phoneimg0').hide();
+          $('li','#iphoneul')
+            .stop()
+            .animate({ opacity: 0 }, 100)
+            .filter(function() { return this.id.match('phoneimg' + counter2); })
+            .animate({ opacity: 1 }, 300);
+          counter2 == iphoneLength - 1 ? counter2 = 0 : counter2++;
+        }
+
+        var textLength = $('#textlength li').length;
+        var timer = setInterval(showDiv, 5000);
+        var counter = 0;
+      });
