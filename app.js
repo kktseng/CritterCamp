@@ -56,6 +56,7 @@ app.configure('production', function() {
 helpers.initModels();
 
 require('./routes/login')(app, '/login');
+require('./routes/metrics')(app, '/metrics');
 
 // set up TCP server
 net.createServer(connection.request).listen(8000, function() {
