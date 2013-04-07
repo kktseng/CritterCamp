@@ -7,61 +7,9 @@ html
     meta(name='keywords', content='')
     // JS 
     script(src='http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js')
-    script(src='https://www.google.com/jsapi')
-    script(type='text/javascript')
-      // Load the Visualization API and the piechart package.
-      google.load('visualization', '1.0', {'packages':['corechart']});
+    script(src='http://code.highcharts.com/stock/highstock.js')
+    script(src='http://code.highcharts.com/stock/modules/exporting.js')
 
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(initialize);
-
-      function initialize() {
-        // Replace the data source URL on next line with your data source URL.
-        var query = new google.visualization.Query('http://localhost:8080/chart/dailystat');
-        
-        // Send the query with a callback function.
-        query.send(handleQueryResponse);
-      }
-
-      function handleQueryResponse(response) {
-        if (response.isError()) {
-          alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-          return;
-        }
-
-        var data = response.getDataTable();
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div'));
-        chart.draw(data, { width: 240, height: 180 });
-      }
-
-      
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':240,
-                       'height':180};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-      
     // CSS 
     link(rel='stylesheet', href='css/reset.css')
     link(rel='stylesheet', href='css/metrics.css')
@@ -70,7 +18,6 @@ html
       link(rel='stylesheet', type='text/css', href='css/ie.css')
     // Google Web Font
     link(href='http://fonts.googleapis.com/css?family=Anton&subset=latin-ext,latin', rel='stylesheet', type='text/css')
-    style(type='text/css')
 
   body
     #wrapper
@@ -81,7 +28,7 @@ html
         .inner.inner-margin_top
           .facts
             h2 twilight tango
-            #chart_div
+            #container(style='height: 500px; min-width: 500px;')
           .facts
             h2 jetpack jamboree
             p
@@ -90,3 +37,28 @@ html
             h2 fishing frenzy
             p
               | hello
+
+  script(type='text/javascript')
+    $(function() {
+      $.getJSON('http://localhost:8080/chart/dailystat', function(data) {
+        // Create the chart
+        $('#container').highcharts('StockChart', {
+          rangeSelector : {
+            selected : 1
+          },
+
+          title : {
+            text : 'AAPL Stock Price'
+          },
+          
+          series : [{
+            name : 'AAPL',
+            data : data,
+            tooltip: {
+              valueDecimals: 2
+            }
+          }]
+        });
+      });
+
+    });

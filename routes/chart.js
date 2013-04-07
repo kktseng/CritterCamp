@@ -8,7 +8,28 @@ module.exports = function(app, basepath) {
     //var days = req.param('days');
     //var game = req.param('game');
 
-    res.send("google.visualization.Query.setResponse({version:'0.6',reqId:'0',status:'ok',sig:'5982206968295329967',table:{cols:[{id:'Col1',label:'',type:'number'},{id:'Col2',label:'',type:'number'},{id:'Col3',label:'',type:'number'}],rows:[{c:[{v:1.0,f:'1'},{v:2.0,f:'2'},{v:3.0,f:'3'}]},{c:[{v:2.0,f:'2'},{v:3.0,f:'3'},{v:4.0,f:'4'}]},{c:[{v:3.0,f:'3'},{v:4.0,f:'4'},{v:5.0,f:'5'}]},{c:[{v:1.0,f:'1'},{v:2.0,f:'2'},{v:3.0,f:'3'}]}]}});");
+    var data = [];
+    var datapoint = [];
+    var date;
+    var goldSpent;
+    helpers.m.DailyStat.find({}, {}, function(err, results) {
+      console.log('results' + results);
+      results.forEach(function(result) {
+        datapoint = [];
+        Object.keys(result).forEach(function(key) {
+          if(key === 'date') {
+            date = results[key];
+          } else if (key === 'goldSpent') {
+            goldSpent = results[key];
+          }
+        });
+        datapoint.push(date);
+        datapoint.push(goldSpent);
+        data.push(datapoint);
+      });
+    });
+
+    res.send(JSON.stringify(data));
   });
 
   app.get(basepath + '/hourlystat', function(req, res) {

@@ -9,11 +9,6 @@ var DailyStat = new Schema({
   goldSpent: { type: Number, default: 0 }
 });
 
-var HourlyStat = new Schema({
-  date: { type: Date, default: Date.now },
-  numConnections: { type: Number, default: 0 }
-});
-
 DailyStat.index({ date: 1, game: 1 });
 
 var GameStat = new Schema({
@@ -74,4 +69,3 @@ DailyStat.statics.aggregateGame = function(game, callback) {
 
 module.exports = mongoose.model('GameStat', GameStat);
 module.exports = mongoose.model('DailyStat', DailyStat);
-module.exports = mongoose.model('HourlyStat', HourlyStat);
