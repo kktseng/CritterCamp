@@ -17,7 +17,7 @@ html
 
       function initialize() {
         // Replace the data source URL on next line with your data source URL.
-        var query = new google.visualization.Query('localhost:8080/chart/dailystat');
+        var query = new google.visualization.Query('http://localhost:8080/chart/dailystat');
         
         // Send the query with a callback function.
         query.send(handleQueryResponse);
@@ -34,7 +34,7 @@ html
         chart.draw(data, { width: 240, height: 180 });
       }
 
-      /*
+      
       // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
@@ -61,7 +61,7 @@ html
         var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
         chart.draw(data, options);
       }
-      */
+      
     // CSS 
     link(rel='stylesheet', href='css/reset.css')
     link(rel='stylesheet', href='css/metrics.css')
