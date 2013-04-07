@@ -13,23 +13,17 @@ module.exports = function(app, basepath) {
     var date;
     var goldSpent;
     helpers.m.DailyStat.find({}, {}, function(err, results) {
-      console.log('results' + results);
       results.forEach(function(result) {
         datapoint = [];
-        Object.keys(result).forEach(function(key) {
-          if(key === 'date') {
-            date = results[key];
-          } else if (key === 'goldSpent') {
-            goldSpent = results[key];
-          }
-        });
-        datapoint.push(date);
-        datapoint.push(goldSpent);
+        datapoint.push(result.date);
+        datapoint.push(result.goldSpent);
+        console.log('datapoint' + datapoint);
         data.push(datapoint);
       });
-    });
 
-    res.send(JSON.stringify(data));
+      console.log('dataaa' + data);
+      res.send(JSON.stringify(data));
+    });
   });
 
   app.get(basepath + '/hourlystat', function(req, res) {
