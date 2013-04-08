@@ -11,13 +11,6 @@ var DailyStat = new Schema({
 
 DailyStat.index({ date: 1, game: 1 });
 
-var GameStat = new Schema({
-  game: { type: String, required: true },
-  date: { type: Date, default: Date.now },
-  totalPlays: { type: Number, default: 0 },
-  uniqueUsers: { type: Number, default: 0 }
-});
-
 /**
 * aggregates all the stats for a given day
 *
@@ -67,5 +60,4 @@ DailyStat.statics.aggregateGame = function(game, callback) {
   });
 };
 
-module.exports = mongoose.model('GameStat', GameStat);
 module.exports = mongoose.model('DailyStat', DailyStat);

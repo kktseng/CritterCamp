@@ -26,13 +26,17 @@ html
 
       #middle
         .inner.inner-margin_top
-          .facts
+          .charts
             h2 daily
             #goldspent
+            #totalplays
+            #uniqueusers
 
   script(type='text/javascript')
     $(function() {
-      $.getJSON('http://localhost:8080/chart/dailystat', function(data) {
+      var goldSpentUrl = 'http://localhost:8080/chart/dailystat?metric=goldSpent';
+
+      $.getJSON(goldSpentUrl, function(data) {
         // Create the chart
         $('#goldspent').highcharts('StockChart', {
           rangeSelector : {
@@ -53,4 +57,95 @@ html
         });
       });
 
+      var games = ['twilight_tango', 'jetpack_jamboree', 'fishing_frenzy'],
+          colors = Highcharts.getOptions().colors;
+
+      var totalPlaysBaseUrl = 'http://localhost:8080/chart/gamestat?metric=totalPlays',
+          totalPlaysSeriesOptions = [],
+          totalPlaysSeriesCounter = 0;
+      
+      $.each(games, function(i, game) {
+        var totalPlaysUrl = totalPlaysBaseUrl + '&game=' + game;
+        $.getJSON(totalPlaysUrl, function(data) {
+
+          totalPlaysSeriesOptions[i] = {
+            name: game,
+            data: data
+          };
+
+          // As we're loading the data asynchronously, we don't know what order it will arrive. So
+          // we keep a counter and create the chart when all the data is loaded.
+          totalPlaysSeriesCounter++;
+
+          if (totalPlaysSeriesCounter == games.length) {
+            createTotalPlaysChart();
+          }
+        });
+      });
+
+      // create the chart when all data is loaded
+      function createTotalPlaysChart() {
+
+        $('#totalplays').highcharts('StockChart', {
+
+            rangeSelector: {
+                selected: 4
+            },
+
+            title: {
+              text: 'Total Plays'
+            },
+            
+            tooltip: {
+              valueDecimals: 2
+            },
+            
+            series: totalPlaysSeriesOptions
+        });
+      }
+
+      var uniqueUsersBaseUrl = 'http://localhost:8080/chart/gamestat?metric=uniqueUsers',
+          uniqueUsersSeriesOptions = [],
+          uniqueUsersSeriesCounter = 0;
+      
+      $.each(games, function(i, game) {
+        var uniqueUsersUrl = uniqueUsersBaseUrl + '&game=' + game;
+        $.getJSON(uniqueUsersUrl, function(data) {
+
+          uniqueUsersSeriesOptions[i] = {
+            name: game,
+            data: data
+          };
+
+          // As we're loading the data asynchronously, we don't know what order it will arrive. So
+          // we keep a counter and create the chart when all the data is loaded.
+          uniqueUsersSeriesCounter++;
+
+          if (uniqueUsersSeriesCounter == games.length) {
+            createUniqueUsersChart();
+          }
+        });
+      });
+
+      // create the chart when all data is loaded
+      function createUniqueUsersChart() {
+
+        $('#uniqueusers').highcharts('StockChart', {
+
+            rangeSelector: {
+                selected: 4
+            },
+
+            title: {
+              text: 'Unique Users'
+            },
+            
+            tooltip: {
+              valueDecimals: 2
+            },
+            
+            series: uniqueUsersSeriesOptions
+        });
+      }
+      
     });

@@ -36,7 +36,7 @@
         position: relative;
         left: 50%;
         margin: 0 0 0 -575px;
-        background:url(../img/pigmasterHeaderTest.png);
+        background:url(../img/pigmasterHeaderMetrics.png);
     }
     
 /*
@@ -61,7 +61,7 @@
                 margin-top:-50px !important;
             }
 
-            .facts {
+            .charts {
                 width: auto;
                 height: auto;
                 margin: 0 40px 40px 0;
@@ -71,16 +71,18 @@
             #goldspent {
                 height: 400px;
                 min-width: 400px;
+                margin: 0 0 50px 0;
             }
 
-                .facts.last {
-                    margin-right: 0;
-                }
-
+            #totalplays {
+                height: 400px;
+                min-width: 400px;
+                margin: 0 0 50px 0;
+            }
 
             h2 {
                 color: #704924;
-                font-size: 27px;
+                font-size: 48px;
                 margin: 25px 0 20px 0;
             }
 

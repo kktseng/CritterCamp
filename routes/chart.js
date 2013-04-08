@@ -5,18 +5,35 @@ var async = require('async'),
 
 module.exports = function(app, basepath) {
   app.get(basepath + '/dailystat', function(req, res) {
-    //var days = req.param('days');
-    //var game = req.param('game');
+    var metric = req.param('metric');
 
     var data = [];
     var datapoint = [];
-    var date;
-    var goldSpent;
-    helpers.m.DailyStat.find({}, {}, function(err, results) {
+
+    helpers.m.DailyStat.find({}, function(err, results) {
       results.forEach(function(result) {
         datapoint = [];
         datapoint.push(result.date.valueOf());
-        datapoint.push(result.goldSpent);
+        datapoint.push(result[metric]);
+        data.push(datapoint);
+      });
+
+      res.send(JSON.stringify(data));
+    });
+  });
+
+  app.get(basepath + '/gamestat', function(req, res) {
+    var metric = req.param('metric');
+    var game = req.param('game');
+
+    var data = [];
+    var datapoint = [];
+
+    helpers.m.GameStat.find({ name: game }, function(err, results) {
+      results.forEach(function(result) {
+        datapoint = [];
+        datapoint.push(result.date.valueOf());
+        datapoint.push(result[metric]);
         data.push(datapoint);
       });
 
