@@ -27,35 +27,27 @@ html
       #middle
         .inner.inner-margin_top
           .facts
-            h2 twilight tango
-            #container(style='height: 500px; min-width: 500px;')
-          .facts
-            h2 jetpack jamboree
-            p
-              | hello
-          .facts.last
-            h2 fishing frenzy
-            p
-              | hello
+            h2 daily
+            #goldspent
 
   script(type='text/javascript')
     $(function() {
       $.getJSON('http://localhost:8080/chart/dailystat', function(data) {
         // Create the chart
-        $('#container').highcharts('StockChart', {
+        $('#goldspent').highcharts('StockChart', {
           rangeSelector : {
             selected : 1
           },
 
           title : {
-            text : 'AAPL Stock Price'
+            text : 'Gold Spent'
           },
           
           series : [{
-            name : 'AAPL',
+            name : 'Gold Spent',
             data : data,
             tooltip: {
-              valueDecimals: 2
+              valueDecimals: 0
             }
           }]
         });

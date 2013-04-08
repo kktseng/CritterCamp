@@ -15,13 +15,11 @@ module.exports = function(app, basepath) {
     helpers.m.DailyStat.find({}, {}, function(err, results) {
       results.forEach(function(result) {
         datapoint = [];
-        datapoint.push(result.date);
+        datapoint.push(result.date.valueOf());
         datapoint.push(result.goldSpent);
-        console.log('datapoint' + datapoint);
         data.push(datapoint);
       });
 
-      console.log('dataaa' + data);
       res.send(JSON.stringify(data));
     });
   });
