@@ -30,6 +30,7 @@ module.exports = function(app, basepath) {
     var datapoint = [];
 
     helpers.m.GameStat.find({ name: game }, function(err, results) {
+      if(err) { return console.warn(err); }
       results.forEach(function(result) {
         datapoint = [];
         datapoint.push(result.date.valueOf());
@@ -48,6 +49,7 @@ module.exports = function(app, basepath) {
     var datapoint = [];
 
     helpers.m.HourlyStat.find({}, function(err, results) {
+      if(err) { return console.warn(err); }
       results.forEach(function(result) {
         datapoint = [];
         datapoint.push(result.date.valueOf());
