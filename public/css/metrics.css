@@ -80,6 +80,18 @@
                 margin: 0 0 50px 0;
             }
 
+            #uniqueusers {
+                height: 400px;
+                min-width: 400px;
+                margin: 0 0 50px 0;
+            }
+
+            #numconnections {
+                height: 400px;
+                min-width: 400px;
+                margin: 0 0 50px 0;
+            }
+
             h2 {
                 color: #704924;
                 font-size: 48px;

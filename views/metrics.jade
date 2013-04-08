@@ -32,6 +32,9 @@ html
             #totalplays
             #uniqueusers
 
+            h2 hourly
+            #numconnections
+
   script(type='text/javascript')
     $(function() {
       var goldSpentUrl = 'http://localhost:8080/chart/dailystat?metric=goldSpent';
@@ -147,5 +150,28 @@ html
             series: uniqueUsersSeriesOptions
         });
       }
+
+      var numConnectionsUrl = 'http://localhost:8080/chart/hourlystat?metric=numConnections';
+
+      $.getJSON(numConnectionsUrl, function(data) {
+        // Create the chart
+        $('#numconnections').highcharts('StockChart', {
+          rangeSelector : {
+            selected : 1
+          },
+
+          title : {
+            text : 'Number of Connections'
+          },
+          
+          series : [{
+            name : 'Number of Connections',
+            data : data,
+            tooltip: {
+              valueDecimals: 0
+            }
+          }]
+        });
+      });
       
     });

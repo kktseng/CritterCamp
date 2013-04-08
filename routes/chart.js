@@ -42,7 +42,21 @@ module.exports = function(app, basepath) {
   });
 
   app.get(basepath + '/hourlystat', function(req, res) {
-    res.send('Trying to create a new account!');
+    var metric = req.param('metric');
+
+    var data = [];
+    var datapoint = [];
+
+    helpers.m.HourlyStat.find({}, function(err, results) {
+      results.forEach(function(result) {
+        datapoint = [];
+        datapoint.push(result.date.valueOf());
+        datapoint.push(result[metric]);
+        data.push(datapoint);
+      });
+
+      res.send(JSON.stringify(data));
+    });
   });
 
 };
