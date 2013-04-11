@@ -51,45 +51,12 @@
         left: 50%;
         margin: 0 0 0 -525px;
     }
-        .inner {
-            width: 800px;
-            height: auto;
-            margin: 0 auto;
-        }
-        
-            .inner-margin_top {
-                margin-top:-50px !important;
-            }
 
-            .charts {
+            .chart {
                 width: auto;
                 height: auto;
                 margin: 0 40px 40px 0;
                 text-align: center;
-            }
-
-            #goldspent {
-                height: 400px;
-                min-width: 400px;
-                margin: 0 0 50px 0;
-            }
-
-            #totalplays {
-                height: 400px;
-                min-width: 400px;
-                margin: 0 0 50px 0;
-            }
-
-            #uniqueusers {
-                height: 400px;
-                min-width: 400px;
-                margin: 0 0 50px 0;
-            }
-
-            #numconnections {
-                height: 400px;
-                min-width: 400px;
-                margin: 0 0 50px 0;
             }
 
             h2 {
