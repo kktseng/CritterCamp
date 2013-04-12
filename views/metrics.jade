@@ -54,11 +54,6 @@ html
 
       $('#myPills a:first').tab('show');
 
-      $('#myPills a').click(function (e) {
-        e.preventDefault();
-        $(this).tab('show');
-      });
-
       var goldSpentUrl = 'http://localhost:8080/chart/dailystat?metric=goldSpent';
 
       $.getJSON(goldSpentUrl, function(data) {
@@ -173,27 +168,41 @@ html
         });
       }
 
-      var numConnectionsUrl = 'http://localhost:8080/chart/hourlystat?metric=numConnections';
-
-      $.getJSON(numConnectionsUrl, function(data) {
-        // Create the chart
-        $('#numconnections').highcharts('StockChart', {
-          rangeSelector : {
-            selected : 1
-          },
-
-          title : {
-            text : 'Number of Connections'
-          },
-          
-          series : [{
-            name : 'Number of Connections',
-            data : data,
-            tooltip: {
-              valueDecimals: 0
-            }
-          }]
-        });
+      $('#myPills a').click(function(e) {
+        e.preventDefault();
+        $(this).tab('show');
       });
+
+      var pill_hourly = '#myPills a[href="#hourly"]';
+
+      $(pill_hourly).click(function(e) {
+        e.preventDefault();
+
+        var numConnectionsUrl = 'http://localhost:8080/chart/hourlystat?metric=numConnections';
+
+        $.getJSON(numConnectionsUrl, function(data) {
+          // Create the chart
+          $('#numconnections').highcharts('StockChart', {
+            rangeSelector : {
+              selected : 1
+            },
+
+            title : {
+              text : 'Number of Connections'
+            },
+            
+            series : [{
+              name : 'Number of Connections',
+              data : data,
+              tooltip: {
+                valueDecimals: 0
+              }
+            }]
+          });
+        });
+
+        $(this).tab('show');
+      });
+
       
     });
