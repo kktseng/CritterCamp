@@ -43,9 +43,9 @@ module.exports = function(app, basepath) {
           requests: results[2],
           rank: results[3].rank,
           level: auth_user.level, 
-          reply.curr_lvl_exp = globals.EXP_TO_LEVEL[auth_user.level - 1],
-          reply.next_lvl_exp = globals.EXP_TO_LEVEL[auth_user.level],
-          reply.exp = auth_user.exp,
+          curr_lvl_exp: globals.EXP_TO_LEVEL[auth_user.level - 1],
+          next_lvl_exp: globals.EXP_TO_LEVEL[auth_user.level],
+          exp: auth_user.exp,
           auth: key 
         });
       });
