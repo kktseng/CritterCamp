@@ -25,7 +25,6 @@ module.exports = function(app, basepath) {
       if(err) { return res.send({ status: 'failure', message: err.message }) };
       // generate auth key for TCP connection
       var key = helpers.rand();
-      var percent_next_level = auth_user.getPercentNextLevel.bind(auth_user);
 
       async.parallel([
         async.apply(helpers.m.News.findLatest),
@@ -44,7 +43,9 @@ module.exports = function(app, basepath) {
           requests: results[2],
           rank: results[3].rank,
           level: auth_user.level, 
-          percentage: percent_next_level,
+          reply.curr_lvl_exp = globals.EXP_TO_LEVEL[auth_user.level - 1],
+          reply.next_lvl_exp = globals.EXP_TO_LEVEL[auth_user.level],
+          reply.exp = auth_user.exp,
           auth: key 
         });
       });
