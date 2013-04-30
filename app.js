@@ -53,6 +53,11 @@ app.configure('production', function() {
 
 });
 
+// REMOVE THIS LATER IN FAVOR OF DOMAINS. THIS IS A BAD WAY TO HANDLE ERRORS!!!
+process.on('uncaughtException', function(err) {
+  logger.info('Uncaught exception: ' + err);
+});
+
 helpers.initModels();
 
 require('./routes/login')(app, '/login');
