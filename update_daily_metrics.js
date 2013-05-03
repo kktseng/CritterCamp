@@ -3,7 +3,8 @@ var mongodb = require('mongodb'),
     redis = require('redis'),
     globals = require('./lib/globals'),
     bcrypt = require('bcrypt'),
-    async = require('async');
+    async = require('async'),
+    config = require('config');
 
 var redis_client = redis.createClient(config.file.Redis.port, config.file.Redis.host);
 
