@@ -2,8 +2,12 @@ var mongodb = require('mongodb'),
     globals = require('./lib/globals'),
     async = require('async');
 
-var server = new mongodb.Server("127.0.0.1", 27017, {});
-new mongodb.Db('pig_dev', server, {w: 1}).open(function (error, client) {
+var host = config.Mongo.host;
+var port = config.Mongo.port;
+var db = config.Mongo.db;
+
+var server = new mongodb.Server(host, port, {});
+new mongodb.Db(db, server, {w: 1}).open(function (error, client) {
   if (error) throw error;
   var users = new mongodb.Collection(client, 'users');
   var ranks = new mongodb.Collection(client, 'ranks');

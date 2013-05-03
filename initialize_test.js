@@ -1,7 +1,8 @@
 var mongodb = require('mongodb'),
     globals = require('./lib/globals'),
     bcrypt = require('bcrypt'),
-    async = require('async');
+    async = require('async'),
+    config = require('config');;
 
 var gameMap = {
   'twilight_tango': '1.0',
@@ -9,8 +10,12 @@ var gameMap = {
   'fishing_frenzy': '1.0'
 };
 
-var server = new mongodb.Server("127.0.0.1", 27017, {});
-new mongodb.Db('pig_dev', server, { w: 1 }).open(function(error, client) {
+var host = config.Mongo.host;
+var port = config.Mongo.port;
+var db = config.Mongo.db;
+
+var server = new mongodb.Server(host, port, {});
+new mongodb.Db(db, server, { w: 1 }).open(function(error, client) {
   if(error) throw error;
   var users = new mongodb.Collection(client, 'users');
   var games = new mongodb.Collection(client, 'games');

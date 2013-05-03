@@ -6,10 +6,10 @@ module.exports = {
 
   Mongo: {
     auto_reconnect: true,
-    db: "pig-main",
+    db: "cceast_prd",
     rs_name: "rs-ds41177",
-    host: [ "ds041177.mongolab.com"],
-    port: [ 41177 ],
+    host: "ds061757.mongolab.com",
+    port: 61757,
     username: process.env.MONGO_USERNAME,
     password: process.env.MONGO_PASSWORD,
   }

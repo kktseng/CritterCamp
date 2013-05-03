@@ -7,8 +7,12 @@ var mongodb = require('mongodb'),
 
 var redis_client = redis.createClient(config.file.Redis.port, config.file.Redis.host);
 
-var server = new mongodb.Server("127.0.0.1", 27017, {});
-new mongodb.Db('pig_dev', server, { w: 1 }).open(function(error, client) {
+var host = config.Mongo.host;
+var port = config.Mongo.port;
+var db = config.Mongo.db;
+
+var server = new mongodb.Server(host, port, {});
+new mongodb.Db(db, server, { w: 1 }).open(function(error, client) {
   if(error) throw error;
 
   var game = new mongodb.Collection(client, "games");
