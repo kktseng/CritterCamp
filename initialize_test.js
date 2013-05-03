@@ -2,7 +2,7 @@ var mongodb = require('mongodb'),
     globals = require('./lib/globals'),
     bcrypt = require('bcrypt'),
     async = require('async'),
-    config = require('config');;
+    config = require('config');
 
 var gameMap = {
   'twilight_tango': '1.0',

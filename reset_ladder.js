@@ -1,6 +1,7 @@
 var mongodb = require('mongodb'),
     globals = require('./lib/globals'),
-    async = require('async');
+    async = require('async'),
+    config = require('config');
 
 var host = config.Mongo.host;
 var port = config.Mongo.port;
