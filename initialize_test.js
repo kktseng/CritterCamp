@@ -73,7 +73,7 @@ function doWork(client) {
 database.open(function(error, client) {
   if(error) throw error;
 
-  if(config.Mongo.username && config.Mongo.pasword) {
+  if(config.Mongo.username && config.Mongo.password) {
     database.authenticate(config.Mongo.username, config.Mongo.password, function(err, results) {
       if(err) throw err;
       doWork(client);
