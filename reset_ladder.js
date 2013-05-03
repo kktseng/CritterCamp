@@ -7,8 +7,10 @@ var port = config.Mongo.port;
 var db = config.Mongo.db;
 
 var server = new mongodb.Server(host, port, {});
-new mongodb.Db(db, server, {w: 1}).open(function (error, client) {
-  if (error) throw error;
+var database = new mongodb.Db(db, server, {w: 1});
+
+
+function doWork(client) {
   var users = new mongodb.Collection(client, 'users');
   var ranks = new mongodb.Collection(client, 'ranks');
   var leaders = new mongodb.Collection(client, 'leaders');
@@ -79,4 +81,17 @@ new mongodb.Db(db, server, {w: 1}).open(function (error, client) {
     server.close();
   });
 
+}
+
+database.open(function(error, client) {
+  if(error) throw error;
+
+  if(config.Mongo.username && config.Mongo.password) {
+    database.authenticate(config.Mongo.username, config.Mongo.password, function(err, results) {
+      if(err) throw err;
+      doWork(client);
+    });
+  } else {
+    doWork(client);
+  }
 });
