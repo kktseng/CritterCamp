@@ -54,7 +54,7 @@ html
 
       $('#myPills a:first').tab('show');
 
-      var goldSpentUrl = 'http://localhost:8080/chart/dailystat?metric=goldSpent';
+      var goldSpentUrl = 'http://www.thepigmaster.com/chart/dailystat?metric=goldSpent';
 
       $.getJSON(goldSpentUrl, function(data) {
         // Create the chart
@@ -80,7 +80,7 @@ html
       var games = ['twilight_tango', 'jetpack_jamboree', 'fishing_frenzy'],
           colors = Highcharts.getOptions().colors;
 
-      var totalPlaysBaseUrl = 'http://localhost:8080/chart/gamestat?metric=totalPlays',
+      var totalPlaysBaseUrl = 'http://www.thepigmaster.com/chart/gamestat?metric=totalPlays',
           totalPlaysSeriesOptions = [],
           totalPlaysSeriesCounter = 0;
       
@@ -124,7 +124,7 @@ html
         });
       }
 
-      var uniqueUsersBaseUrl = 'http://localhost:8080/chart/gamestat?metric=uniqueUsers',
+      var uniqueUsersBaseUrl = 'http://www.thepigmaster.com/chart/gamestat?metric=uniqueUsers',
           uniqueUsersSeriesOptions = [],
           uniqueUsersSeriesCounter = 0;
       
@@ -178,7 +178,7 @@ html
       $(pill_hourly).click(function(e) {
         e.preventDefault();
 
-        var numConnectionsUrl = 'http://localhost:8080/chart/hourlystat?metric=numConnections';
+        var numConnectionsUrl = 'http://www.thepigmaster.com/chart/hourlystat?metric=numConnections';
 
         $.getJSON(numConnectionsUrl, function(data) {
           // Create the chart
