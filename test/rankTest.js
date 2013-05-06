@@ -77,11 +77,11 @@ describe('Score System', function() {
         async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
-        users.setExp(user.username, 50000, callback);
+        users.setExp(user.username, 5000, callback);
       },
       function(updated_user, callback) {
         updated_user.level.should.equal(6);
-        updated_user.exp.should.equal(50000);
+        updated_user.exp.should.equal(5000);
         users.getRank(user.username, callback);
       },
       function(test_user_rank, callback) {
@@ -131,11 +131,11 @@ describe('Score System', function() {
         async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
-        users.setExp(user.username, 105000, callback);
+        users.setExp(user.username, 10500, callback);
       },
       function(updated_user, callback) {
         updated_user.level.should.equal(11);
-        updated_user.exp.should.equal(105000);
+        updated_user.exp.should.equal(10500);
         users.getRank(user.username, callback);
       },
       function(test_user_rank, callback) {
@@ -175,12 +175,12 @@ describe('Score System', function() {
         async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
-        users.setExp(user.username, 40000, callback);
+        users.setExp(user.username, 4000, callback);
       },
       //async.apply(users.setExp.bind(users), user.username, 40000),
       function(updated_user, callback) {
         updated_user.level.should.equal(5);
-        updated_user.exp.should.equal(40000);
+        updated_user.exp.should.equal(4000);
         users.getRank(user.username, callback);
       },
       function(test_user_rank, callback) {
@@ -194,10 +194,12 @@ describe('Score System', function() {
   });
 
   it('can update experience and gold correctly', function(done) {
-    users.updateResults('ranked_user_1', 15124, 1500, function(err, new_level, percentage) {
+    users.updateResults('ranked_user_1', 1512, 150, function(err, new_level, exp_current_level, exp_next_level, exp) {
       if(err) { return done(err); }
       new_level.should.equal(2);
-      percentage.should.equal(51);
+      exp_current_level.should.equal(1000);
+      exp_next_level.should.equal(2000);
+      exp.should.equal(1512);
       done();
     });
   });
