@@ -6,7 +6,7 @@ var mongodb = require('mongodb'),
     async = require('async'),
     config = require('config');
 
-var redis_client = redis.createClient(config.file.Redis.port, config.file.Redis.host);
+var redis_client = redis.createClient(config.Redis.port, config.Redis.host);
 
 var host = config.Mongo.host;
 var port = config.Mongo.port;
@@ -24,9 +24,9 @@ function doWork(client) {
       if(err) { console.warn(err.message); }
       else { console.log('Update hourly metrics success!'); }
       server.close();
+      redis_client.quit();
     })
   });
-
 }
 
 database.open(function(error, client) {

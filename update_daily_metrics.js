@@ -6,7 +6,7 @@ var mongodb = require('mongodb'),
     async = require('async'),
     config = require('config');
 
-var redis_client = redis.createClient(config.file.Redis.port, config.file.Redis.host);
+var redis_client = redis.createClient(config.Redis.port, config.Redis.host);
 
 var host = config.Mongo.host;
 var port = config.Mongo.port;
@@ -28,24 +28,24 @@ function doWork(client) {
       },
       function(count, cb) {
         redis_client.set('game_stat_' + game_name + '_count', 0, function(err) {
-          if(err) { return console.warn(err.message); }
+          if(err) { return cb(err); }
           return cb(null, count);
         });
       },
       function(count, cb) {
         redis_client.scard('game_stat_' + game_name + '_users', function(err, num_users) {
-          if(err) { return console.warn(err.message); }
+          if(err) { return cb(err); }
           return cb(null, count, num_users);
         });
       },
       function(count, num_users, cb) {
         redis_client.sdiff('game_stat_' + game_name + '_users', function(err, result) {
-          if(err) { return console.warn(err.message); }
+          if(err) { return cb(err); }
           return cb(null, count, num_users, result);
         });
       }
     ], function(err, count, num_users, result) {
-      if(err) { return console.warn(err.message); }
+      if(err) { return callback(err); }
       gamestat.insert({ name: game_name, date: Date.now(), totalPlays: count, uniqueUsers: num_users }, { safe: true }, callback);
     });
   };
@@ -55,6 +55,7 @@ function doWork(client) {
       if(err) { console.warn(err.message); }
       else { console.log('Update daily metrics success!'); }
       server.close();
+      redis_client.quit();
     });
   });
 }
