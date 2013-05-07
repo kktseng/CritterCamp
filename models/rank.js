@@ -21,7 +21,7 @@ Rank.statics.incrRank = function(level, cb) {
     if(err) { return cb(err); }
     if(rank) {
       // don't increase rank if no players are at this level
-      if(rank.players <= 0) {
+      if(rank.players <= 0 && level !== 1) {
         return cb(null);
       }
       rank.rank += 1;
