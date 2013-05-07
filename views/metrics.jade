@@ -52,6 +52,13 @@ html
   script(type='text/javascript')
     $(function() {
 
+
+      Highcharts.setOptions({
+        global: {
+          useUTC: false
+        }
+      });
+
       $('#myPills a:first').tab('show');
 
       var goldSpentUrl = '/chart/dailystat?metric=goldSpent';
