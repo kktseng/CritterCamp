@@ -53,7 +53,6 @@ module.exports = function(app, basepath) {
       results.forEach(function(result) {
         datapoint = [];
         datapoint.push(result.date.valueOf());
-        console.log('Result '+result+' Metric '+metric);
         datapoint.push(result[metric]);
         data.push(datapoint);
       });
