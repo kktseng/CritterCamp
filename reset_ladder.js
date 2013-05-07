@@ -1,11 +1,11 @@
 var mongodb = require('mongodb'),
     globals = require('./lib/globals'),
     async = require('async'),
-    config = require('config');
+    config = require('./config/configuration');
 
-var host = config.Mongo.host;
-var port = config.Mongo.port;
-var db = config.Mongo.db;
+var host = config.file.Mongo.host;
+var port = config.file.Mongo.port;
+var db = config.file.Mongo.db;
 
 var server = new mongodb.Server(host, port, {});
 var database = new mongodb.Db(db, server, {w: 1});
@@ -87,8 +87,8 @@ function doWork(client) {
 database.open(function(error, client) {
   if(error) throw error;
 
-  if(config.Mongo.username && config.Mongo.password) {
-    database.authenticate(config.Mongo.username, config.Mongo.password, function(err, results) {
+  if(config.file.Mongo.username && config.file.Mongo.password) {
+    database.authenticate(config.file.Mongo.username, config.file.Mongo.password, function(err, results) {
       if(err) throw err;
       doWork(client);
     });
