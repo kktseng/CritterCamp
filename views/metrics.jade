@@ -59,6 +59,19 @@ html
       $.getJSON(goldSpentUrl, function(data) {
         // Create the chart
         $('#goldspent').highcharts('StockChart', {
+
+          legend: {
+            enabled: true,
+            align:'right',
+            backgroundColor: '#FCFFC5',
+            borderColor: 'black',
+            borderWidth: 2,
+            layout: 'vertical',
+            verticalAlign: 'top',
+            y: 100,
+            shadow: true
+          },
+
           rangeSelector : {
             selected : 1
           },
@@ -108,6 +121,18 @@ html
 
         $('#totalplays').highcharts('StockChart', {
 
+            legend: {
+              enabled: true,
+              align:'right',
+              backgroundColor: '#FCFFC5',
+              borderColor: 'black',
+              borderWidth: 2,
+              layout: 'vertical',
+              verticalAlign: 'top',
+              y: 100,
+              shadow: true
+            },
+
             rangeSelector: {
                 selected: 4
             },
@@ -151,6 +176,18 @@ html
       function createUniqueUsersChart() {
 
         $('#uniqueusers').highcharts('StockChart', {
+
+            legend: {
+              enabled: true,
+              align:'right',
+              backgroundColor: '#FCFFC5',
+              borderColor: 'black',
+              borderWidth: 2,
+              layout: 'vertical',
+              verticalAlign: 'top',
+              y: 100,
+              shadow: true
+            },
 
             rangeSelector: {
                 selected: 4
