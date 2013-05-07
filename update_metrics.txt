@@ -1,4 +1,4 @@
 # in cmdline, type "crontab update_metrics.txt"
-0 * * * * /usr/bin/node $HOME/CritterCamp/update_hourly_metrics.js
-0 0 * * * /usr/bin/node $HOME/CritterCamp/update_daily_metrics.js
+0 * * * * /usr/local/bin/node $HOME/CritterCamp/update_hourly_metrics.js
+0 0 * * * /usr/local/bin/node $HOME/CritterCamp/update_daily_metrics.js
 
