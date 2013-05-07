@@ -54,11 +54,24 @@ html
 
       $('#myPills a:first').tab('show');
 
-      var goldSpentUrl = 'http://localhost:8080/chart/dailystat?metric=goldSpent';
+      var goldSpentUrl = 'http://localhost/chart/dailystat?metric=goldSpent';
 
       $.getJSON(goldSpentUrl, function(data) {
         // Create the chart
         $('#goldspent').highcharts('StockChart', {
+
+          legend: {
+            enabled: true,
+            align:'right',
+            backgroundColor: '#FCFFC5',
+            borderColor: 'black',
+            borderWidth: 2,
+            layout: 'vertical',
+            verticalAlign: 'top',
+            y: 100,
+            shadow: true
+          },
+
           rangeSelector : {
             selected : 1
           },
@@ -80,7 +93,7 @@ html
       var games = ['twilight_tango', 'jetpack_jamboree', 'fishing_frenzy'],
           colors = Highcharts.getOptions().colors;
 
-      var totalPlaysBaseUrl = 'http://localhost:8080/chart/gamestat?metric=totalPlays',
+      var totalPlaysBaseUrl = 'http://localhost/chart/gamestat?metric=totalPlays',
           totalPlaysSeriesOptions = [],
           totalPlaysSeriesCounter = 0;
       
@@ -108,6 +121,18 @@ html
 
         $('#totalplays').highcharts('StockChart', {
 
+            legend: {
+              enabled: true,
+              align:'right',
+              backgroundColor: '#FCFFC5',
+              borderColor: 'black',
+              borderWidth: 2,
+              layout: 'vertical',
+              verticalAlign: 'top',
+              y: 100,
+              shadow: true
+            },
+
             rangeSelector: {
                 selected: 4
             },
@@ -124,7 +149,7 @@ html
         });
       }
 
-      var uniqueUsersBaseUrl = 'http://localhost:8080/chart/gamestat?metric=uniqueUsers',
+      var uniqueUsersBaseUrl = 'http://localhost/chart/gamestat?metric=uniqueUsers',
           uniqueUsersSeriesOptions = [],
           uniqueUsersSeriesCounter = 0;
       
@@ -152,6 +177,18 @@ html
 
         $('#uniqueusers').highcharts('StockChart', {
 
+            legend: {
+              enabled: true,
+              align:'right',
+              backgroundColor: '#FCFFC5',
+              borderColor: 'black',
+              borderWidth: 2,
+              layout: 'vertical',
+              verticalAlign: 'top',
+              y: 100,
+              shadow: true
+            },
+
             rangeSelector: {
                 selected: 4
             },
@@ -178,7 +215,7 @@ html
       $(pill_hourly).click(function(e) {
         e.preventDefault();
 
-        var numConnectionsUrl = 'http://localhost:8080/chart/hourlystat?metric=numConnections';
+        var numConnectionsUrl = 'http://localhost/chart/hourlystat?metric=numConnections';
 
         $.getJSON(numConnectionsUrl, function(data) {
           // Create the chart
