@@ -1,4 +1,4 @@
 # in cmdline, type "crontab update_metrics.txt"
-0 * * * * /usr/local/bin/node /home/pigmaster/CritterCamp/update_hourly_metrics.js >> /var/log/cronlog.log 2>&1
-0 0 * * * /usr/local/bin/node /home/pigmaster/CritterCamp/update_daily_metrics.js >> /var/log/cronlog.log 2>&1
+0 * * * * cd /home/pigmaster/CritterCamp && /usr/local/bin/node update_hourly_metrics.js >> cronlog.log 2>&1
+0 0 * * * cd /home/pigmaster/CritterCamp && /usr/local/bin/node update_daily_metrics.js >> cronlog.log 2>&1
 
