@@ -2,7 +2,6 @@ var crypto = require('crypto'),
     express = require('express'),
     fs = require('fs'),
     routes = require('./routes'),
-    user = require('./routes/user'),
     http = require('http'),
     https = require('https'),
     helpers = require('./lib/helpers'),
@@ -70,8 +69,6 @@ net.createServer(connection.request).listen(8000, function() {
 });
 
 app.get('/', routes.index);
-app.get('/users', user.list);
-app.get('/connect', routes.connect);
 
 var server = https.createServer(options, app).listen(app.get('port'), function() {
   logger.info('HTTPS server listening on port ' + app.get('port'));
