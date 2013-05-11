@@ -47,7 +47,7 @@ var getRank = Rank.statics.getRank = function(level, cb) {
 **/
 var getLevel = Rank.statics.getLevel = function(rank, cb) {
   helpers.m.Rank.findOne({ rank: rank, players: { $ne: 0 }}, { level: true }, function(err, result) {
-    return cb(err, result.level);
+    return cb(err, result.level ? result.level : null);
   });
 };
 
