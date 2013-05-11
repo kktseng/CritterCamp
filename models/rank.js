@@ -24,8 +24,7 @@ Rank.statics.incrRank = function(level, cb) {
       if(rank.players <= 0 && level !== 1) {
         return cb(null);
       }
-      rank.rank += 1;
-      rank.save(cb);
+      helpers.m.Rank.update({ level: level }, { $inc: { rank: 1 }}, cb);
     } else {
       return cb(new Error('No rank found for level ' + level));
     }
@@ -67,7 +66,7 @@ var level_binary_search = function(start, end, exp) {
   else if(globals.EXP_TO_LEVEL[middle] > exp) {
     return level_binary_search(start, middle, exp);
   }
-  else if(globals.EXP_TO_LEVEL[middle+1] <= exp) {
+  else if(globals.EXP_TO_LEVEL[middle + 1] <= exp) {
     return level_binary_search(middle, end, exp);
   }
   else {
