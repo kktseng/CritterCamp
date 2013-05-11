@@ -103,7 +103,7 @@ describe('Score System', function() {
       done();
     });
   });
-
+/*
   it('can create new rank object correctly', function(done) {
     async.waterfall([
       function(callback) {
@@ -203,5 +203,7 @@ describe('Score System', function() {
       done();
     });
   });
-
+*/
 });
+
+
