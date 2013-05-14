@@ -116,7 +116,7 @@ describe('User', function() {
       }
 
       user.friends = [];
-      async.forEachSeries(['friend1', 'friend2', 'friend3', 'friend4'], addFriend, function(err) {
+      async.eachSeries(['friend1', 'friend2', 'friend3', 'friend4'], addFriend, function(err) {
         if(err) { return done(err); }
         helpers.m.User.update({ _id: user._id }, { friends: user.friends }, done);
       });
@@ -208,7 +208,7 @@ describe('User', function() {
       }
 
       user.friendRequests = [];
-      async.forEachSeries(['friendRequest1', 'friendRequest2'], addFriendRequest, function(err) {
+      async.eachSeries(['friendRequest1', 'friendRequest2'], addFriendRequest, function(err) {
         if(err) { return done(err); }
         helpers.m.User.update({ _id: user._id }, { friendRequests: user.friendRequests }, done);
       });

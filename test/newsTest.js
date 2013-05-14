@@ -8,7 +8,7 @@ describe('News', function() {
   function insertNews(callback) {
     // first clear the collection to prevent news from building up
     helpers.m.News.remove({}, function() {
-      async.forEachSeries([0, 1, 2], function(data, cb) {
+      async.eachSeries([0, 1, 2], function(data, cb) {
         var news = new helpers.m.News({ post: 'news: ' + data });
         news.save(cb);
       }, callback);
