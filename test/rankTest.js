@@ -103,7 +103,7 @@ describe('Score System', function() {
       done();
     });
   });
-/*
+
   it('can create new rank object correctly', function(done) {
     async.waterfall([
       function(callback) {
@@ -203,7 +203,39 @@ describe('Score System', function() {
       done();
     });
   });
-*/
+
+  it('can increment leader 1 and leader 2 by one level simultaneously', function(done) {
+    var test_leader_1 = new helpers.m.User({ username: 'test_leader_1', level: 15 });
+    var test_leader_2 = new helpers.m.User({ username: 'test_leader_2', level: 14 });
+    var test_leader_rank_1 = new helpers.m.Rank({ level: 15, rank: 1, players: 1 });
+    var test_leader_rank_2 = new helpers.m.Rank({ level: 14, rank: 2, players: 1 });
+    test_leader_1.save(function(err) {
+      if(err) { return done(err); }
+      test_leader_2.save(function(err) {
+        if(err) { return done(err); }
+        test_leader_rank_1.save(function(err) {
+          if(err) { return done(err); }
+          test_leader_rank_2.save(function(err) {
+            if(err) { return done(err); }
+            async.parallel([
+              function(callback) {
+                users.setExp('test_leader_1', 15400, callback);
+              },
+              function(callback) {
+                users.setExp('test_leader_2', 14400, callback);
+              }
+            ], function(err, results) {
+              if(err) { return done(err); }
+              results[0].level.should.equal(16);
+              results[1].level.should.equal(15);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
 });
 
 
