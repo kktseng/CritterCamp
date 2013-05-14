@@ -20,10 +20,6 @@ Rank.statics.incrRank = function(level, cb) {
   getRank(level, function(err, rank) {
     if(err) { return cb(err); }
     if(rank) {
-      // don't increase rank if no players are at this level
-      if(rank.players <= 0 && level !== 1) {
-        return cb(null);
-      }
       helpers.m.Rank.update({ level: level }, { $inc: { rank: 1 }}, cb);
     } else {
       return cb(new Error('No rank found for level ' + level));
