@@ -24,7 +24,7 @@ describe('Score System', function() {
         ranks.push(new helpers.m.Rank({ rank: 8, level: 3 }));
         ranks.push(new helpers.m.Rank({ rank: 9, level: 2 }));
         ranks.push(new helpers.m.Rank({ rank: 10, level: 1 }));
-        async.each(ranks, function(rank, callb) {
+        async.forEach(ranks, function(rank, callb) {
           rank.save(callb);
         }, function(err) {
           if(err) { return done(err); }
@@ -41,7 +41,7 @@ describe('Score System', function() {
             ranked_users.push(new helpers.m.User({ username: 'ranked_user_8', level: 8 }));
             ranked_users.push(new helpers.m.User({ username: 'ranked_user_9', level: 9 }));
             ranked_users.push(new helpers.m.User({ username: 'ranked_user_10', level: 10 }));
-            async.each(ranked_users, function(ranked_user, cb) {
+            async.forEach(ranked_users, function(ranked_user, cb) {
               ranked_user.save(cb);
             }, done);
           });
@@ -74,7 +74,7 @@ describe('Score System', function() {
         for(var i = 1; i < 5; i++) {
           ranks_to_increase.push(i);
         }
-        async.each(ranks_to_increase, helpers.m.Rank.incrRank, callback);
+        async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
         users.setExp(user.username, 5000, callback);
@@ -103,7 +103,7 @@ describe('Score System', function() {
       done();
     });
   });
-/*
+
   it('can create new rank object correctly', function(done) {
     async.waterfall([
       function(callback) {
@@ -128,7 +128,7 @@ describe('Score System', function() {
         for(var i = 1; i < 10; i++) {
           ranks_to_increase.push(i);
         }
-        async.each(ranks_to_increase, helpers.m.Rank.incrRank, callback);
+        async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
         users.setExp(user.username, 10500, callback);
@@ -172,7 +172,7 @@ describe('Score System', function() {
         for(var i = 1; i < 5; i++) {
           ranks_to_increase.push(i);
         }
-        async.each(ranks_to_increase, helpers.m.Rank.incrRank, callback);
+        async.forEach(ranks_to_increase, helpers.m.Rank.incrRank, callback);
       },
       function(callback) {
         users.setExp(user.username, 4000, callback);
@@ -203,7 +203,39 @@ describe('Score System', function() {
       done();
     });
   });
-*/
+
+  it('can increment leader 1 and leader 2 by one level simultaneously', function(done) {
+    var test_leader_1 = new helpers.m.User({ username: 'test_leader_1', level: 15 });
+    var test_leader_2 = new helpers.m.User({ username: 'test_leader_2', level: 14 });
+    var test_leader_rank_1 = new helpers.m.Rank({ level: 15, rank: 1, players: 1 });
+    var test_leader_rank_2 = new helpers.m.Rank({ level: 14, rank: 2, players: 1 });
+    test_leader_1.save(function(err) {
+      if(err) { return done(err); }
+      test_leader_2.save(function(err) {
+        if(err) { return done(err); }
+        test_leader_rank_1.save(function(err) {
+          if(err) { return done(err); }
+          test_leader_rank_2.save(function(err) {
+            if(err) { return done(err); }
+            async.parallel([
+              function(callback) {
+                users.setExp('test_leader_1', 15400, callback);
+              },
+              function(callback) {
+                users.setExp('test_leader_2', 14400, callback);
+              }
+            ], function(err, results) {
+              if(err) { return done(err); }
+              results[0].level.should.equal(16);
+              results[1].level.should.equal(15);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
+
 });
 
 
