@@ -49,7 +49,7 @@ function doWork(client) {
       });
     },
     function upsert_dummy_users(callback) {
-      async.forEachSeries(usernames, upsert_username, callback);
+      async.eachSeries(usernames, upsert_username, callback);
     },
     function clear_ranks(callback) {
       ranks.remove({}, { safe: true }, function(err, result) {
@@ -74,7 +74,7 @@ function doWork(client) {
       });
     },
     function insert_dummy_leaders(callback) {
-      async.forEachSeries(usernames, insert_leader, callback);
+      async.eachSeries(usernames, insert_leader, callback);
     }
   ], function(err) {
     if(err) { console.warn(err.message); }
