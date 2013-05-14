@@ -59,7 +59,7 @@ function doWork(client) {
       totalGames: 0
     }, { safe: true, upsert: true }, function(err, result) {
       if(err) { console.warn(err.message); }
-      async.forEach(Object.keys(gameMap), function(game, callback) {
+      async.each(Object.keys(gameMap), function(game, callback) {
         games.update({ name: game }, { name: game, minVersion: gameMap[game] }, { safe: true, upsert: true }, callback);
       }, function(err) {
         if(err) { console.warn(err.message); }
