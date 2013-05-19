@@ -12,6 +12,7 @@ var User = new Schema({
   password: { type: String },
   email: { type: String },
   profile: { type: String, default: 'pig' },
+  unlockedProfiles: { type: [{ type: String }], default: globals.DEFAULT_PROFILES },
 
   friends: [{ type: ObjectId, ref: 'User' }],
   friendRequests: [{ type: ObjectId, ref: 'User' }],
