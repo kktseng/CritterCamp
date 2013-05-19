@@ -55,6 +55,14 @@ User.methods.hashPassword = function(password, callback) {
 };
 
 /**
+* gets user information relevant for profiles
+*
+**/
+User.methods.getUserInfo = function() {
+  return { username: results.username, profile: results.profile, level: results.level };
+};
+
+/**
 * adds a friend to user's friends list
 *
 * callback(err)
@@ -253,21 +261,6 @@ User.statics.getUsername = function(id, cb) {
   helpers.m.User.findOne({ _id: id }, { username: true }, function(err, results) {
     if(results) {
       return cb(err, results.username);
-    } else {
-      return cb(err, null);
-    }
-  });
-};
-
-/**
-* gets a username and profile based off an id
-*
-* callback(err, { username: username, profile: profile_photo, level: user_level })
-**/
-User.statics.getUserInfo = function(id, cb) {
-  helpers.m.User.findOne({ _id: id }, { username: true, profile: true, level: true }, function(err, results) {
-    if(results) {
-      return cb(err, { username: results.username, profile: results.profile, level: results.level } );
     } else {
       return cb(err, null);
     }
