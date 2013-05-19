@@ -38,7 +38,9 @@ Leader.statics.getLeaderInfo = function(callback) {
       leader_ids.push(leader.user);
     });
     // get usernames of leaders from user ids
-    async.map(leader_ids, helpers.m.User.getUserInfo, function(err, results) {
+    async.map(leader_ids, function(user_id, cb) {
+      helpers.m.User.findOne({ _id: user_id }, { username: true, profile: true, level: true }, cb);
+    }, function(err, results) {
       return callback(null, results);
     });
   });
