@@ -42,6 +42,7 @@ module.exports = function(app, basepath) {
           friends: results[1], 
           requests: results[2],
           rank: results[3].rank,
+          profile: auth_user.profile,
           level: auth_user.level, 
           curr_lvl_exp: globals.EXP_TO_LEVEL[auth_user.level - 1],
           next_lvl_exp: globals.EXP_TO_LEVEL[auth_user.level],
