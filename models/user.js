@@ -170,7 +170,7 @@ User.methods.getPercentNextLevel = function() {
 * subtracts specified gold from user
 *
 */
-User.methods.decreaseGold = function(amount) {
+User.methods.decreaseGold = function(amount, callback) {
   var self = this;
   if(self.gold < amount) {
     return callback(new Error('User does not have enough gold.'));

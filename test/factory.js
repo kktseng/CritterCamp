@@ -11,7 +11,7 @@ exports.user = function(parameters, callback) {
   }
   helpers.m.User.findOne({ username: parameters.username }, function(err, user) {
     if(err) { return callback(err); }
-    user = user || new helpers.m.User({ username: parameters.username, password: encrypted_password, email: 'leungxa@gmail.com', profile: 'profpic' });
+    user = user || new helpers.m.User({ username: parameters.username, password: encrypted_password, email: 'leungxa@gmail.com', profile: 'pig', unlockedProfiles: [ 'pig' ], gold: 250 });
     Object.keys(parameters).forEach(function(key) {
       user[key] = parameters[key];
     });
