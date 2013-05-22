@@ -56,10 +56,9 @@ User.methods.hashPassword = function(password, callback) {
 
 /**
 * gets user information relevant for profiles
-*
 **/
 User.methods.getUserInfo = function() {
-  return { username: results.username, profile: results.profile, level: results.level };
+  return { username: username, profile: profile, level: level };
 };
 
 /**
