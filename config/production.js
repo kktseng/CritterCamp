@@ -12,5 +12,7 @@ module.exports = {
     port: 61757,
     username: process.env.MONGO_USERNAME,
     password: process.env.MONGO_PASSWORD
-  }
+  },
+
+  Debug: false
 };
