@@ -167,6 +167,19 @@ User.methods.getPercentNextLevel = function() {
 };
 
 /**
+* subtracts specified gold from user
+*
+*/
+User.methods.decreaseGold = function(amount) {
+  var self = this;
+  if(self.gold < amount) {
+    return callback(new Error('User does not have enough gold.'));
+  }
+  self.gold -= amount;
+  self.save(callback);
+};
+
+/**
 * creates a user based on username and set password to hash of current time if no password is provided
 *
 * callback(err, user)
