@@ -20,6 +20,7 @@ var database = new mongodb.Db(db, server, { w: 1 });
 function doWork(client) {
   var users = new mongodb.Collection(client, 'users');
   var games = new mongodb.Collection(client, 'games');
+  var news = new mongodb.Collection(client, 'news');
 
   var password_hash = bcrypt.hashSync('password', 12);
 
@@ -63,8 +64,19 @@ function doWork(client) {
         games.update({ name: game }, { name: game, minVersion: gameMap[game] }, { safe: true, upsert: true }, callback);
       }, function(err) {
         if(err) { console.warn(err.message); }
-        else { console.log('Initialize test users success!'); }
-        server.close(); // server needs to still be closed if there was an error
+        news.stats(function(err, stats) {
+          if(err) { console.warn(err.message); }
+          if(stats.count === 0) {
+            news.insert({ date: Date.now, post: 'Welcome to CritterCamp! Check us out on Facebook for more updates!' }, function(err, results) {
+              if(err) { console.warn(err.message); }
+              else { console.log('Initialize test users success!'); }
+              server.close(); // server needs to still be closed if there was an error
+            });
+          } else {
+            console.log('Initialize test users success!');
+            server.close();
+          }
+        });
       });
     });
   });
