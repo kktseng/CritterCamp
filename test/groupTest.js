@@ -175,16 +175,5 @@ describe('Groups', function() {
       });
     });
 
-    it('should throw an error if party size > maxPartySize', function(done) {
-      redis.hset('user_test_user1', 'version', 'test_version', function(err) {
-        if(err) { return done(err); }
-        group.findGroup(['test_user1', 'test_user2', 'test_user3', 'test_user4', 'test_user5'], function(err) {
-          should.exist(err);
-          err.toString().should.eql('Error: Party is too large for game');
-          done();
-        });
-      });
-    });
-
   });
 });
