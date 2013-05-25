@@ -49,7 +49,6 @@ var getLevel = Rank.statics.getLevel = function(rank, cb) {
 
 /**
 * helper function that performs a binary search for the level corresponding to exp
-*
 **/
 var level_binary_search = function(start, end, exp) {
   var middle = start + Math.floor((end - start) / 2);
@@ -72,13 +71,19 @@ var level_binary_search = function(start, end, exp) {
 
 /**
 * calculates level based on experience
-*
 **/
 Rank.statics.calculateLevel = function(exp) {
   var start = 0;
   var end = globals.EXP_TO_LEVEL.length - 1;
   var result = level_binary_search(start, end, exp);
   return result;
+}
+
+/**
+* calculates how far a user is in a level
+**/
+Rank.statics.getPercentage = function(exp, level) {
+  return exp / (globals.EXP_TO_LEVEL[level] - globals.EXP_TO_LEVEL[level - 1]);
 }
 
 module.exports = mongoose.model('Rank', Rank);
