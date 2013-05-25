@@ -55,13 +55,6 @@ User.methods.hashPassword = function(password, callback) {
 };
 
 /**
-* gets user information relevant for profiles
-**/
-User.methods.getUserInfo = function() {
-  return { username: this.username, profile: this.profile, level: this.level };
-};
-
-/**
 * adds a friend to user's friends list
 *
 * callback(err)
@@ -226,6 +219,24 @@ User.statics.createUserAccount = function(username, email, password, callback) {
       var user = new helpers.m.User({ username: username, email: email, password: encrypted });
       user.save(callback);
     }
+  });
+};
+
+/**
+* gets user information relevant for profiles
+**/
+User.statics.getUserInfo = function(username, callback) {
+  helpers.m.User.getUser(username, function(err, user) {
+    if(err) { return callback(err); }
+      helpers.m.Rank.getRank(user.level, function(err, rank) {
+      callback(err, {
+         username: user.username,
+         profile: user.profile,
+         level: user.level,
+         rank: rank,
+         percent: helpers.m.Rank.getPercentage(user.exp, user.level)
+      });
+    });
   });
 };
 
