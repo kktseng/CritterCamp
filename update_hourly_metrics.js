@@ -1,6 +1,7 @@
 var mongodb = require('mongodb'),
     config = require('./config/configuration'),
     redis = require('redis'),
+    moment = require('moment'),
     globals = require('./lib/globals'),
     bcrypt = require('bcrypt'),
     async = require('async');
@@ -20,8 +21,9 @@ function doWork(client) {
   redis_client.get('connection_count', function(err, conn_count) {
     if(err) { return console.warn(err.message); }
     hourlystat.insert({ date: Date.now(), numConnections: conn_count }, function(err) {
-      if(err) { console.warn(err.message); }
-      else { console.log('Update hourly metrics success!'); }
+      var time = moment().format('MM-DD-YYYY hh:mm:ss ');
+      if(err) { console.warn(time + err.message); }
+      else { console.log(time + 'Update hourly metrics success!'); }
       server.close();
       redis_client.quit();
     })
