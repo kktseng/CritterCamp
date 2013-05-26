@@ -83,7 +83,7 @@ Rank.statics.calculateLevel = function(exp) {
 * calculates how far a user is in a level
 **/
 Rank.statics.getPercentage = function(exp, level) {
-  return exp / (globals.EXP_TO_LEVEL[level] - globals.EXP_TO_LEVEL[level - 1]);
+  return (exp - globals.EXP_TO_LEVEL[level]) / (globals.EXP_TO_LEVEL[level] - globals.EXP_TO_LEVEL[level - 1]);
 }
 
 module.exports = mongoose.model('Rank', Rank);
