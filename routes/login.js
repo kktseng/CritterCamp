@@ -34,13 +34,14 @@ module.exports = function(app, basepath) {
           async.apply(auth_user.getFriendNames.bind(auth_user)),
           async.apply(auth_user.getFriendRequestNames.bind(auth_user)),
           async.apply(users.getRank, auth_user.username),
-          async.apply(helpers.redis.hset.bind(helpers.redis), 'auth', key, username),
-          async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + username, 'version', version)
+          async.apply(helpers.redis.hset.bind(helpers.redis), 'auth', key, auth_user.username),
+          async.apply(helpers.redis.hset.bind(helpers.redis), 'user_' + auth_user.username, 'version', version)
         ], function(err, results) {
           if(err) { return res.send({ status: 'failure', message: err.message }) };
           res.send({
             status: 'success',
             message: 'Login Successful!',
+            username: auth_user.username,
             news: results[0], 
             friends: results[1], 
             requests: results[2],
@@ -57,15 +58,15 @@ module.exports = function(app, basepath) {
       }
 
       // check if user already has a connection
-      helpers.redis.hget('user_' + username, 'conn', function(err, old_conn_id) {
+      helpers.redis.hget('user_' + auth_user.username, 'conn', function(err, old_conn_id) {
         if(err) { return logger.error(err); }
         if(!old_conn_id) { return login(); }
         // wipe any existing user data
         async.waterfall([
-          async.apply(connection.endConn, username),
-          async.apply(party.removeFromParty, username),
+          async.apply(connection.endConn, auth_user.username),
+          async.apply(party.removeFromParty, auth_user.username),
           function(party_id, callback) {
-            group.removeFromGroup(username, callback);
+            group.removeFromGroup(auth_user.username, callback);
           },
           function getGroupLen(group_id, callback) {
             if(!group_id) { return callback(null, group_id, -1); }
@@ -77,7 +78,7 @@ module.exports = function(app, basepath) {
             if(group_len != 0) {
               return callback(null);
             }
-            helpers.redis.hget('user_' + username, 'version', function(err, version) {
+            helpers.redis.hget('user_' + auth_user.username, 'version', function(err, version) {
               if(err) { return callback(err); }
               helpers.redis.lrem('queue_' + version, 0, group_id, callback);
             });

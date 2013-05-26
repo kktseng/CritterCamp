@@ -255,7 +255,7 @@ User.statics.authenticate = function(username, password, callback) {
   if(username.indexOf('@') >= 0) {
     criteria.email = username;
   } else {
-    criteria.username = username;
+    criteria.upperUsername = username.toUpperCase();
   }
   helpers.m.User.findOne(criteria, function(err, user) {
     if(err) { return callback(err); }
