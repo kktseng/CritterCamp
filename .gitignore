@@ -1,9 +1,5 @@
 node_modules
 *.log
-<<<<<<< HEAD
 Makefile
-=======
 dumb.rdb
-Makefile
 .DS_Store
->>>>>>> dev
