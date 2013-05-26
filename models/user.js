@@ -228,7 +228,8 @@ User.statics.createUserAccount = function(username, email, password, callback) {
 User.statics.getUserInfo = function(username, callback) {
   helpers.m.User.getUser(username, function(err, user) {
     if(err) { return callback(err); }
-      helpers.m.Rank.getRank(user.level, function(err, rank) {
+    if(user === null) { return callback(null, null); }
+    helpers.m.Rank.getRank(user.level, function(err, rank) {
       if(err) { return callback(err); }
       callback(null, {
          username: user.username,
