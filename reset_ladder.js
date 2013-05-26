@@ -23,7 +23,7 @@ function doWork(client) {
                     'kennykawaguchi', 'markydubois', 'ashleywebber', 'sydneywebber', 'pablosanchez' ];
 
   var upsert_username = function(username, cb) {
-    users.update({ username: username, password: username + '123', email: username + '@gmail.com' }, { $set: { level: level_count, exp: globals.EXP_TO_LEVEL[level_count-1] }}, { safe: true, upsert: true }, function(err, result) {
+    users.update({ username: username, upperUsername: username.toUpperCase(), password: username + '123', email: username + '@gmail.com' }, { $set: { level: level_count, exp: globals.EXP_TO_LEVEL[level_count-1] }}, { safe: true, upsert: true }, function(err, result) {
       if(err) { console.warn(err.message); }
       level_count++;
       cb();

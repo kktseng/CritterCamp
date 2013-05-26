@@ -26,6 +26,7 @@ function doWork(client) {
 
   users.update({ username: 'testuser1' }, {
     username: 'testuser1',
+    upperUsername: 'TESTUSER1',
     password: password_hash,
     email: 'testuser1@gmail.com', 
     profile: 'pig',
@@ -43,7 +44,8 @@ function doWork(client) {
   }, { safe: true, upsert: true }, function(err, result) {
     if(err) { console.warn(err.message); }
     users.update({ username: 'testuser2' }, { 
-      username: 'testuser2', 
+      username: 'testuser2',
+      upperUsername: 'TESTUSER2',
       password: password_hash, 
       email: 'testuser2@gmail.com',
       profile: 'pig',
