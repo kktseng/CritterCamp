@@ -229,11 +229,12 @@ User.statics.getUserInfo = function(username, callback) {
   helpers.m.User.getUser(username, function(err, user) {
     if(err) { return callback(err); }
       helpers.m.Rank.getRank(user.level, function(err, rank) {
-      callback(err, {
+      if(err) { return callback(err); }
+      callback(null, {
          username: user.username,
          profile: user.profile,
          level: user.level,
-         rank: rank,
+         rank: rank.rank,
          percent: helpers.m.Rank.getPercentage(user.exp, user.level)
       });
     });
