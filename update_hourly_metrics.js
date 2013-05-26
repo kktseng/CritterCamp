@@ -17,7 +17,7 @@ var database = new mongodb.Db(db, server, { w: 1 });
 function doWork(client) {
   var hourlystat = new mongodb.Collection(client, "hourlystats");
 
-  redis_client.get('connections_count', function(err, conn_count) {
+  redis_client.get('connection_count', function(err, conn_count) {
     if(err) { return console.warn(err.message); }
     hourlystat.insert({ date: Date.now(), numConnections: conn_count }, function(err) {
       if(err) { console.warn(err.message); }
