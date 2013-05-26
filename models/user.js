@@ -9,6 +9,7 @@ var async = require('async'),
 
 var User = new Schema({
   username: { type: String, required: true },
+  upperUsername: { type: String },
   password: { type: String },
   email: { type: String },
   profile: { type: String, default: 'pig' },
@@ -181,7 +182,7 @@ User.statics.createUser = function(username, password, callback) {
   if(invalidUsername(username)) {
     return callback(invalidUsername(username));
   }
-  helpers.m.User.findOne({ username: username }, function(err, results) {
+  helpers.m.User.findOne({ upperUsername: username.toUpperCase() }, function(err, results) {
     if(err) { return callback(err); }
     if(results) {
       return callback(new Error('Username ' + username + ' already exists.'));
@@ -189,6 +190,7 @@ User.statics.createUser = function(username, password, callback) {
       password = password || helpers.rand();
       var encrypted = helpers.m.User.hashPassword(password);
       var user = new helpers.m.User({ username: username , password: encrypted });
+      user.upperUsername = username.toUpperCase();
       user.save( function(err, user_object) { 
         return callback(err, user_object, password);
       });
@@ -206,7 +208,7 @@ User.statics.createUserAccount = function(username, email, password, callback) {
     return callback(invalidUsername(username));
   }
   async.parallel([
-    async.apply(helpers.m.User.findOne.bind(helpers.m.User), { username: username }),
+    async.apply(helpers.m.User.findOne.bind(helpers.m.User), { upperUsername: username.toUpperCase() }),
     async.apply(helpers.m.User.findOne.bind(helpers.m.User), { email: email })
   ], function(err, results) {
     if(err) { return callback(err); }
@@ -217,6 +219,7 @@ User.statics.createUserAccount = function(username, email, password, callback) {
     } else {
       var encrypted = helpers.m.User.hashPassword(password);
       var user = new helpers.m.User({ username: username, email: email, password: encrypted });
+      user.upperUsername = username.toUpperCase();
       user.save(callback);
     }
   });
