@@ -1,4 +1,5 @@
 var mongodb = require('mongodb'),
+    moment = require('moment'),
     config = require('./config/configuration'),
     redis = require('redis'),
     globals = require('./lib/globals'),
@@ -51,8 +52,9 @@ function doWork(client) {
 
   game.find({}).toArray(function(err, games) {
     async.forEach(games, updateGameMetrics, function(err) {
-      if(err) { console.warn(err.message); }
-      else { console.log('Update daily metrics success!'); }
+      var time = moment().format('MM-DD-YYYY hh:mm:ss ');
+      if(err) { time + console.warn(err.message); }
+      else { console.log(time + 'Update daily metrics success!'); }
       server.close();
       redis_client.quit();
     });
