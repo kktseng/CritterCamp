@@ -15,7 +15,7 @@ module.exports = function(app, basepath) {
     var password = req.param('password');
     var version = req.param('version');
 
-    if(!username || !password) {
+    if(!username || !password || !version) {
       res.send({ status: 'failure', message: 'You require a username and password.'});
     }
 
