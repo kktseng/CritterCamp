@@ -78,3 +78,8 @@ var server = https.createServer(options, app).listen(app.get('port'), function()
 var server2 = http.createServer(app).listen(80, function() {
   logger.info('HTTP server listening on port 80');
 });
+
+setInterval(function() {
+  logger.info('Test mongo refresh');
+  helpers.m.User.findOne();
+}, 1000*60*60);
