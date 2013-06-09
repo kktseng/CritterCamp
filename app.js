@@ -79,7 +79,11 @@ var server2 = http.createServer(app).listen(80, function() {
   logger.info('HTTP server listening on port 80');
 });
 
+helpers.redis.flushdb(function() {
+  logger.info('Redis reset completed')
+});
+
 setInterval(function() {
-  logger.info('Test mongo refresh');
+  logger.info('Refreshed mongo connection');
   helpers.m.User.findOne();
 }, 1000*60*60);
