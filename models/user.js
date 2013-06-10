@@ -13,7 +13,10 @@ var User = new Schema({
   password: { type: String },
   email: { type: String },
   profile: { type: String, default: 'pig' },
+
+  // store items
   unlockedProfiles: { type: [{ type: String }], default: globals.DEFAULT_PROFILES },
+  gameUpgrades: [{ type: String }],
 
   friends: [{ type: ObjectId, ref: 'User' }],
   friendRequests: [{ type: ObjectId, ref: 'User' }],
@@ -27,7 +30,8 @@ var User = new Schema({
   lastLogin: { type: Date },
   loginCount: { type: Number, default: 0 },
   moneySpent: { type: Number, default: 0 },
-  totalGames: { type: Number, default: 0 }
+  totalGames: { type: Number, default: 0 },
+  totalSP: { type: Number, default: 0}
 });
 
 User.index({ level: -1 });
