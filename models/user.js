@@ -1,6 +1,7 @@
 var async = require('async'),
     bcrypt = require('bcrypt'),
     helpers = require('../lib/helpers'),
+    game = require('../lib/game'),
     globals = require('../lib/globals'),
     mongoose = require('mongoose'),
     Schema = mongoose.Schema,
@@ -164,13 +165,35 @@ User.methods.getFriendRequestNames = function(callback) {
 
 /**
 * returns the percentage a user is to the next level (synchronous function)
-*
 */
 User.methods.getPercentNextLevel = function() {
   var self = this;
   var exp_next_level = globals.EXP_TO_LEVEL[self.level];
   var exp_this_level = globals.EXP_TO_LEVEL[self.level - 1];
   return Math.floor((self.exp - exp_this_level) / (exp_next_level - exp_this_level) * 100);
+};
+
+/**
+* returns all the single player game info
+*/
+User.methods.getGameInfo = function() {
+  var results = {};
+  if(this.gameUpgrades.length > 0) {
+    console.log(this);
+    for(var upgrade in this.gameUpgrades) {
+      results[upgrade.game] = results[upgrade.game] || {};
+      if(results[upgrade.game]) {
+        results[upgrade.game][upgrade.index] = upgrade.level;
+      }
+    }
+  }
+  for(var game_name in game) {
+    results[game_name] = {};
+    for(var i = 0; i < 5; i++) {
+      results[game_name][i] = 0;
+    }
+  }
+  return results;
 };
 
 /**

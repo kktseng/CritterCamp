@@ -46,6 +46,7 @@ module.exports = function(app, basepath) {
             friends: results[1], 
             requests: results[2],
             rank: results[3].rank,
+            gameData: auth_user.getGameInfo(),
             profile: auth_user.profile,
             unlocked: auth_user.unlockedProfiles,
             level: auth_user.level, 
