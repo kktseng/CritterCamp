@@ -51,8 +51,6 @@ html
 
   script(type='text/javascript')
     $(function() {
-
-
       Highcharts.setOptions({
         global: {
           useUTC: false
@@ -66,7 +64,6 @@ html
       $.getJSON(goldSpentUrl, function(data) {
         // Create the chart
         $('#goldspent').highcharts('StockChart', {
-
           legend: {
             enabled: true,
             align:'right',
@@ -78,18 +75,18 @@ html
             y: 100,
             shadow: true
           },
-
-          rangeSelector : {
-            selected : 1
+          rangeSelector: {
+            selected: 1
           },
-
-          title : {
+          title: {
             text : 'Gold Spent'
           },
-          
-          series : [{
-            name : 'Gold Spent',
-            data : data,
+          xAxis: {
+            type: 'datetime'
+          },
+          series: [{
+            name: 'Gold Spent',
+            data: data,
             tooltip: {
               valueDecimals: 0
             }
@@ -139,19 +136,18 @@ html
               y: 100,
               shadow: true
             },
-
             rangeSelector: {
                 selected: 4
             },
-
             title: {
               text: 'Total Plays'
             },
-            
+            xAxis: {
+              type: 'datetime'
+            },
             tooltip: {
               valueDecimals: 2
             },
-            
             series: totalPlaysSeriesOptions
         });
       }
@@ -195,19 +191,18 @@ html
               y: 100,
               shadow: true
             },
-
             rangeSelector: {
                 selected: 4
             },
-
             title: {
               text: 'Unique Users'
             },
-            
+            xAxis: {
+              type: 'datetime'
+            },
             tooltip: {
               valueDecimals: 2
             },
-            
             series: uniqueUsersSeriesOptions
         });
       }
@@ -230,11 +225,12 @@ html
             rangeSelector : {
               selected : 1
             },
-
             title : {
               text : 'Number of Connections'
             },
-            
+            xAxis: {
+              type: 'datetime'
+            },
             series : [{
               name : 'Number of Connections',
               data : data,
