@@ -39,7 +39,7 @@ describe('Store', function() {
     store.purchaseProfile(user.username, 'griffin', function(err, success, msg) {
       if(err) { return done(err); }
       success.should.equal(false);
-      msg.should.equal('Profile does not exist');
+      msg.should.equal('Item griffin in profiles does not exist in store');
       done();
     });
   });

@@ -7,6 +7,14 @@ var async = require('async'),
     ObjectId = Schema.ObjectId,
     users = require('../lib/users');
 
+var GameUpgrade = new Schema({
+  game: { type: String, required: true },
+  index: { type: Number, required: true },
+  level: { type: Number, default: 0 }
+});
+
+GameUpgrade.index({ game: 1 });
+
 var User = new Schema({
   username: { type: String, required: true },
   upperUsername: { type: String },
@@ -16,7 +24,7 @@ var User = new Schema({
 
   // store items
   unlockedProfiles: { type: [{ type: String }], default: globals.DEFAULT_PROFILES },
-  gameUpgrades: [{ type: String }],
+  gameUpgrades: [ GameUpgrade ],
 
   friends: [{ type: ObjectId, ref: 'User' }],
   friendRequests: [{ type: ObjectId, ref: 'User' }],
@@ -34,6 +42,7 @@ var User = new Schema({
   totalSP: { type: Number, default: 0}
 });
 
+User.index({ username: -1 });
 User.index({ level: -1 });
 
 /**
