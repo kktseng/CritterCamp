@@ -196,6 +196,11 @@ User.methods.getGameInfo = function() {
   return results;
 };
 
+User.methods.addGameUpgrade = function(name, index, level, callback) {
+  this.gameUpgrades.push({ game: name, index: index, level: 1 });
+  this.save(callback);
+};
+
 /**
 * subtracts specified gold from user
 *

@@ -2,13 +2,15 @@ var async = require('async'),
     store = require('../lib/store'),
     factory = require('./factory'),
     helpers = require('../lib/helpers'),
-    should = require('should');
+    should = require('should'),
+    users = require('../lib/users');
 
 describe('Store', function() {
   var user;
 
+
   beforeEach(function(done) {
-    factory.user(function(err, new_user) {
+    factory.user({ username: 'store_test' }, function(err, new_user) {
       if(err) { return done(err); }
       user = new_user;
       user.unlockedProfiles = [ 'pig' ];
@@ -50,6 +52,49 @@ describe('Store', function() {
       success.should.equal(false);
       msg.should.equal('You already have this profile');
       done();
+    });
+  });
+
+  it('can create new game level', function(done) {
+    factory.resetUser('store_test', function(err) {
+      if(err) { return done(err); }
+      factory.user({ username: 'store_test' }, function(err, new_user) {
+        if(err) { return done(err); }
+        user = new_user;
+        store.increaseGameLevel(user.username, 'twilight_tango', 3, function(err) {
+          if(err) { return done(err); }
+          helpers.m.User.findOne({ username: user.username, 'gameUpgrades.game': 'twilight_tango', 'gameUpgrades.index': 3, 'gameUpgrades.level': 1 }, function(err, doc) {
+            if(err) { return done(err); }
+            doc.should.not.eql(null);
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  it('will handle indexing of game levels correctly', function(done) {
+    store.increaseGameLevel(user.username, 'twilight_tango', 2, function(err) {
+      if(err) { return done(err); }
+      helpers.m.User.findOne({ username: user.username, 'gameUpgrades.game': 'twilight_tango' }, function(err, doc) {
+        if(err) { return done(err); }
+        doc.gameUpgrades.should.not.eql(null);
+        doc.gameUpgrades.length.should.equal(2);
+        doc.gameUpgrades[0].level.should.equal(1);
+        doc.gameUpgrades[1].level.should.equal(1);
+        done();
+      });
+    });
+  });
+
+  it('can increase existing game level', function(done) {
+    store.increaseGameLevel(user.username, 'twilight_tango', 3, function(err) {
+      if(err) { return done(err); }
+      helpers.m.User.findOne({ username: user.username, 'gameUpgrades.game': 'twilight_tango', 'gameUpgrades.index': 3, 'gameUpgrades.level': 2 }, function(err, doc) {
+        if(err) { return done(err); }
+        doc.should.not.eql(null);
+        done();
+      });
     });
   });
 });

@@ -22,6 +22,10 @@ exports.user = function(parameters, callback) {
   });
 };
 
+exports.resetUser = function(username, callback) {
+  helpers.m.User.remove({ username: username }, callback);
+};
+
 exports.game = function(parameters, callback) {
   if(typeof(parameters) == 'function') {
     callback = parameters;
