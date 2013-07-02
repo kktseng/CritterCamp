@@ -179,7 +179,6 @@ User.methods.getPercentNextLevel = function() {
 User.methods.getGameInfo = function() {
   var results = {};
   if(this.gameUpgrades.length > 0) {
-    console.log(this);
     for(var upgrade in this.gameUpgrades) {
       results[upgrade.game] = results[upgrade.game] || {};
       if(results[upgrade.game]) {
@@ -189,7 +188,7 @@ User.methods.getGameInfo = function() {
   }
   for(var game_name in game) {
     results[game_name] = {};
-    for(var i = 0; i < 5; i++) {
+    for(var i = 0; i < 3; i++) {
       results[game_name][i] = 0;
     }
   }

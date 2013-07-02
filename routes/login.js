@@ -53,7 +53,7 @@ module.exports = function(app, basepath) {
             curr_lvl_exp: globals.EXP_TO_LEVEL[auth_user.level - 1],
             next_lvl_exp: globals.EXP_TO_LEVEL[auth_user.level],
             exp: auth_user.exp,
-            auth: key ,
+            auth: key,
             prices: globals.STORE
           });
         });
