@@ -180,16 +180,21 @@ User.methods.getGameInfo = function() {
   var results = {};
   if(this.gameUpgrades.length > 0) {
     for(var upgrade in this.gameUpgrades) {
-      results[upgrade.game] = results[upgrade.game] || {};
-      if(results[upgrade.game]) {
-        results[upgrade.game][upgrade.index] = upgrade.level;
+      results[upgrade.game] = results[upgrade.game] || [];
+      if(results[upgrade.game].length >= upgrade.index) {
+        results[upgrade.game].splice(upgrade.index, 0, upgrade.level);
+      } else {
+        results[upgrade.game].push(upgrade.level);
       }
+      // results[upgrade.game][upgrade.index] = upgrade.level;
     }
   }
   for(var game_name in game) {
-    results[game_name] = {};
-    for(var i = 0; i < 3; i++) {
-      results[game_name][i] = 0;
+    if(!results[game_name]) {
+      results[game_name] = [];
+      for(var i = 0; i < 3; i++) {
+        results[game_name].push(0);
+      }
     }
   }
   return results;
