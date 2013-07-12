@@ -177,25 +177,29 @@ User.methods.getPercentNextLevel = function() {
 * returns all the single player game info
 */
 User.methods.getGameInfo = function() {
-  var results = {};
+  var temp = {};
+  var results = [];
   if(this.gameUpgrades.length > 0) {
     for(var upgrade in this.gameUpgrades) {
-      results[upgrade.game] = results[upgrade.game] || [];
-      if(results[upgrade.game].length >= upgrade.index) {
-        results[upgrade.game].splice(upgrade.index, 0, upgrade.level);
+      temp[upgrade.game] = temp[upgrade.game] || [];
+      if(temp[upgrade.game].length >= upgrade.index) {
+        temp[upgrade.game].splice(upgrade.index, 0, upgrade.level);
       } else {
-        results[upgrade.game].push(upgrade.level);
+        temp[upgrade.game].push(upgrade.level);
       }
       // results[upgrade.game][upgrade.index] = upgrade.level;
     }
   }
   for(var game_name in game) {
     if(!results[game_name]) {
-      results[game_name] = [];
+      temp[game_name] = [];
       for(var i = 0; i < 3; i++) {
-        results[game_name].push(0);
+        temp[game_name].push(0);
       }
     }
+  }
+  for(var key in temp) {
+    results.push({ name: key, upgrades: temp[key] })
   }
   return results;
 };
